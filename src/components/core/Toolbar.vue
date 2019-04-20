@@ -8,15 +8,13 @@
   >
     <div class="v-toolbar-title">
       <v-toolbar-title
-        class="tertiary--text font-weight-light"
-      >
+        class="tertiary--text font-weight-light">
         <v-btn
           v-if="responsive"
           class="default v-btn--simple"
           dark
           icon
-          @click.stop="onClickBtn"
-        >
+          @click.stop="onClickBtn">
           <v-icon>mdi-view-list</v-icon>
         </v-btn>
         {{ title }}
@@ -28,20 +26,17 @@
       <v-flex
         align-center
         layout
-        py-2
-      >
+        py-2>
         <v-text-field
           v-if="responsiveInput"
           class="mr-4 mt-2 purple-input"
           label="Search..."
           hide-details
-          color="purple"
-        />
+          color="purple"/>
         <router-link
           v-ripple
           class="toolbar-items"
-          to="/"
-        >
+          to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
         <v-menu
@@ -54,12 +49,10 @@
             v-ripple
             slot="activator"
             class="toolbar-items"
-            to="/notifications"
-          >
+            to="/notifications">
             <v-badge
               color="error"
-              overlap
-            >
+              overlap>
               <template slot="badge">
                 {{ notifications.length }}
               </template>
@@ -83,8 +76,7 @@
         <router-link
           v-ripple
           class="toolbar-items"
-          to="/user-profile"
-        >
+          to="/user-profile">
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>
       </v-flex>

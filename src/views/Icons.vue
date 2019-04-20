@@ -76,6 +76,7 @@ export default {
       'mdi-account-convert',
       'mdi-account-edit',
       'mdi-account-group',
+      'mdi-account-group',
       'mdi-account-heart',
       'mdi-account-key',
       'mdi-account-location',
