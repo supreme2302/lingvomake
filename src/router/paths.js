@@ -39,5 +39,20 @@ export default [
     path: '/upgrade',
     name: 'Upgrade to PRO',
     view: 'Upgrade'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    view: 'Login'
+  },
+  {
+    path: '/courses',
+    name: 'Courses',
+    view: 'Courses'
+  },
+  {
+    path: '/course/1',
+    name: 'Course page',
+    view: 'CoursePage'
   }
 ]

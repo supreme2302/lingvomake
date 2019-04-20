@@ -8,14 +8,14 @@
       slot="offset"
       :class="`elevation-${elevation}`"
       :color="color"
-      class="pa-4"
+      class="pa-1"
       dark
     >
-      <v-icon
-        size="40"
-      >
-        {{ icon }}
-      </v-icon>
+        <v-icon
+          size="40">
+          {{ icon }}
+        </v-icon>
+
     </v-card>
     <div class="text-xs-right">
       <p

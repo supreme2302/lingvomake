@@ -25,7 +25,7 @@
               contain/>
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            Vuetify MD
+            email@ex.ru
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
@@ -62,59 +62,52 @@ import {
 
 export default {
   data: () => ({
-    logo: './img/vuetifylogo.png',
     links: [
       {
         to: '/dashboard',
         icon: 'mdi-view-dashboard',
         text: 'Dashboard'
       },
-      // {
-      //   to: '/user-profile',
-      //   icon: 'mdi-account',
-      //   text: 'User Profile'
-      // },
-      // {
-      //   to: '/table-list',
-      //   icon: 'mdi-clipboard-outline',
-      //   text: 'Table List'
-      // },
-      // {
-      //   to: '/typography',
-      //   icon: 'mdi-format-font',
-      //   text: 'Typography'
-      // },
-      // {
-      //   to: '/maps',
-      //   icon: 'mdi-map-marker',
-      //   text: 'Maps'
-      // },
-      // {
-      //   to: '/notifications',
-      //   icon: 'mdi-bell',
-      //   text: 'Notifications'
-      // },
+      {
+        to: '/user-profile',
+        icon: 'mdi-account',
+        text: 'User Profile'
+      },
+      {
+        to: '/table-list',
+        icon: 'mdi-clipboard-outline',
+        text: 'Table List'
+      },
+      {
+        to: '/typography',
+        icon: 'mdi-format-font',
+        text: 'Typography'
+      },
+      {
+        to: '/notifications',
+        icon: 'mdi-bell',
+        text: 'Notifications'
+      },
       {
         to: '/icons',
         icon: 'mdi-chart-bubble',
         text: 'Icons'
       },
+      {
+        to: '/login',
+        icon: 'mdi-apple',
+        text: 'Login'
+      },
+      {
+        to: '/courses',
+        icon: 'mdi-apple',
+        text: 'Courses'
+      }
     ],
+	  inputValue: true,
     responsive: false
   }),
   computed: {
-    ...mapState('app', ['image', 'color']),
-    inputValue: {
-      get () {
-        return this.$store.state.app.drawer
-      },
-      set (val) {
-        this.setDrawer(val)
-      }
-    },
-    items () {
-      return this.$t('Layout.View.items')
-    }
   },
   mounted () {
     this.onResponsiveInverted()
@@ -124,14 +117,6 @@ export default {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
   methods: {
-    ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
-    onResponsiveInverted () {
-      if (window.innerWidth < 991) {
-        this.responsive = true
-      } else {
-        this.responsive = false
-      }
-    }
   }
 }
 </script>
