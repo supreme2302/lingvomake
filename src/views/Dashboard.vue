@@ -104,7 +104,6 @@
           sub-icon="mdi-calendar"
           sub-text="Last 24 Hours"
         />
-
       </v-flex>
       <v-flex
         sm6

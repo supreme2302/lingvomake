@@ -11,29 +11,36 @@
   >
     <v-img
       :src="image"
-      height="100%">
+      height="100%"
+    >
       <v-layout
         class="fill-height"
         tag="v-list"
-        column>
+        column
+      >
         <v-list-tile avatar>
           <v-list-tile-avatar
-            color="white">
+            color="white"
+          >
             <v-img
               :src="logo"
               height="34"
-              contain/>
+              contain
+            />
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            email@ex.ru
+            Vuetify MD
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile v-if="responsive">
+        <v-list-tile
+          v-if="responsive"
+        >
           <v-text-field
             class="purple-input search-input"
             label="Search..."
-            color="purple"/>
+            color="purple"
+          />
         </v-list-tile>
         <v-list-tile
           v-for="(link, i) in links"
@@ -46,7 +53,22 @@
           <v-list-tile-action>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title v-text="link.text"/>
+          <v-list-tile-title
+            v-text="link.text"
+          />
+        </v-list-tile>
+        <v-list-tile
+          disabled
+          active-class="primary"
+          class="v-list-item v-list__tile--buy"
+          to="/upgrade"
+        >
+          <v-list-tile-action>
+            <v-icon>mdi-package-up</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title class="font-weight-light">
+            Upgrade To PRO
+          </v-list-tile-title>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -62,6 +84,7 @@ import {
 
 export default {
   data: () => ({
+    logo: './img/vuetifylogo.png',
     links: [
       {
         to: '/dashboard',
@@ -84,30 +107,36 @@ export default {
         text: 'Typography'
       },
       {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications'
-      },
-      {
         to: '/icons',
         icon: 'mdi-chart-bubble',
         text: 'Icons'
       },
       {
-        to: '/login',
-        icon: 'mdi-apple',
-        text: 'Login'
+        to: '/maps',
+        icon: 'mdi-map-marker',
+        text: 'Maps'
       },
       {
-        to: '/courses',
-        icon: 'mdi-apple',
-        text: 'Courses'
+        to: '/notifications',
+        icon: 'mdi-bell',
+        text: 'Notifications'
       }
     ],
-	  inputValue: true,
     responsive: false
   }),
   computed: {
+    ...mapState('app', ['image', 'color']),
+    inputValue: {
+      get () {
+        return this.$store.state.app.drawer
+      },
+      set (val) {
+        this.setDrawer(val)
+      }
+    },
+    items () {
+      return this.$t('Layout.View.items')
+    }
   },
   mounted () {
     this.onResponsiveInverted()
@@ -117,6 +146,14 @@ export default {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
   methods: {
+    ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+    onResponsiveInverted () {
+      if (window.innerWidth < 991) {
+        this.responsive = true
+      } else {
+        this.responsive = false
+      }
+    }
   }
 }
 </script>

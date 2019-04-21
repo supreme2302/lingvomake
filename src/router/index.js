@@ -46,17 +46,17 @@ const router = new Router({
 
 Vue.use(Meta)
 
-// // Bootstrap Analytics
-// // Set in .env
-// // https://github.com/MatteoGabriele/vue-analytics
-// if (process.env.GOOGLE_ANALYTICS) {
-//   Vue.use(VueAnalytics, {
-//     id: process.env.GOOGLE_ANALYTICS,
-//     router,
-//     autoTracking: {
-//       page: process.env.NODE_ENV !== 'development'
-//     }
-//   })
-// }
+// Bootstrap Analytics
+// Set in .env
+// https://github.com/MatteoGabriele/vue-analytics
+if (process.env.GOOGLE_ANALYTICS) {
+  Vue.use(VueAnalytics, {
+    id: process.env.GOOGLE_ANALYTICS,
+    router,
+    autoTracking: {
+      page: process.env.NODE_ENV !== 'development'
+    }
+  })
+}
 
 export default router
