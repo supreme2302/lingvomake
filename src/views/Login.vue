@@ -1,3 +1,5 @@
+<!--suppress ALL -->
+
 <template>
 
   <v-container
@@ -14,40 +16,74 @@
           title="Login Form"
           text="Provide your credentials">
 
-        <v-form>
+        <v-form
+                @keyup.enter="onSubmit"
+                v-model="valid"
+                ref="form"
+                validation>
           <v-container py-0>
             <v-layout wrap>
-              <v-flex xs12><v-text-field label="Email"/></v-flex>
-              <v-flex xs12><v-text-field label="Password"/></v-flex>
+              <v-flex xs12>
+                <v-text-field
+                        :rules="emailRules"
+                        v-model="email"
+                        label="Email"/>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                        type="password"
+                        :counter="8"
+                        :rules="passwordRules"
+                        v-model="password"
+                        label="Password"/>
+              </v-flex>
               <v-flex xs12 text-xs-right>
                 <v-btn
                     class="mx-0 font-weight-light"
-                    color="success">
+                    color="success"
+                    @click="onSubmit">
                   Login
                 </v-btn>
               </v-flex>
             </v-layout>
           </v-container>
         </v-form>
-
       </material-card>
-
     </v-flex>
-
-
-
   </v-container>
-
-
-
-
-
 </template>
 
 <script>
   export default {
     data: () => ({
+        email: "",
+        password: "",
+        valid: false,
+        emailRules: [
+            v => !!v || "E-mail is required",
+            v => /.+@.+/.test(v) || "E-mail must be valid"
+        ],
+        passwordRules: [
+            v => !!v || "Password is required",
+            v => (v && v.length >= 8) || "Too short password"
+        ]
 
-    })
+    }),
+      methods: {
+          onSubmit() {
+              if (this.$refs.form.validate()) {
+                  const user = {
+                      email: this.email,
+                      password: this.password
+                  };
+                  console.log(user);
+                  this.$store.dispatch("authUser", user)
+                      .then(() => {
+                          this.$router.push("/");
+                      })
+                      .catch(err => console.log(err));
+              }
+          }
+      }
   }
 </script>
