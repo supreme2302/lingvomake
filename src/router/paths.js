@@ -46,6 +46,11 @@ export default [
     view: 'Login'
   },
   {
+    path: '/registration',
+    name: 'Registration',
+    view: 'Registration'
+  },
+  {
     path: '/courses',
     name: 'Courses',
     view: 'Courses'
