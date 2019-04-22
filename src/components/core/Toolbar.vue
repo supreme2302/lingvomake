@@ -1,3 +1,4 @@
+<!--suppress HtmlUnknownTag, CheckEmptyScriptTag -->
 <template>
   <v-toolbar
     id="core-toolbar"
@@ -27,58 +28,61 @@
         align-center
         layout
         py-2>
-        <v-text-field
-          v-if="responsiveInput"
-          class="mr-4 mt-2 purple-input"
-          label="Search..."
-          hide-details
-          color="purple"/>
+        <!--<v-text-field-->
+          <!--v-if="responsiveInput"-->
+          <!--class="mr-4 mt-2 purple-input"-->
+          <!--label="Search..."-->
+          <!--hide-details-->
+          <!--color="purple"/>-->
         <router-link
+          v-for="link in links"
+          :key="link.title"
           v-ripple
           class="toolbar-items"
-          to="/">
-          <v-icon color="tertiary">mdi-view-dashboard</v-icon>
+          :to="link.url">
+          <v-icon color="tertiary">{{ link.icon }}</v-icon>
         </router-link>
-        <v-menu
-          bottom
-          left
-          content-class="dropdown-menu"
-          offset-y
-          transition="slide-y-transition">
-          <router-link
-            v-ripple
-            slot="activator"
-            class="toolbar-items"
-            to="/notifications">
-            <v-badge
-              color="error"
-              overlap>
-              <template slot="badge">
-                {{ notifications.length }}
-              </template>
-              <v-icon color="tertiary">mdi-bell</v-icon>
-            </v-badge>
-          </router-link>
-          <v-card>
-            <v-list dense>
-              <v-list-tile
-                v-for="notification in notifications"
-                :key="notification"
-                @click="onClick"
-              >
-                <v-list-tile-title
-                  v-text="notification"
-                />
-              </v-list-tile>
-            </v-list>
-          </v-card>
-        </v-menu>
-        <router-link
-          v-ripple
-          class="toolbar-items"
-          to="/user-profile">
-          <v-icon color="tertiary">mdi-account</v-icon>
-        </router-link>
+
+        <!--<v-menu-->
+          <!--bottom-->
+          <!--left-->
+          <!--content-class="dropdown-menu"-->
+          <!--offset-y-->
+          <!--transition="slide-y-transition">-->
+          <!--<router-link-->
+            <!--v-ripple-->
+            <!--slot="activator"-->
+            <!--class="toolbar-items"-->
+            <!--to="/notifications">-->
+            <!--<v-badge-->
+              <!--color="error"-->
+              <!--overlap>-->
+              <!--<template slot="badge">-->
+                <!--{{ notifications.length }}-->
+              <!--</template>-->
+              <!--<v-icon color="tertiary">mdi-bell</v-icon>-->
+            <!--</v-badge>-->
+          <!--</router-link>-->
+          <!--<v-card>-->
+            <!--<v-list dense>-->
+              <!--<v-list-tile-->
+                <!--v-for="notification in notifications"-->
+                <!--:key="notification"-->
+                <!--@click="onClick"-->
+              <!--&gt;-->
+                <!--<v-list-tile-title-->
+                  <!--v-text="notification"-->
+                <!--/>-->
+              <!--</v-list-tile>-->
+            <!--</v-list>-->
+          <!--</v-card>-->
+        <!--</v-menu>-->
+        <!--<router-link-->
+          <!--v-ripple-->
+          <!--class="toolbar-items"-->
+          <!--to="/login">-->
+          <!--<v-icon color="tertiary">mdi-account-remove</v-icon>-->
+        <!--</router-link>-->
       </v-flex>
     </v-toolbar-items>
   </v-toolbar>
@@ -103,7 +107,32 @@ export default {
     responsive: false,
     responsiveInput: false
   }),
+    computed: {
+      links () {
+          if (this.isUserLoggedIn) {
+              return [
+                  { title: "logout", icon: "mdi-account-off", url: "/" }
+              ];
+          } else {
+              return [
+                  { title: "login", icon: "mdi-account", url: "/login" }
+              ];
+          }
 
+      },
+        isUserLoggedIn() {
+            return this.$store.getters.isUserLoggedIn;
+        },
+        renderPermission() {
+            return this.$store.getters.renderPermission;
+        },
+        errorMessage() {
+            return this.$store.getters.error;
+        },
+        user() {
+          return this.$store.getters.user;
+        }
+    },
   watch: {
     '$route' (val) {
       this.title = val.name
@@ -111,7 +140,7 @@ export default {
   },
 
   mounted () {
-    this.onResponsiveInverted()
+    this.onResponsiveInverted();
     window.addEventListener('resize', this.onResponsiveInverted)
   },
   beforeDestroy () {
@@ -128,10 +157,10 @@ export default {
     },
     onResponsiveInverted () {
       if (window.innerWidth < 991) {
-        this.responsive = true
+        this.responsive = true;
         this.responsiveInput = false
       } else {
-        this.responsive = false
+        this.responsive = false;
         this.responsiveInput = true
       }
     }
