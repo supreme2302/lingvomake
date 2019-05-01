@@ -1,9 +1,6 @@
 <!--suppress ALL -->
 
 <template>
-
-
-
   <v-container>
     <v-container
         fill-height
@@ -118,15 +115,13 @@
         if (this.$refs.form.validate()) {
           const user = {
             email: this.email,
-            schoolName: this.schoolName,
-            password: this.password
+            password: this.password,
           };
-          console.log(user);
-          this.$store.dispatch("registerUser", {user: user})
-            .then(() => {
-            this.$router.push("/");
-            })
-            .catch(err => console.log(err));
+          this.$store.dispatch("registerUser", {user, schoolName: this.schoolName})
+              .then(() => {
+                this.$router.push("/");
+              })
+              .catch(err => console.log(err));
         }
       }
     }

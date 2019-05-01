@@ -1,21 +1,21 @@
 import { HTTP } from "../../../plugins/axios.js";
 export default {
     async registerUser({commit}, payload) {
-        console.log('in registerUser action'); //TODO убрать
+        console.log('in registerUser action');
         commit('clearError');
         commit('setLoading', true);
-        console.log(payload);
+        const data = payload.user;
+        data.schoolName = payload.schoolName;
         try {
             // Создание пользователя
-            payload.user.schoolName = payload.school;
-            const response = await HTTP.post('/admin/register', payload.user);
-		    console.log('after response'); //TODO убрать
+            const response = await HTTP.post('/admin/register', data);
             commit('setLoading', false);
-            commit('setUser', payload);
-            commit('setSchool', payload.school);
+            commit('setUser', data);
+            commit('setSchool', data.schoolName);
         } catch (e) {
             commit('setLoading', false);
             commit('setError', e.response.data);
+            throw e;
         }
 
     },
@@ -25,15 +25,8 @@ export default {
         console.log("login user");
         try {
             const response = await HTTP.post("/admin/auth", payload);
-            try {
-                const responseWithUserData = await HTTP.get("/admin/info");
-                commit("setLoading", false);
-                commit("setUser", payload);
-            } catch (e) {
-                commit("setLoading", false);
-                commit("setError", e.response.data);
-                throw e;
-            }
+            commit("setLoading", false);
+            commit("setUser", payload);
         } catch (e) {
             commit("setLoading", false);
             commit("setError", e.response.data);
@@ -53,6 +46,7 @@ export default {
             commit("setLoading", false);
             commit("setError", e.response.data);
             commit('setRenderPermission', true);
+            throw e;
         }
     }
 }

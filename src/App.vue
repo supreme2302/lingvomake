@@ -4,12 +4,24 @@
 
     <core-toolbar />
 
-    <core-drawer />
+    <template v-if="isUserLoggedIn">
+      <core-drawer />
+    </template>
 
     <core-view />
 
   </v-app>
 </template>
+
+<script>
+  export default {
+    computed: {
+      isUserLoggedIn () {
+        return this.$store.getters.isUserLoggedIn;
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
 @import '@/styles/index.scss';

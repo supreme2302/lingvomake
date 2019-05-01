@@ -40,7 +40,8 @@ new Vue({
               this.$store.commit('setRenderPermission', true);
           }
       ).catch(
-          () => {
+          (e) => {
+            console.log('e ', e);
               bus.emit('onAuth', null);
               this.$store.commit('setRenderPermission', true);
           }

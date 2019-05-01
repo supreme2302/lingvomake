@@ -20,6 +20,7 @@ import UserProfile from '../views/UserProfile.vue';
 // guards
 import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
+import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
 
 Vue.use(Router);
 
@@ -27,6 +28,10 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   routes: [
+	{
+	  path: '*',
+	  redirect: '/dashboard'
+	},
 	{
 	  path: '/dashboard',
 	  // Relative to /src/views
@@ -67,7 +72,13 @@ const router = new Router({
 	  path: '/login',
 	  name: 'Login',
 	  component: Login,
-	  beforeEnter: AuthGuard,
+	  beforeEnter: AlreadyAuthGuard
+	},
+	{
+	  path: '/registration',
+	  name: 'Registration',
+	  component: Registration,
+	  beforeEnter: AlreadyAuthGuard
 	},
 	{
 	  path: '/courses',
@@ -85,11 +96,6 @@ const router = new Router({
 	  name: 'Unit page',
 	  component: UnitPage,
 	},
-	{
-	  path: '/registration',
-	  name: 'Registration',
-	  component: Registration
-	}
   ]
 });
 export default router

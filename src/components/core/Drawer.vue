@@ -96,11 +96,6 @@ export default {
         text: 'Icons'
       },
       {
-        to: '/login',
-        icon: 'mdi-apple',
-        text: 'Login'
-      },
-      {
         to: '/courses',
         icon: 'mdi-apple',
         text: 'Courses'
