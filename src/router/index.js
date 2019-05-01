@@ -82,6 +82,11 @@ const router = new Router({
 	  path: '/course/1/unit/1',
 	  name: 'Unit page',
 	  component: UnitPage,
+	},
+	{
+	  path: '/registration',
+	  name: 'Registration',
+	  component: Registration
 	}
   ]
 });
