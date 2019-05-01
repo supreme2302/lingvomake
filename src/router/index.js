@@ -17,8 +17,9 @@ import UnitPage from '../views/UnitPage.vue';
 import Upgrade from '../views/Upgrade.vue';
 import UserProfile from '../views/UserProfile.vue';
 
-
+// guards
 import AuthGuard from './guards/authGuard.js';
+import CoursesGuard from './guards/coursesGuard';
 
 Vue.use(Router);
 
@@ -72,6 +73,7 @@ const router = new Router({
 	  path: '/courses',
 	  name: 'Courses',
 	  component: Courses,
+	  beforeEnter: CoursesGuard,
 	},
 	{
 	  path: '/course/1',
