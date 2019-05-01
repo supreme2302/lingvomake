@@ -9,7 +9,6 @@ export default {
 		// Создание курса
 		const response = await HTTP.post('/course/create', payload);
 		console.log("creating course  -  ", response.data);
-		commit('addCourse', response.data);
 	  } catch (e) {
 		commit('setError', e.response.data);
 	  } finally {

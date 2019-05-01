@@ -19,7 +19,6 @@
             color="green"
             title="Login Form"
             text="Provide your credentials">
-
           <v-form
               @keyup.enter="onSubmit"
               v-model="valid"

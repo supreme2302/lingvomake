@@ -1,4 +1,8 @@
+import store from '@/store/index.js'
+
 export default (to, from, next) => {
   console.log('call courses guard');
-  next() //TODO прописать тут загрузку данных
+  store.dispatch('loadCourses')
+      .then(() => next())
+      .catch(() => next('/'));
 }
