@@ -11,9 +11,14 @@ requireModule.keys().forEach(fileName => {
   const [moduleName, imported] = path.split('/');
 
   if (!modules[moduleName]) {
-    modules[moduleName] = {
-      // namespaced: true
+    if (moduleName === 'app') {
+	  modules[moduleName] = {
+		namespaced: true
+	  }
+    } else {
+	  modules[moduleName] = {}
     }
+
   }
 
   modules[moduleName][imported] = requireModule(fileName).default

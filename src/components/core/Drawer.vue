@@ -106,10 +106,18 @@ export default {
         text: 'Courses'
       }
     ],
-	  inputValue: true,
     responsive: false
   }),
   computed: {
+	...mapState('app', ['image', 'color']),
+	inputValue: {
+	  get () {
+		return this.$store.state.app.drawer
+	  },
+	  set (val) {
+		this.setDrawer(val)
+	  }
+	},
   },
   mounted () {
     this.onResponsiveInverted()
@@ -119,6 +127,14 @@ export default {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
   methods: {
+	...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+	onResponsiveInverted () {
+	  if (window.innerWidth < 991) {
+		this.responsive = true
+	  } else {
+		this.responsive = false
+	  }
+	}
   }
 }
 </script>
