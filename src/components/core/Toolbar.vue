@@ -34,14 +34,26 @@
           <!--label="Search..."-->
           <!--hide-details-->
           <!--color="purple"/>-->
-        <router-link
-          v-for="link in links"
-          :key="link.title"
-          v-ripple
-          class="toolbar-items"
-          :to="link.url">
-          <v-icon color="tertiary">{{ link.icon }}</v-icon>
-        </router-link>
+        <!--<router-link-->
+          <!--v-for="link in links"-->
+          <!--:key="link.title"-->
+          <!--v-ripple-->
+          <!--class="toolbar-items"-->
+          <!--:to="link.url"-->
+          <!--@click="link.onClick">-->
+          <!--<v-icon color="tertiary">{{ link.icon }}</v-icon>-->
+        <!--</router-link>-->
+
+        <template
+            v-for="link in links"
+            class="toolbar-items">
+          <v-btn
+              icon
+              :key="link.title"
+              :to="link.url"
+              @click="link.onClick"
+          ><v-icon color="tertiary">{{ link.icon }}</v-icon></v-btn>
+        </template>
 
         <!--<v-menu-->
           <!--bottom-->
@@ -111,11 +123,11 @@ export default {
       links () {
           if (this.isUserLoggedIn) {
               return [
-                  { title: "logout", icon: "mdi-account-off", url: "/" }
+                  { title: "logout", icon: "mdi-account-off", url: "/", onClick: () => {this.$store.dispatch('logout')} }
               ];
           } else {
               return [
-                  { title: "login", icon: "mdi-account", url: "/login" }
+                  { title: "login", icon: "mdi-account", url: "/login", onClick: () => {}}
               ];
           }
 

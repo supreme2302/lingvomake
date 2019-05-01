@@ -50,7 +50,6 @@
                   <v-text-field
                       type="password"
                       :counter="8"
-                      :rules="passwordConfirmRules"
                       v-model="confirm"
                       label="Confirm password"/>
                 </v-flex>
@@ -90,45 +89,46 @@
 
 <script>
   export default {
-	data: () => ({
-	  email: "",
-	  schoolName: "",
-	  password: "",
-    confirm: "",
-	  valid: false,
-	  emailRules: [
-		  v => !!v || "E-mail is required",
-		  v => /.+@.+/.test(v) || "E-mail must be valid"
-	  ],
-	  passwordRules: [
-		  v => !!v || "Password is required",
-		  v => (v && v.length >= 8) || "Too short password"
-	  ],
-	  confirmRules: [
-	    v => !!v || "Confirmation is required",
-      v => !!v === this.password || "Passwords did not match"
-    ],
-    passwordConfirmRules: [
-      v => !!v || "Password confirmation is required",
-      v => v === this.password || "Passwords didn't match"
-    ]
+    data: () => ({
+      email: "",
+      schoolName: "",
+      password: "",
+      confirm: "",
+      valid: false,
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => /.+@.+/.test(v) || "E-mail must be valid"
+      ],
+      passwordRules: [
+        v => !!v || "Password is required",
+        v => (v && v.length >= 8) || "Too short password"
+      ],
+      confirmRules: [
+        v => !!v || "Confirmation is required",
+        v => !!v === this.password || "Passwords did not match"
+      ],
+      passwordConfirmRules: [
+        v => !!v || "Password confirmation is required",
+        v => v === this.password || "Passwords didn't match"
+      ]
 
-	}),
-	methods: {
-	  onSubmit() {
-		if (this.$refs.form.validate()) {
-		  const user = {
-			email: this.email,
-			password: this.password
-		  };
-		  console.log(user);
-		  this.$store.dispatch("authUser", user)
-			  .then(() => {
-				this.$router.push("/");
-			  })
-			  .catch(err => console.log(err));
-		}
-	  }
-	}
+    }),
+    methods: {
+      onSubmit() {
+        if (this.$refs.form.validate()) {
+          const user = {
+            email: this.email,
+            schoolName: this.schoolName,
+            password: this.password
+          };
+          console.log(user);
+          this.$store.dispatch("registerUser", {user: user})
+            .then(() => {
+            this.$router.push("/");
+            })
+            .catch(err => console.log(err));
+        }
+      }
+    }
   }
 </script>

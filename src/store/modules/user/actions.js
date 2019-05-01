@@ -1,6 +1,7 @@
 import { HTTP } from "../../../plugins/axios.js";
 export default {
     async registerUser({commit}, payload) {
+        console.log('in registerUser action'); //TODO убрать
         commit('clearError');
         commit('setLoading', true);
         console.log(payload);
@@ -8,6 +9,7 @@ export default {
             // Создание пользователя
             payload.user.schoolName = payload.school;
             const response = await HTTP.post('/admin/register', payload.user);
+		    console.log('after response'); //TODO убрать
             commit('setLoading', false);
             commit('setUser', payload);
             commit('setSchool', payload.school);
