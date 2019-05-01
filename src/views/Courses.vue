@@ -10,8 +10,9 @@
       v-for="course in courses">
         <v-flex
             xs12
-            md4
-            sm4
+            md6
+            sm5
+            lg4
             class="ma-3">
           <v-hover>
             <v-card
@@ -42,8 +43,9 @@
       </template>
       <v-flex
           xs12
-          md4
-          sm4
+          md6
+          sm5
+          lg4
           class="ma-3">
         <v-btn fab icon round color="primary" @click="openDialog"><v-icon>add</v-icon></v-btn>
       </v-flex>
