@@ -65,7 +65,7 @@ export default {
     links: [
       {
         to: '/dashboard',
-        icon: 'mdi-view-dashboard',
+        icon: 'mdi-component-dashboard',
         text: 'Dashboard'
       },
       {
