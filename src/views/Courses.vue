@@ -1,5 +1,5 @@
+<!--suppress ALL -->
 <template>
-
   <v-container
       fill-height
       fluid
@@ -21,7 +21,7 @@
               <v-layout>
                 <v-flex xs5>
                   <v-img
-                      :src='imgSrc + course.courseImage'
+                      :src="imgSrc + '/' + course.courseImage"
                       height="125px"
                       contain
                       class="ma-1"
@@ -38,11 +38,8 @@
               </v-layout>
             </v-card>
           </v-hover>
-
-
         </v-flex>
       </template>
-
       <v-flex
           xs12
           md4
@@ -50,11 +47,7 @@
           class="ma-3">
         <v-btn fab icon round color="primary" @click="openDialog"><v-icon>add</v-icon></v-btn>
       </v-flex>
-
-
     </v-layout>
-
-
 
     <v-dialog
         v-model="dialog"
@@ -63,7 +56,6 @@
           color="blue"
           title="Course Form"
           text="Provide course attributes">
-
         <v-form
             @keyup.enter="onSubmit"
             v-model="valid"
@@ -71,19 +63,16 @@
             validation>
           <v-container py-0>
             <v-layout wrap>
-
               <v-flex xs12>
                 <v-text-field
                     v-model="newCourseName"
                     label="Course Name"/>
               </v-flex>
-
               <v-flex xs12>
                 <v-text-field
                     v-model="newCourseDescription"
                     label="Course Description"/>
               </v-flex>
-
               <v-flex xs12 text-xs-right>
                 <v-btn
                     class="mx-0 font-weight-light"
@@ -92,56 +81,53 @@
                   Create
                 </v-btn>
               </v-flex>
-
               <v-flex xs12 text-xs-right>
-
               </v-flex>
-
             </v-layout>
           </v-container>
         </v-form>
       </material-card>
     </v-dialog>
-
   </v-container>
-
 </template>
 
 <script>
   //TODO сделвть валидацию формы создания курса
+  import API from '../utils/API.js';
+
   export default {
-	  data: () => ({
-	    dialog: false,
-	    newCourseName: null,
-	    newCourseDescription: null,
-      valid: false
-    }),
-    computed: {
-      courses() {
-        return this.$store.getters.courses;
-      },
-      imgSrc() {
-        return 'http://localhost:8090/course/image/'
-      }
-    },
-    methods: {
-	    openDialog() {
-	      this.newCourseName = null;
-	      this.newCourseDescription = null;
-	      this.dialog = true;
-      },
-      closeDialog() {
-	      this.dialog = false;
-      },
-	    onSubmit() {
-	      const course = {
-		      name: this.newCourseName,
-		      description: this.newCourseDescription
-        };
-        this.$store.dispatch('createCourse', course)
-            .then(() => this.$store.dispatch('loadCourses'))
-            .finally(() => this.dialog = false)
-      }
-    }
+	data: () => ({
+	  dialog: false,
+	  newCourseName: null,
+	  newCourseDescription: null,
+	  valid: false
+	}),
+	computed: {
+	  courses () {
+		return this.$store.getters.courses;
+	  },
+	  imgSrc () {
+		return API.baseUrl + API.method.courseImage;
+	  }
+	},
+	methods: {
+	  openDialog() {
+		this.newCourseName = null;
+		this.newCourseDescription = null;
+		this.dialog = true;
+	  },
+	  closeDialog() {
+		this.dialog = false;
+	  },
+	  onSubmit() {
+		const course = {
+		  name: this.newCourseName,
+		  description: this.newCourseDescription
+		};
+		this.$store.dispatch('createCourse', course)
+			.then(() => this.$store.dispatch('loadCourses'))
+			.finally(() => this.dialog = false)
+	  }
+	}
   }
 </script>

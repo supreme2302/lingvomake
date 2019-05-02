@@ -16,8 +16,8 @@ import App from './App';
 import i18n from '@/i18n';
 import router from '@/router';
 import store from '@/store';
-import bus from './modules/bus';
 import { HTTP } from "./plugins/axios.js";
+import API from './utils/API.js';
 // Sync store with router
 sync(store, router);
 
@@ -31,19 +31,17 @@ new Vue({
   render: h => h(App),
   created () {
       this.$store.commit('setRenderPermission', false);
-      const promise = HTTP.get('/admin/info');
+      const promise = HTTP.get(API.method.adminInfo);
       promise.then(
           resp => {
               console.log(resp.data);
               this.$store.commit('setUser', resp.data);
-              bus.emit('onAuth', resp.data);
               this.$store.commit('setRenderPermission', true);
           }
       ).catch(
           (e) => {
-            console.log('e ', e);
-              bus.emit('onAuth', null);
-              this.$store.commit('setRenderPermission', true);
+            console.log('unauthorized: ', e);
+            this.$store.commit('setRenderPermission', true);
           }
       )
   },

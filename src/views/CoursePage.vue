@@ -1,7 +1,6 @@
+<!--suppress ALL -->
 <template>
-
   <v-container>
-
     <v-layout row justify-center>
       <v-flex
           xs12
@@ -32,9 +31,7 @@
         </material-card>
       </v-flex>
     </v-layout>
-
     <hr>
-
     <v-layout row justify-center>
       <v-layout wrap>
 
@@ -60,16 +57,10 @@
                   <v-chip color="red" small dark>tag3</v-chip>
                 </v-card-actions>
             </v-card>
-
           </v-flex>
         </template>
-
       </v-layout>
     </v-layout>
-
-
-
-
   </v-container>
 
 </template>

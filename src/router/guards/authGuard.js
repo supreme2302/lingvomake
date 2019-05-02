@@ -1,17 +1,23 @@
-import bus from '../../modules/bus';
-import store from '../../store';
+import store from '@/store/';
+import { HTTP } from '../../plugins/axios.js';
+import API from '../../utils/API.js';
 export default (to, from, next) => {
   console.log('auth-guard');
   if (store.getters.user) {
     next();
   } else {
-	bus.on('onAuth', data => {
-	  const user = data.payload;
-	  if (user) {
-	    next();
-	  } else {
-		next('/registration?authError=true');
-      }
-	});
+	store.commit('setRenderPermission', false);
+    HTTP.get(API.method.adminInfo)
+		.then(resp => {
+		  const user = resp.data;
+		  store.commit('setUser', user);
+		  store.commit('setRenderPermission', true);
+		  next();
+		})
+		.catch(e => {
+		  console.log('unauthorized: ', e);
+		  store.commit('setRenderPermission', true);
+		  next('/registration?authError=true');
+		});
   }
 }

@@ -1,4 +1,5 @@
 import { HTTP } from "../../../plugins/axios.js";
+import API from '../../../utils/API.js';
 export default {
     async registerUser({commit}, payload) {
         console.log('in registerUser action');
@@ -8,7 +9,7 @@ export default {
         data.schoolName = payload.schoolName;
         try {
             // Создание пользователя
-            const response = await HTTP.post('/admin/register', data);
+            const response = await HTTP.post(API.method.signup, data);
             commit('setLoading', false);
             commit('setUser', data);
             commit('setSchool', data.schoolName);
@@ -24,7 +25,7 @@ export default {
         commit("setLoading", true);
         console.log("login user");
         try {
-            const response = await HTTP.post("/admin/auth", payload);
+            const response = await HTTP.post(API.method.signin, payload);
             commit("setLoading", false);
             commit("setUser", payload);
         } catch (e) {
@@ -38,7 +39,7 @@ export default {
         commit("setLoading", true);
         commit('setRenderPermission', false);
         try {
-            const response = await HTTP.post("/admin/logout");
+            const response = await HTTP.post(API.method.logout);
             commit("setLoading", false);
             commit("setUser", null);
             commit('setRenderPermission', true);

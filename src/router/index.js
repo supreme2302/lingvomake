@@ -87,9 +87,10 @@ const router = new Router({
 	  beforeEnter: CoursesGuard,
 	},
 	{
-	  path: '/course/1',
+	  path: '/course/:id',
+	  props: true,
 	  name: 'Course page',
-	  component: CoursePage,
+	  component: CoursePage
 	},
 	{
 	  path: '/course/1/unit/1',
