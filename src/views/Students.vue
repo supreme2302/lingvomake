@@ -4,10 +4,31 @@
       fluid
       grid-list-xl
   >
+
     <v-layout
-        justify-center
         wrap
+        justify-center
     >
+
+      <v-flex md12>
+        <h4>Groups</h4>
+      </v-flex>
+      <v-flex md12>
+        <v-card
+        >
+          <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
+          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All</v-btn>
+          <template v-for="group in groups">
+            <v-btn class="toolbar-items" color="tertiary" @click="loadStudentsByGroup(group.id)">{{group.name}}</v-btn>
+          </template>
+          <v-spacer></v-spacer>
+          <v-divider vertical></v-divider>
+          <v-btn class="toolbar-items" color="success" @click="openNewStudentDialog">New Student</v-btn>
+        </v-card>
+
+
+      </v-flex>
+
       <v-flex
           md12
       >
@@ -37,11 +58,69 @@
               <td>{{ item.surname }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.group_id }}</td>
+              <td>{{ item.email }}</td>
               <td>{{ item.phone }}</td>
             </template>
           </v-data-table>
         </material-card>
       </v-flex>
+
+
+
+      <v-dialog v-model="groupModal" max-width="390">
+        <material-card
+            color="blue"
+            title="Group Form"
+            text="Provide new Group info"
+          dark>
+
+          <v-form
+              @keypress.enter="onSubmit"
+              v-model="groupValid"
+              ref="form"
+              validation>
+            <v-container py-0>
+              <v-layout wrap>
+
+                <v-flex xs12>
+                  <v-text-field
+                      v-model="groupName"
+                      label="Group Name"/>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-overflow-btn
+                      :items="courses"
+                      label="Course"
+                      item-value="id"
+                      v-model="groupCourse"
+                  ></v-overflow-btn>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field label="Description"  counter="40" v-model="groupDescription"></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <div style="color: black;">
+                    <v-date-picker v-model="groupStartDate" color="red lighten-1" header-color="blue"></v-date-picker>
+                  </div>
+                </v-flex>
+
+                <v-flex xs12 text-xs-right>
+                  <v-btn
+                      class="mx-0 font-weight-light"
+                      color="blue"
+                      @click="createGroup">
+                    Create
+                  </v-btn>
+                </v-flex>
+
+              </v-layout>
+            </v-container>
+          </v-form>
+        </material-card>
+      </v-dialog>
 
     </v-layout>
   </v-container>
@@ -49,68 +128,79 @@
 
 <script>
   export default {
-    data: () => ({
-      headers: [
-      {
-        sortable: true,
-        text: 'Surname',
-        value: 'surname'
-      },
-      {
-        sortable: false,
-        text: 'Name',
-        value: 'name'
-      },
-      {
-        sortable: true,
-        text: 'Group',
-        value: 'group'
-      },
-      {
-        sortable: false,
-        text: 'Phone Number',
-        value: 'phone'
-      }
-      ],
-      // items: [
-      // {
-      //   name: 'Dakota Rice',
-      //   country: 'Niger',
-      //   city: 'Oud-Tunrhout',
-      //   salary: '$35,738'
-      // },
-      // {
-      //   name: 'Minerva Hooper',
-      //   country: 'Curaçao',
-      //   city: 'Sinaai-Waas',
-      //   salary: '$23,738'
-      // }, {
-      //   name: 'Sage Rodriguez',
-      //   country: 'Netherlands',
-      //   city: 'Overland Park',
-      //   salary: '$56,142'
-      // }, {
-      //   name: 'Philip Chanley',
-      //   country: 'Korea, South',
-      //   city: 'Gloucester',
-      //   salary: '$38,735'
-      // }, {
-      //   name: 'Doris Greene',
-      //   country: 'Malawi',
-      //   city: 'Feldkirchen in Kārnten',
-      //   salary: '$63,542'
-      // }, {
-      //   name: 'Mason Porter',
-      //   country: 'Chile',
-      //   city: 'Gloucester',
-      //   salary: '$78,615'
-      // }
-      // ]
-    }),
-    computed: {
-      items() {
-        return this.$store.getters.students;
-      }
-    }
+	data: () => ({
+	toggle_exclusive: 2,
+	  headers: [
+		{
+		  sortable: true,
+		  text: 'Surname',
+		  value: 'surname'
+		},
+		{
+		  sortable: false,
+		  text: 'Name',
+		  value: 'name'
+		},
+		{
+		  sortable: true,
+		  text: 'Group',
+		  value: 'group'
+		},
+		{
+		  sortable: false,
+		  text: 'Email',
+		  value: 'email'
+		},
+		{
+		  sortable: false,
+		  text: 'Phone Number',
+		  value: 'phone'
+		}
+	  ],
+
+    groupModal: false,
+    groupValid: false,
+    groupName: null,
+    groupCourse: null,
+    groupStartDate: new Date().toISOString().substr(0, 10),
+    groupDescription: null,
+
+
+
+	}),
+	computed: {
+	  items() {
+      return this.$store.getters.students;
+	  },
+	  groups() {
+		return this.$store.getters.groups;
+	  },
+	  courses() {
+	  return this.$store.getters.courses.map(curr => { return {text: curr.name, id: curr.id} })
+	  }
+	},
+	methods: {
+	  createGroup() {
+      const newGroup = {
+		    name: this.groupName,
+		    course_id: this.groupCourse,
+		    start_date: this.groupStartDate,
+		    description: this.groupDescription
+      };
+
+      this.$store.dispatch('createGroup', newGroup)
+          .then(() => this.$store.dispatch('loadGroups'));
+      this.groupModal = false;
+	  },
+	  loadAllStudents() {
+	    this.$store.dispatch('loadStudents')
+	  },
+	  loadStudentsByGroup(id) {
+      this.$store.dispatch('loadStudentsByGroupId', id)
+	  },
+	  openNewStudentDialog() {
+		  alert('should open modal for new student')
+	  }
+	}
   }
 </script>

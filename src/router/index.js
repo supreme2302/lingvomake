@@ -22,6 +22,7 @@ import Students from '../views/Students';
 import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
 import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
+import StudentsGuard from './guards/studentsGuard';
 
 Vue.use(Router);
 
@@ -100,9 +101,10 @@ const router = new Router({
 	},
 	{
 	  path: '/students',
-	  name: 'Students',
-	  component: Students
-	}
+	  name: 'Students Page',
+	  component: Students,
+	  beforeEnter: StudentsGuard
+	},
   ]
 });
 export default router

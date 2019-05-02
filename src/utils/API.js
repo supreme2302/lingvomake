@@ -11,6 +11,10 @@ const method = {
   deleteCourse: 'course/delete',
   courseImage: 'course/image',
   changeCourseImage: 'course/changeAvatar',
+  loadAllStudents: 'student/',
+  loadStudentsByGroup: '/student/group/',
+  loadGroups: 'group/',
+  createGroup: 'group/create',
 };
 
 export default {baseUrl, method};

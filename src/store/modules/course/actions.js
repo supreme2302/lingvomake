@@ -1,5 +1,6 @@
-import { HTTP } from "../../../plugins/axios.js";
+import {HTTP} from "../../../plugins/axios.js";
 import API from '../../../utils/API.js';
+
 export default {
   async createCourse({commit}, payload) {
 	console.log('createCourse');
@@ -18,7 +19,7 @@ export default {
 	  }
 	}
   },
-  async loadCourses({ commit }) {
+  async loadCourses({commit}) {
 	console.log('loadCourses');
 	commit("clearError");
 	commit("setLoading", true);
