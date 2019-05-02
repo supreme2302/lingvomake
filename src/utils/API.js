@@ -11,8 +11,11 @@ const method = {
   deleteCourse: 'course/delete',
   courseImage: 'course/image',
   changeCourseImage: 'course/changeAvatar',
+
   loadAllStudents: 'student/',
   loadStudentsByGroup: '/student/group/',
+  createStudent: '/student/create',
+
   loadGroups: 'group/',
   createGroup: 'group/create',
 };

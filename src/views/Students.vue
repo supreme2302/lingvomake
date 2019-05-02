@@ -23,14 +23,16 @@
           </template>
           <v-spacer></v-spacer>
           <v-divider vertical></v-divider>
-          <v-btn class="toolbar-items" color="success" @click="openNewStudentDialog">New Student</v-btn>
+          <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
         </v-card>
 
 
       </v-flex>
 
+
+
       <v-flex
-          md12
+        md12
       >
         <material-card
             color="green"
@@ -64,6 +66,7 @@
           </v-data-table>
         </material-card>
       </v-flex>
+
 
 
 
@@ -122,6 +125,79 @@
         </material-card>
       </v-dialog>
 
+
+      <v-dialog max-width="390" v-model="studentCreateModal">
+        <material-card
+            color="blue"
+            title="Student Form"
+            text="Provide new student info"
+        >
+
+          <v-form
+              @keypress.enter="createStudent"
+              v-model="studentCreateValid"
+              ref="form"
+              validation>
+
+            <v-container py-0>
+              <v-layout wrap>
+
+                <v-flex xs12>
+                  <v-text-field
+                    label="Email"
+                    type="email"
+                    v-model="studentCreateEmail"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                    label="Name"
+                    v-model="studentCreateName"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Surname"
+                      v-model="studentCreateSurname"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Phone"
+                      v-model="studentCreatePhone"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-overflow-btn
+                      :items="groupsForDropdown"
+                      label="Course"
+                      item-value="id"
+                      v-model="studentCreateGroupId"
+                  ></v-overflow-btn>
+                </v-flex>
+
+                <v-flex xs12 text-xs-right>
+                  <v-btn
+                      class="mx-0 font-weight-light"
+                      color="blue"
+                      @click="createStudent">
+                    Create
+                  </v-btn>
+                </v-flex>
+
+              </v-layout>
+            </v-container>
+
+
+          </v-form>
+
+        </material-card>
+      </v-dialog>
+
     </v-layout>
   </v-container>
 </template>
@@ -129,7 +205,6 @@
 <script>
   export default {
 	data: () => ({
-	toggle_exclusive: 2,
 	  headers: [
 		{
 		  sortable: true,
@@ -165,6 +240,14 @@
     groupStartDate: new Date().toISOString().substr(0, 10),
     groupDescription: null,
 
+    studentCreateModal: false,
+	  studentCreateValid: false,
+    studentCreateEmail: null,
+    studentCreateName: null,
+    studentCreateSurname: null,
+    studentCreateGroupId: null,
+    studentCreatePhone: null
+
 
 
 	}),
@@ -173,10 +256,13 @@
       return this.$store.getters.students;
 	  },
 	  groups() {
-		return this.$store.getters.groups;
+		  return this.$store.getters.groups;
 	  },
+    groupsForDropdown() {
+	    return this.$store.getters.groups.map(curr => { return {text: curr.name, id: curr.id}})
+    },
 	  courses() {
-	  return this.$store.getters.courses.map(curr => { return {text: curr.name, id: curr.id} })
+	    return this.$store.getters.courses.map(curr => { return {text: curr.name, id: curr.id} })
 	  }
 	},
 	methods: {
@@ -198,8 +284,17 @@
 	  loadStudentsByGroup(id) {
       this.$store.dispatch('loadStudentsByGroupId', id)
 	  },
-	  openNewStudentDialog() {
-		  alert('should open modal for new student')
+	  createStudent() {
+      const student = {
+		    email: this.studentCreateEmail,
+        name: this.studentCreateName,
+        surname: this.studentCreateSurname,
+		    group_id: [this.studentCreateGroupId],
+		    phone: this.studentCreatePhone
+      };
+      this.$store.dispatch('createStudent', student)
+          .then(() => this.$store.dispatch('loadStudents'))
+          .finally(() => this.studentCreateModal = false)
 	  }
 	}
   }

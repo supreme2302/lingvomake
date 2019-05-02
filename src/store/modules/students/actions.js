@@ -52,5 +52,16 @@ export default {
 	  console.log(e);
 	  throw e;
 	}
-  }
+  },
+  async createStudent({commit}, student) {
+	console.log('creating group');
+	commit('clearError');
+	commit('setLoading', true);
+	try {
+	  const response = await HTTP.post(API.method.createStudent, student);
+	} catch (e) {
+	  console.log(e);
+	  throw e;
+	}
+  },
 }
