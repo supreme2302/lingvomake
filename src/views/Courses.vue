@@ -16,13 +16,13 @@
             class="ma-3">
           <v-hover>
             <v-card
-                :to="'/course/1'"
+                :to="'/course/' + course.id"
                 slot-scope="{ hover }"
                 :class="`elevation-${hover ? 12 : 2}`">
               <v-layout>
                 <v-flex xs5>
                   <v-img
-                      :src="imgSrc + '/' + course.courseImage"
+                      :src="imgSrc + course.courseImage"
                       height="125px"
                       contain
                       class="ma-1"
@@ -59,7 +59,7 @@
           title="Course Form"
           text="Provide course attributes">
         <v-form
-            @keyup.enter="onSubmit"
+            @keyup.enter="onSubmitCreateCourse"
             v-model="valid"
             ref="form"
             validation>
@@ -79,7 +79,7 @@
                 <v-btn
                     class="mx-0 font-weight-light"
                     color="blue"
-                    @click="onSubmit">
+                    @click="onSubmitCreateCourse">
                   Create
                 </v-btn>
               </v-flex>
@@ -94,7 +94,6 @@
 </template>
 
 <script>
-  //TODO сделвть валидацию формы создания курса
   import API from '../utils/API.js';
 
   export default {
@@ -105,10 +104,10 @@
 	  valid: false
 	}),
 	computed: {
-	  courses () {
+	  courses() {
 		return this.$store.getters.courses;
 	  },
-	  imgSrc () {
+	  imgSrc() {
 		return API.baseUrl + API.method.courseImage;
 	  }
 	},
@@ -121,7 +120,7 @@
 	  closeDialog() {
 		this.dialog = false;
 	  },
-	  onSubmit() {
+	  onSubmitCreateCourse() {
 		const course = {
 		  name: this.newCourseName,
 		  description: this.newCourseDescription

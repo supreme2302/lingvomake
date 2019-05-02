@@ -1,5 +1,8 @@
 export default {
-  loadCourses(state, payload) {
-	state.courses = payload;
+  setCourses(state, courses) {
+	state.courses = courses;
   },
+  setSingleCourse(state, course) {
+    state.course = course;
+  }
 }
