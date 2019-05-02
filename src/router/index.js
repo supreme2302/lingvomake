@@ -16,6 +16,7 @@ import Typography from '../views/Typography.vue';
 import UnitPage from '../views/UnitPage.vue';
 import Upgrade from '../views/Upgrade.vue';
 import UserProfile from '../views/UserProfile.vue';
+import Students from '../views/Students';
 
 // guards
 import AuthGuard from './guards/authGuard.js';
@@ -97,6 +98,11 @@ const router = new Router({
 	  name: 'Unit page',
 	  component: UnitPage,
 	},
+	{
+	  path: '/students',
+	  name: 'Students',
+	  component: Students
+	}
   ]
 });
 export default router

@@ -99,6 +99,11 @@ export default {
         to: '/courses',
         icon: 'mdi-apple',
         text: 'Courses'
+      },
+      {
+        to: '/students',
+        icon: 'mdi-account-multiple',
+        text: 'Students'
       }
     ],
     responsive: false
