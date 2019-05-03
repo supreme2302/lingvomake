@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 // Components
 import './components'
-import ColorPicker from './components/helper/Color';
+// import ColorPicker from './components/helper/Color';
 // Plugins
 import './plugins'
 
@@ -22,7 +22,7 @@ import API from './utils/API.js';
 sync(store, router);
 
 Vue.config.productionTip = false;
-Vue.component("color-picker", ColorPicker);
+// Vue.component("color-picker", ColorPicker);
 
 /* eslint-disable no-new */
 new Vue({
