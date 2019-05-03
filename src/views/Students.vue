@@ -13,6 +13,7 @@
       <v-flex md12>
         <h4>Groups</h4>
       </v-flex>
+
       <v-flex md12>
         <v-card
         >
@@ -28,8 +29,6 @@
 
 
       </v-flex>
-
-
 
       <v-flex
         md12
@@ -56,12 +55,14 @@
             <template
                 slot="items"
                 slot-scope="{ item }"
+                to="/"
             >
               <td>{{ item.surname }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.group_id }}</td>
               <td>{{ item.email }}</td>
               <td>{{ item.phone }}</td>
+              <td><v-btn icon round color="teal"><v-icon @click="">edit</v-icon></v-btn></td>
             </template>
           </v-data-table>
         </material-card>
@@ -230,7 +231,12 @@
 		  sortable: false,
 		  text: 'Phone Number',
 		  value: 'phone'
-		}
+		},
+      {
+        sortable: false,
+        text: 'Edit',
+        value: null
+      }
 	  ],
 
     groupModal: false,
