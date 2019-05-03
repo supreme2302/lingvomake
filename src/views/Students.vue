@@ -40,7 +40,7 @@
         >
           <v-data-table
               :headers="headers"
-              :items="items"
+              :items="students"
               hide-actions
           >
             <template
@@ -371,11 +371,11 @@
 
 	}),
 	computed: {
-	  items() {
-		return this.$store.getters.students;
+	  students() {
+		  return this.$store.getters.students;
 	  },
 	  groups() {
-		return this.$store.getters.groups;
+		  return this.$store.getters.groups;
 	  },
 	  groupsForDropdown() {
 		return this.$store.getters.groups.map(curr => {
