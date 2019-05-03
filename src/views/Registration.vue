@@ -64,7 +64,6 @@
         </material-card>
       </v-flex>
     </v-container>
-
     <v-container
         fill-height
         fluid
@@ -80,8 +79,6 @@
       </v-flex>
     </v-container>
   </v-container>
-
-
 </template>
 
 <script>

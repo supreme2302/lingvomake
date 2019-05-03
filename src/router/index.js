@@ -22,6 +22,7 @@ import Students from '../views/Students';
 import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
 import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
+import SingleCourseGuard from './guards/singleCourseGuard.js';
 import StudentsGuard from './guards/studentsGuard';
 
 Vue.use(Router);
@@ -92,7 +93,8 @@ const router = new Router({
 	  path: '/course/:id',
 	  props: true,
 	  name: 'Course page',
-	  component: CoursePage
+	  component: CoursePage,
+	  beforeEnter: SingleCourseGuard
 	},
 	{
 	  path: '/course/1/unit/1',

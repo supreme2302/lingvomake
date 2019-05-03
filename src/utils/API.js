@@ -9,8 +9,11 @@ const method = {
   createCourse: 'course/create',
   schoolCourses: 'course/',
   deleteCourse: 'course/delete',
-  courseImage: 'course/image',
+  courseImage: 'course/image/',
   changeCourseImage: 'course/changeAvatar',
+  changeCourse: '/course/change',
+  courseUnitsById: 'unit/',
+  createUnit: 'unit/create',
 
   loadAllStudents: 'student/',
   loadStudentsByGroup: '/student/group/',
