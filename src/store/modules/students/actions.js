@@ -64,4 +64,15 @@ export default {
 	  throw e;
 	}
   },
+  async deleteStudent({commit}, id) {
+	console.log('creating group');
+	commit('clearError');
+	commit('setLoading', true);
+	try {
+	  const response = await HTTP.post(API.method.deleteStudent, {id: id});
+	} catch (e) {
+	  console.log(e);
+	  throw e;
+	}
+  }
 }
