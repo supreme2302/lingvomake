@@ -65,31 +65,31 @@ import {
 export default {
   data: () => ({
     links: [
-      {
-        to: '/dashboard',
-        icon: 'mdi-component-dashboard',
-        text: 'Dashboard'
-      },
-      {
-        to: '/user-profile',
-        icon: 'mdi-account',
-        text: 'User Profile'
-      },
-      {
-        to: '/table-list',
-        icon: 'mdi-clipboard-outline',
-        text: 'Table List'
-      },
-      {
-        to: '/typography',
-        icon: 'mdi-format-font',
-        text: 'Typography'
-      },
-      {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications'
-      },
+      // {
+      //   to: '/dashboard',
+      //   icon: 'mdi-component-dashboard',
+      //   text: 'Dashboard'
+      // },
+      // {
+      //   to: '/user-profile',
+      //   icon: 'mdi-account',
+      //   text: 'User Profile'
+      // },
+      // {
+      //   to: '/table-list',
+      //   icon: 'mdi-clipboard-outline',
+      //   text: 'Table List'
+      // },
+      // {
+      //   to: '/typography',
+      //   icon: 'mdi-format-font',
+      //   text: 'Typography'
+      // },
+      // {
+      //   to: '/notifications',
+      //   icon: 'mdi-bell',
+      //   text: 'Notifications'
+      // },
       {
         to: '/icons',
         icon: 'mdi-chart-bubble',
@@ -97,13 +97,18 @@ export default {
       },
       {
         to: '/courses',
-        icon: 'mdi-apple',
+        icon: 'mdi-alpha',
         text: 'Courses'
       },
       {
         to: '/students',
         icon: 'mdi-account-multiple',
         text: 'Students'
+      },
+      {
+        to: '/application',
+        icon: 'mdi-android',
+        text: 'Application'
       }
     ],
     responsive: false
