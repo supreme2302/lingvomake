@@ -18,6 +18,8 @@ const method = {
   loadAllStudents: 'student/',
   loadStudentsByGroup: '/student/group/',
   createStudent: '/student/create',
+  deleteStudent: '/student/delete',
+  editStudent: '/student/change',
 
   loadGroups: 'group/',
   createGroup: 'group/create',
