@@ -41,13 +41,13 @@
                 </v-flex>
 
                 <v-layout row>
-                  <color-picker :change="updateColor1" :initial="color1"></color-picker>
-                  <v-chip :color="color1">Primary color</v-chip>
+                  <color-picker :change="updateColor1" :initial="primaryColor"></color-picker>
+                  <v-chip :color="primaryColor">Primary color</v-chip>
                 </v-layout>
 
                 <v-layout row>
-                  <color-picker :change="updateColor2" :initial="color2"></color-picker>
-                  <v-chip :color="color2">Secondary color</v-chip>
+                  <color-picker :change="updateColor2" :initial="secondaryColor"></color-picker>
+                  <v-chip :color="secondaryColor">Secondary color</v-chip>
                 </v-layout>
 
 
@@ -83,7 +83,13 @@
 </template>
 
 <script>
+
+  import ColorPicker from '../components/helper/Color';
+
   export default {
+    components: {
+      "color-picker": ColorPicker
+    },
     data: () => ({
       valid: true,
       schoolName: null,
@@ -95,6 +101,9 @@
     computed: {
       school() {
         return this.$store.getters.school;
+      },
+      loading() {
+        return this.$store.getters.loading;
       }
     },
 	  methods: {

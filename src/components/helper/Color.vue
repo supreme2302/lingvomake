@@ -128,20 +128,6 @@
 	}
   };
 
-
-
-  // var app = new Vue({
-  // el: "#app",
-  // data: {
-  //  color: ""
-  // },
-  // methods: {
-  //  updateColor: function(event) {
-  // this.color = event.color;
-  //  }
-  // }
-  // });
-
   function hsb2hsl(h, s, b) {
 	var hsl = {
 	  h: h
