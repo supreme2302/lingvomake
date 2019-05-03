@@ -335,11 +335,11 @@
 		  text: 'Edit',
 		  value: null
 		},
-	  {
+		{
 		  sortable: false,
 		  text: 'Delete',
 		  value: null
-	  },
+		},
 	  ],
 
 	  groupModal: false,
@@ -357,17 +357,17 @@
 	  studentCreateGroupId: null,
 	  studentCreatePhone: null,
 
-    deleteStudentModal: false,
-    studentToDelete: null,
+	  deleteStudentModal: false,
+	  studentToDelete: null,
 
 	  editStudentModal: false,
-    studentToEdit: {
-	    email: null,
-      name: null,
-      surname: null,
-      group_id: [],
-      phone: null
-    },
+	  studentToEdit: {
+		email: null,
+		name: null,
+		surname: null,
+		group_id: [],
+		phone: null
+	  },
 
 	}),
 	computed: {
@@ -420,25 +420,25 @@
 			.finally(() => this.studentCreateModal = false)
 	  },
 	  deleteStudent() {
-	    if (this.studentToDelete !== null) {
-	      this.$store.dispatch('deleteStudent', this.studentToDelete)
-            .then(() => this.$store.dispatch('loadStudents'))
-            .finally(() => this.deleteStudentModal = false);
-		    this.studentToDelete = null;
-      }
-    },
-    editStudent() {
-	    this.$store.dispatch('editStudent', this.studentToEdit)
-          .then(() => this.$store.dispatch('loadStudents'))
-          .finally(() => this.editStudentModal = false);
-	    this.studentToEdit = {
-        email: null,
-        name: null,
-        surname: null,
-        group_id: [],
-        phone: null
-      }
-    }
+		if (this.studentToDelete !== null) {
+		  this.$store.dispatch('deleteStudent', this.studentToDelete)
+			  .then(() => this.$store.dispatch('loadStudents'))
+			  .finally(() => this.deleteStudentModal = false);
+		  this.studentToDelete = null;
+		}
+	  },
+	  editStudent() {
+		this.$store.dispatch('editStudent', this.studentToEdit)
+			.then(() => this.$store.dispatch('loadStudents'))
+			.finally(() => this.editStudentModal = false);
+		this.studentToEdit = {
+		  email: null,
+		  name: null,
+		  surname: null,
+		  group_id: [],
+		  phone: null
+		}
+	  }
 	}
   }
 </script>

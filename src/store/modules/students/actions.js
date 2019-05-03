@@ -25,6 +25,7 @@ export default {
 	  commit('setStudents', response.data)
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   },
@@ -38,6 +39,7 @@ export default {
 	  commit('setGroups', response.data)
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   },
@@ -50,6 +52,7 @@ export default {
 
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   },
@@ -61,6 +64,7 @@ export default {
 	  const response = await HTTP.post(API.method.createStudent, student);
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   },
@@ -72,6 +76,7 @@ export default {
 	  const response = await HTTP.post(API.method.deleteStudent, {id: id});
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   },
@@ -83,6 +88,7 @@ export default {
 	  const response = await HTTP.post(API.method.editStudent, student);
 	} catch (e) {
 	  console.log(e);
+	  commit("setError", e.response.data);
 	  throw e;
 	}
   }
