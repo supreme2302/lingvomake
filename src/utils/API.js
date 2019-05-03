@@ -23,6 +23,9 @@ const method = {
 
   loadGroups: 'group/',
   createGroup: 'group/create',
+
+  loadSchool: 'school/',
+  saveSchool: 'school/change'
 };
 
 export default {baseUrl, method};

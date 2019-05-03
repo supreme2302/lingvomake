@@ -17,13 +17,14 @@ import UnitPage from '../views/UnitPage.vue';
 import Upgrade from '../views/Upgrade.vue';
 import UserProfile from '../views/UserProfile.vue';
 import Students from '../views/Students';
-
+import Application from '../views/Application';
 // guards
 import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
 import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
 import SingleCourseGuard from './guards/singleCourseGuard.js';
 import StudentsGuard from './guards/studentsGuard';
+import AppGuard from './guards/appGuard';
 
 Vue.use(Router);
 
@@ -107,6 +108,12 @@ const router = new Router({
 	  component: Students,
 	  beforeEnter: StudentsGuard
 	},
+	{
+	  path: '/application',
+	  name: 'Application',
+	  component: Application,
+	  beforeEnter: AppGuard
+	}
   ]
 });
 export default router
