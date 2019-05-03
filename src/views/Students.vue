@@ -64,7 +64,7 @@
               <td>{{ item.phone }}</td>
               <td>
                 <v-btn icon round color="teal">
-                  <v-icon @click="">edit</v-icon>
+                  <v-icon @click="studentToEdit = item; editStudentModal = true">edit</v-icon>
                 </v-btn>
               </td>
               <td>
@@ -222,6 +222,81 @@
         </v-card>
       </v-dialog>
 
+      <v-dialog lazy max-width="390" v-model="editStudentModal">
+        <material-card
+            color="blue"
+            title="Student Form"
+            text="Edit student data"
+        >
+
+          <v-form
+              @keypress.enter="createStudent"
+              v-model="studentCreateValid"
+              ref="form"
+              validation>
+
+            <v-container py-0>
+              <v-layout wrap>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Email"
+                      type="email"
+                      v-model="studentToEdit.email"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Name"
+                      v-model="studentToEdit.name"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Surname"
+                      v-model="studentToEdit.surname"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-text-field
+                      label="Phone"
+                      v-model="studentToEdit.phone"
+                  ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-overflow-btn
+                      :items="groupsForDropdown"
+                      label="Course"
+                      item-value="id"
+                      v-model="studentToEdit.group_id[0]"
+                  ></v-overflow-btn>
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-btn block color="red" dark>Restore password</v-btn>
+                </v-flex>
+
+                <v-flex xs12 text-xs-right>
+                  <v-btn
+                      class="mx-0 font-weight-light"
+                      color="blue"
+                      @click="editStudent">
+                    Save
+                  </v-btn>
+                </v-flex>
+
+              </v-layout>
+            </v-container>
+
+          </v-form>
+
+        </material-card>
+      </v-dialog>
+
     </v-layout>
   </v-container>
 </template>
@@ -283,7 +358,16 @@
 	  studentCreatePhone: null,
 
     deleteStudentModal: false,
-    studentToDelete: null
+    studentToDelete: null,
+
+	  editStudentModal: false,
+    studentToEdit: {
+	    email: null,
+      name: null,
+      surname: null,
+      group_id: [],
+      phone: null
+    },
 
 	}),
 	computed: {
@@ -341,6 +425,18 @@
             .then(() => this.$store.dispatch('loadStudents'))
             .finally(() => this.deleteStudentModal = false);
 		    this.studentToDelete = null;
+      }
+    },
+    editStudent() {
+	    this.$store.dispatch('editStudent', this.studentToEdit)
+          .then(() => this.$store.dispatch('loadStudents'))
+          .finally(() => this.editStudentModal = false);
+	    this.studentToEdit = {
+        email: null,
+        name: null,
+        surname: null,
+        group_id: [],
+        phone: null
       }
     }
 	}
