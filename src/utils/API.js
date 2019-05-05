@@ -6,15 +6,15 @@ const method = {
   signup: 'admin/register',
   logout: 'admin/logout',
   adminInfo: 'admin/info',
+  loadTeachers: 'admin/all',
+  addTeacher: 'admin/add',
+
   createCourse: 'course/create',
   schoolCourses: 'course/',
   deleteCourse: 'course/delete',
   courseImage: 'course/image/',
   changeCourseImage: 'course/changeAvatar',
   changeCourse: '/course/change',
-  courseUnitsById: 'unit/',
-  allUnits: 'unit/all',
-  createUnit: 'unit/create',
 
   loadAllStudents: 'student/',
   loadStudentsByGroup: '/student/group/',
@@ -30,8 +30,18 @@ const method = {
   loadSchool: 'school/',
   saveSchool: 'school/change',
 
-  loadTeachers: 'admin/all',
-  addTeacher: 'admin/add'
+  courseUnitsById: 'unit/',
+  createUnit: 'unit/create',
+  unitById: '/unit/find/',
+  deleteUnit: '/unit/delete',
+  changeUnit: '/unit/change',
+  allUnits: 'unit/all',
+
+  tasksByUnitId: '/task/',
+  taskById: '/task/find/',
+  createTask: '/task/create',
+  editTask: '/task/change',
+  deleteTask: '/task/delete'
 };
 
 export default {baseUrl, method};

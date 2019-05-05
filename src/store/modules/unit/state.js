@@ -1,3 +1,4 @@
 export default {
-  units: []
+  units: [],
+  unit: null
 }

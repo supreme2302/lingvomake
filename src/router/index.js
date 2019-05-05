@@ -1,4 +1,3 @@
-
 // Lib imports
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -20,8 +19,8 @@ import Students from '../views/Students';
 import Application from '../views/Application';
 import Groups from '../views/Groups';
 import Teachers from '../views/Teachers';
+import TaskPage from '../views/TaskPage.vue';
 // guards
-import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
 import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
 import SingleCourseGuard from './guards/singleCourseGuard.js';
@@ -29,6 +28,8 @@ import StudentsGuard from './guards/studentsGuard';
 import AppGuard from './guards/appGuard';
 import GroupsGuard from './guards/groupsGuard';
 import TeachersGuard from './guards/teachersGuard';
+import SingleUnitGuard from './guards/singleUnitGuard.js';
+import SingleTaskGuard from './guards/singleTaskGuard.js';
 
 Vue.use(Router);
 
@@ -102,9 +103,11 @@ const router = new Router({
 	  beforeEnter: SingleCourseGuard
 	},
 	{
-	  path: '/course/1/unit/1',
+	  path: '/unit/:id',
+	  props: true,
 	  name: 'Unit page',
 	  component: UnitPage,
+	  beforeEnter: SingleUnitGuard
 	},
 	{
 	  path: '/students',
@@ -129,6 +132,13 @@ const router = new Router({
 	  name: 'Teachers',
 	  component: Teachers,
 	  beforeEnter: TeachersGuard
+	},
+	{
+	  path: '/task/:id',
+	  props: true,
+	  name: 'Task Page',
+	  component: TaskPage,
+	  beforeEnter: SingleTaskGuard
 	}
   ]
 });
