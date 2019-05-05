@@ -106,6 +106,11 @@ export default {
         text: 'Students'
       },
       {
+        to: '/groups',
+        icon: 'mdi-apps',
+        text: 'Groups'
+      },
+      {
         to: '/application',
         icon: 'mdi-android',
         text: 'Application'

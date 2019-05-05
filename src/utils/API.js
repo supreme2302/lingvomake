@@ -13,6 +13,7 @@ const method = {
   changeCourseImage: 'course/changeAvatar',
   changeCourse: '/course/change',
   courseUnitsById: 'unit/',
+  allUnits: 'unit/all',
   createUnit: 'unit/create',
 
   loadAllStudents: 'student/',
@@ -23,6 +24,8 @@ const method = {
 
   loadGroups: 'group/',
   createGroup: 'group/create',
+  deleteGroup: 'group/delete',
+  changeGroup: 'group/edit',
 
   loadSchool: 'school/',
   saveSchool: 'school/change'

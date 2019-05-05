@@ -34,7 +34,6 @@ export default {
 	  throw e;
 	}
   },
-
   async loadSingleCourseById({commit}, id) {
     console.log('loadSingleCourse');
 	commit("clearError");
@@ -51,7 +50,6 @@ export default {
 	  throw e;
 	}
   },
-
   async deleteCourseById({commit}, id) {
     console.log('deleteCourseById');
 	commit("clearError");
@@ -67,7 +65,6 @@ export default {
 	  throw e;
 	}
   },
-
   async changeCourseImage ({commit}, {img, id}) {
 	console.log('changeAva');
 	commit('clearError');
@@ -86,7 +83,6 @@ export default {
 	  throw e;
 	}
   },
-
   async changeCourse ({commit}, payload) {
 	console.log('changeCourse');
 	commit('clearError');
