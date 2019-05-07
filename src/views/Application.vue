@@ -148,88 +148,110 @@
     }
   }
 
-
   function parseRGB(rgb) {
-	rgb = rgb.slice(1);
-	const R = new HexStringToInt64StringConverter(false).convert(rgb.substr(0, 2));
-	const G = new HexStringToInt64StringConverter(false).convert(rgb.substr(2, 2));
-	const B = new HexStringToInt64StringConverter(false).convert(rgb.substr(4, 2));
-	const hsl = rgbToHsl(R, G, B);
-	hsl[2] = parseInt(hsl[2] * 100);
-	return hsl.toString();
+    rgb = rgb.slice(1);
+    const R = new HexStringToInt64StringConverter(false).convert(rgb.substr(0, 2));
+    const G = new HexStringToInt64StringConverter(false).convert(rgb.substr(2, 2));
+    const B = new HexStringToInt64StringConverter(false).convert(rgb.substr(4, 2));
+    const hsl = rgbToHsl(R, G, B);
+    hsl[2] = parseInt(hsl[2] * 100);
+    return hsl.toString();
   }
+
   function parseHSL(hsl) {
-	['hsl', '(', ')', '%', '%'].forEach(symbol => hsl = hsl.replace(symbol, ''));
-	console.log('A1', hsl);
-	const HSL = hsl.split(',').map(I => parseInt(I));
-	console.log('A2', HSL);
-	const RGB = hslToRgb(HSL[0] / 360, HSL[1] / 100, HSL[2] / 100).map(I => parseInt(I));
-	console.log('A3', RGB);
-	return RGB
-		.map(I => intToHexString(I).toUpperCase())
-		.reduce((prev, curr) => {
-		  return prev.concat(curr)
-		}, '#');
+    console.log("HSL parse shit", hsl);
+    ['hsl', '(', ')', '%', '%'].forEach(symbol => hsl = hsl.replace(symbol, ''));
+    console.log('A1', hsl);
+    const HSL = hsl.split(',').map(I => parseInt(I));
+    console.log('A2', HSL);
+    const RGB = hslToRgb(HSL[0], HSL[1] / 100, HSL[2] / 100).map(I => parseInt(I));
+    console.log('A3', RGB);
+    return RGB
+            .map(I => intToHexString(I).toUpperCase())
+            .reduce((prev, curr) => {
+              return prev.concat(curr)
+            }, '#');
   }
 
   function rgbToHsl(r, g, b) {
-	r /= 255, g /= 255, b /= 255;
+    r /= 255, g /= 255, b /= 255;
 
-	var max = Math.max(r, g, b), min = Math.min(r, g, b);
-	var h, s, l = (max + min) / 2;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
 
-	if (max == min) {
-	  h = s = 0; // achromatic
-	} else {
+    if (max == min) {
+      h = s = 0; // achromatic
+    } else {
+      var d = max - min;
 
-	  var d = max - min;
-	  s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      s = d / (1 - Math.abs(2*l-1))*100;
 
-	  switch (max) {
-		case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-		case g: h = (b - r) / d + 2; break;
-		case b: h = (r - g) / d + 4; break;
-	  }
 
-	  h /= 6;
-	}
+      switch (max) {
+        case r: {
+          h = (((g - b) / d)%6)*60;
+          break;
+        }
+        case g: {
+          h = ((b - r) / d + 2)*60;
+          break;
+        }
+        case b: {
+          h = ((r - g) / d + 4)*60;
+          break;
+        }
+      }
+    }
 
-	return [ h, s, l ];
+    return [ h, s, l ];
   }
   function hslToRgb(h, s, l) {
-
-	var r, g, b;
-
-	if (s === 0) {
-	  r = g = b = l; // achromatic
-	} else {
-
-	  function hue2rgb(p, q, t) {
-
-		if (t < 0)
-		  t += 1;
-		if (t > 1)
-		  t -= 1;
-		if (t < 1/6)
-		  return p + (q - p) * 6 * t;
-		if (t < 1/2)
-		  return q;
-		if (t < 2/3)
-		  return p + (q - p) * (2/3 - t) * 6;
-
-		return p;
-	  }
-
-	  var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-	  var p = 2 * l - q;
-
-	  r = hue2rgb(p, q, h + 1/3);
-	  g = hue2rgb(p, q, h);
-	  b = hue2rgb(p, q, h - 1/3);
-	}
-
-	return [ r * 255, g * 255, b * 255 ];
+    console.log("to rgb");
+    console.log(h,s,l);
+    let r,g,b= 0;
+    let c = (1 - Math.abs(2*l-1))*s;
+    let x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    let m = l - c/2;
+    if(h<60){
+      r=c;
+      g=x;
+      b=0;
+    } else {
+      if(h<120){
+        r=x;
+        g=c;
+        b=0;
+      } else {
+        if(h<180){
+          r=0;
+          g=c;
+          b=x;
+        }
+        else{
+          if(h<240){
+            r=0;
+            g=x;
+            b=c;
+          } else {
+            if(h<300){
+              r=x;
+              g=0;
+              b=c;
+            } else{
+              if(h<360){
+                r=c;
+                g=0;
+                b=x;
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log( (r+m) * 255, (g+m) * 255, (b+m) * 255);
+    return [ (r+m) * 255, (g+m) * 255, (b+m) * 255 ];
   }
+
 
   function HexStringToInt64StringConverter(signed) {
 	var hexCode = {
