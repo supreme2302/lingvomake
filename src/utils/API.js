@@ -28,7 +28,10 @@ const method = {
   changeGroup: 'group/edit',
 
   loadSchool: 'school/',
-  saveSchool: 'school/change'
+  saveSchool: 'school/change',
+
+  loadTeachers: 'admin/all',
+  addTeacher: 'admin/add'
 };
 
 export default {baseUrl, method};
