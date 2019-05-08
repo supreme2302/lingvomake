@@ -18,6 +18,7 @@ import Upgrade from '../views/Upgrade.vue';
 import UserProfile from '../views/UserProfile.vue';
 import Students from '../views/Students';
 import Application from '../views/Application';
+import Groups from '../views/Groups';
 import Teachers from '../views/Teachers';
 // guards
 import AuthGuard from './guards/authGuard.js';
@@ -26,6 +27,7 @@ import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
 import SingleCourseGuard from './guards/singleCourseGuard.js';
 import StudentsGuard from './guards/studentsGuard';
 import AppGuard from './guards/appGuard';
+import GroupsGuard from './guards/groupsGuard';
 import TeachersGuard from './guards/teachersGuard';
 
 Vue.use(Router);
@@ -117,6 +119,12 @@ const router = new Router({
 	  beforeEnter: AppGuard
 	},
 	{
+	  path: '/groups',
+	  name: 'Groups',
+	  component: Groups,
+	  beforeEnter: GroupsGuard
+  },
+  {
 	  path: '/teachers',
 	  name: 'Teachers',
 	  component: Teachers,
