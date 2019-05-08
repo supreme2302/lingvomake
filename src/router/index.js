@@ -19,6 +19,7 @@ import UserProfile from '../views/UserProfile.vue';
 import Students from '../views/Students';
 import Application from '../views/Application';
 import Groups from '../views/Groups';
+import Teachers from '../views/Teachers';
 // guards
 import AuthGuard from './guards/authGuard.js';
 import CoursesGuard from './guards/coursesGuard';
@@ -27,6 +28,7 @@ import SingleCourseGuard from './guards/singleCourseGuard.js';
 import StudentsGuard from './guards/studentsGuard';
 import AppGuard from './guards/appGuard';
 import GroupsGuard from './guards/groupsGuard';
+import TeachersGuard from './guards/teachersGuard';
 
 Vue.use(Router);
 
@@ -121,6 +123,12 @@ const router = new Router({
 	  name: 'Groups',
 	  component: Groups,
 	  beforeEnter: GroupsGuard
+  },
+  {
+	  path: '/teachers',
+	  name: 'Teachers',
+	  component: Teachers,
+	  beforeEnter: TeachersGuard
 	}
   ]
 });

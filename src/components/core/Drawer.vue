@@ -102,19 +102,25 @@ export default {
       },
       {
         to: '/students',
-        icon: 'mdi-account-multiple',
+        icon: 'mdi-account-group',
         text: 'Students'
       },
       {
+        groups
         to: '/groups',
         icon: 'mdi-apps',
         text: 'Groups'
       },
       {
+        to: '/teachers',
+        icon: 'mdi-account-multiple',
+        text: 'Teachers'
+      },
+      {
         to: '/application',
         icon: 'mdi-android',
         text: 'Application'
-      }
+      },
     ],
     responsive: false
   }),
