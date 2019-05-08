@@ -29,16 +29,16 @@
                             <div class="font-head pl-3 pt-1">Выберите правильный вариант ответа</div>
                         </v-card-title>
                         <v-card-title class="ml-5">
-                            <div class="font-head">{{ taskDataConverter(task.dataT1).text }}</div>
+                            <div class="font-head">{{ task.data.text }}</div>
                         </v-card-title>
                         <v-card-action>
                             <v-radio-group class="ml-5" column>
                                 <v-radio
-                                        v-for="(answer, i) in taskDataConverter(task.dataT1).answers"
+                                        v-for="(answer, i) in task.data.answers"
                                         :label="answer" :value="answer"></v-radio>
-                                <v-radio :value="taskDataConverter(task.dataT1).correct">
+                                <v-radio :value="task.data.correct">
                                     <template v-slot:label>
-                                        <strong class="success--text font-success">{{ taskDataConverter(task.dataT1).correct }}</strong>
+                                        <strong class="success--text font-success">{{ task.data.correct }}</strong>
                                     </template>
                                 </v-radio>
                             </v-radio-group>
@@ -177,14 +177,6 @@
 	  }
 	},
 	methods: {
-	  /**
-	   * Принимает на вход поле dataT{X}, где X - тип таска.
-	   * @returns {json} - возвращает это поле в виде json
-	   */
-	  taskDataConverter(taskData) {
-		return JSON.parse(taskData);
-	  },
-
 	  onSubmitEditTask() {
 		if (this.$refs.form.validate()) {
 		  console.log('onSubmitEditTask');
