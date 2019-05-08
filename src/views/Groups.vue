@@ -132,24 +132,44 @@
         </material-card>
       </v-dialog>
 
-      <v-dialog max-width="390" v-model="deleteGroupModal">
-        <v-flex
-            md12
-        >
-          <material-card
-              color="red"
-              title="Deleting the group"
-              text="This process is irreversible!"
-          >
+      <!--<v-dialog max-width="390" v-model="deleteGroupModal">-->
+        <!--<v-flex-->
+            <!--md12-->
+        <!--&gt;-->
+          <!--<material-card-->
+              <!--color="red"-->
+              <!--title="Deleting the group"-->
+              <!--text="This process is irreversible!"-->
+          <!--&gt;-->
 
-            <v-card-actions>
-              <v-btn color="blue" @click="deleteGroupModal = false">Cancel</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn color="red" @click="deleteGroup">Delete</v-btn>
-            </v-card-actions>
+            <!--<v-card-actions>-->
+              <!--<v-btn color="blue" @click="deleteGroupModal = false">Cancel</v-btn>-->
+              <!--<v-spacer></v-spacer>-->
+              <!--<v-btn color="red" @click="deleteGroup">Delete</v-btn>-->
+            <!--</v-card-actions>-->
 
-          </material-card>
-        </v-flex>
+          <!--</material-card>-->
+        <!--</v-flex>-->
+      <!--</v-dialog>-->
+
+      <v-dialog v-model="deleteGroupModal" persistent max-width="440">
+        <v-card>
+          <v-card-title class="headline">
+            Do you want to delete this group?
+          </v-card-title>
+          <v-card-text>
+            This process is irreversible, you can't restore this group later!
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="warning" flat @click="deleteGroupModal = false">
+              Cancel
+            </v-btn>
+            <v-btn color="error" flat @click="deleteGroup">
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-dialog>
 
     </v-layout>
