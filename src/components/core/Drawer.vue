@@ -106,7 +106,6 @@ export default {
         text: 'Students'
       },
       {
-        groups
         to: '/groups',
         icon: 'mdi-apps',
         text: 'Groups'
