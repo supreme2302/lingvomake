@@ -25,8 +25,20 @@ export default {
 	try {
 	  const response = await HTTP.get(API.method.taskById + id);
 	  commit("setLoading", false);
-	  console.log(response.data);
-	  commit('setTask', response.data);
+	  const task = response.data;
+	  switch (task.task_type) {
+		case 1:
+		  task.data = JSON.parse(task.dataT1);
+		  break;
+		case 2:
+		  task.data = JSON.parse(task.dataT2);
+		  break;
+		case 3:
+		  task.data = JSON.parse(task.dataT3);
+		  break;
+	  }
+	  console.log(task);
+	  commit('setTask', task);
 	} catch (e) {
 	  commit("setLoading", false);
 	  console.log(e);
