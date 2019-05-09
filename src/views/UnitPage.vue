@@ -38,23 +38,52 @@
     <hr>
     <br>
     <v-layout row wrap justify-center>
-      <v-flex v-for="(task, i) in tasks" :key="i" xs12 sm4 md3>
-          <v-card hover class="ma-1"
-          :to="'/task/' + task.id">
-              <v-card-title primary-title>
-                  <div style="width: 100%">
-                      <div class="headline clip">{{ task.name }}</div>
-                      <div class="grey--text clip">{{ task | question }}</div>
-                  </div>
-              </v-card-title>
-          </v-card>
-          <br>
+      <v-flex xs12>
+          <v-tabs
+                  centered
+                  v-model="tab"
+                  color="#eee"
+                  grow
+                  icons-and-text
+          >
+              <v-tabs-slider color="grey"></v-tabs-slider>
+              <v-tab
+                      v-for="type in taskTypes"
+                      :key="type"
+              >
+                  <!--<v-icon>favorite</v-icon>-->
+                  {{ type }}
+              </v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="tab">
+              <v-tab-item
+                      v-for="type in taskTypes"
+                      :key="type"
+              >
+                  <v-layout row wrap>
+                      <v-flex v-for="(task, i) in tasksByType(type)" :key="i" xs12 sm6 md4>
+                          <v-card hover class="ma-1"
+                                  :to="'/task/' + task.id">
+                              <v-card-title primary-title>
+                                  <div style="width: 100%">
+                                      <div class="headline clip">{{ task.name }}</div>
+                                      <div class="grey--text clip">{{ task | question }}</div>
+                                  </div>
+                              </v-card-title>
+                          </v-card>
+                          <br>
+                      </v-flex>
+                  </v-layout>
+              </v-tab-item>
+          </v-tabs-items>
       </v-flex>
         <v-flex
                 xs12
                 sm4
                 class="ma-3">
-            <v-btn fab icon round color="blue" @click="openCreateTaskDialog"><v-icon>add</v-icon></v-btn>
+            <v-btn fab icon round color="blue" @click="openCreateTaskDialog">
+                <v-icon>add</v-icon>
+            </v-btn>
         </v-flex>
     </v-layout>
 
@@ -319,6 +348,9 @@
   export default {
 	data() {
 	  return {
+	    // свойство для переключения табов
+		tab: null,
+
 		chipRules: [
 		  chips => {
 			for (let i = 0; i < chips.length; ++i) {
@@ -419,7 +451,6 @@
 	  tasks() {
 		return this.$store.getters.tasks;
 	  },
-
 	  course() {
 		return this.$store.getters.course;
 	  },
@@ -555,6 +586,9 @@
 		return text.toString()
 			.toLowerCase()
 			.indexOf(query.toString().toLowerCase()) > -1
+	  },
+	  tasksByType(type) {
+		return this.tasks.filter(task => task.task_type === this.taskTypes.indexOf(type) + 1);
 	  },
 	},
 

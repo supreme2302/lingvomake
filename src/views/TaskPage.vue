@@ -319,11 +319,12 @@
 	  },
 	  enteredAnswers() {
 		let ans = [];
-		for (let i = 1; i <= 4; ++i) {
+		for (let i = 1; i <= this.amountOfAnswers; ++i) {
 		  if (this.answersT1[i.toString()]) {
 			ans.push(this.answersT1[i.toString()]);
 		  }
 		}
+		this.correctT1 = '';
 		return ans;
 	  }
 	},
