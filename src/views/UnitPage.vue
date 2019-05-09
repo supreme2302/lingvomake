@@ -256,8 +256,17 @@
                           <template v-if="taskType === taskTypes[1]">
                               <v-flex xs12>
                                   <v-text-field
+                                          label="Enter sentence for translation"
+                                          v-model="taskTextT2"
                                           :rules="notEmptyRules"
-                                          label="Type B"/>
+                                  />
+                              </v-flex>
+                              <v-flex xs12>
+                                  <v-text-field
+                                          label="Enter the translation of the sentence"
+                                          v-model="correctT2"
+                                          :rules="notEmptyRules"
+                                  />
                               </v-flex>
                           </template>
                           <!--ТАСК ТРЕТЬЕГО ТИПА-->
@@ -321,7 +330,7 @@
 		/**
 		 * Типы тасков. Насколько я понимаю могут быть 1,2 или 3.
 		 */
-		taskTypes: ['Вопрос с вариантами ответов', 'Второй тип', 'Третий тип'],
+		taskTypes: ['Question with answers', 'Translation of a sentence', 'Третий тип'],
 		/**
 		 * Выбранный тип таска
 		 */
@@ -341,7 +350,11 @@
 		  3: null,
 		  4: null,
 		},
-		correctT1: null
+		correctT1: null,
+
+
+		taskTextT2: null,
+		correctT2: null
 	  }
 	},
 	computed: {
@@ -417,20 +430,41 @@
 			dataT3: null
 		  }
 
-		  /**
-		   * По негласному соглашению Костяна правильный ответ не должен присутствовать в вариантах ответов!(
-		   * Поэтому убираем его от туда.
-		   */
-		  const ans = this.enteredAnswers.filter(answer => answer !== this.correctT1)
-
-		  //todo добавить еще 2 типа
+		  //todo добавить третий тип
 		  switch (type) {
 			case 1:
+			  /**
+			   * По негласному соглашению Костяна правильный ответ не должен присутствовать в вариантах ответов!(
+			   * Поэтому убираем его от туда.
+			   */
+			  const ans = this.enteredAnswers.filter(answer => answer !== this.correctT1)
 			  createdTask.dataT1 = {
 				text: this.taskTextT1,
 				answers: ans,
 				correct: this.correctT1
 			  }
+			  break;
+			case 2:
+			  // убираем безумие, введенное пользователем
+			  this.taskTextT2 = this.taskTextT2
+				  .replace(/[.,\/#!$%\^&\*;?:{}=\-_`~()]/g, "")
+				  .replace(/\s{2,}/g, " ")
+				  .replace(/^\s*/, '')
+				  .replace(/\s*$/, '');
+			  this.correctT2 = this.correctT2.replace(/[.,\/#!$%\^&\*;?:{}=\-_`~()]/g, "")
+				  .replace(/\s{2,}/g, " ")
+				  .replace(/^\s*/, '')
+				  .replace(/\s*$/, '')
+				  .toLowerCase();
+
+			  const words = this.correctT2.split(' ').filter(e => e !== '');
+			  words.sort((a, b) => Math.random() - 0.5); // перемешиваем слова в массиве
+			  createdTask.dataT2 = {
+				text: this.taskTextT2,
+				words: words,
+				correct: this.correctT2,
+			  }
+			  break;
 		  }
 		  console.log('createdTask ', createdTask);
 		  this.$store.dispatch('createTask', createdTask)
@@ -496,9 +530,9 @@
 		  case 1:
 			return JSON.parse(task.dataT1).text;
 		  case 2:
-			return JSON.parse(task.dataT1).text;
-		  case 3:
 			return JSON.parse(task.dataT2).text;
+		  case 3:
+			return JSON.parse(task.dataT3).text;
 		}
 	  },
 
