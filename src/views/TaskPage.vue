@@ -23,7 +23,7 @@
                         </v-btn>
                     </v-card-title>
 
-                    <!--ПЕРВВЫЙ ТИП ТАСКА-->
+                    <!--ОТОБРАЖЕНИЕ ПЕРВОГО ТИПА ТАСКА-->
                     <template v-if="task.task_type === 1">
                         <v-card-title class="black--text pl-1 pt-1">
                             <div class="font-head pl-3 pt-1">Выберите правильный вариант ответа</div>
@@ -44,8 +44,41 @@
                             </v-radio-group>
                         </v-card-action>
                     </template>
-                    <template></template>
-                    <template></template>
+
+                    <!--ОТОБРАЖЕНИЕ ВТОРОГО ТИПА ТАСКА-->
+                    <template v-if="task.task_type === 2">
+                        <v-card-title class="black--text pl-1 pt-1">
+                            <div class="font-head pl-3 pt-1">
+                                Расставьте слова в правильном порядке, чтобы перевести предложение
+                            </div>
+                        </v-card-title>
+                        <v-card-title class="ml-3">
+                            <div class="font-head">{{ task.data.text }}</div>
+                        </v-card-title>
+                        <v-card-title>
+                            <v-text-field
+                                    :placeholder="task.data.correct"
+                                    :value="correctT2"
+                                    label="Solo"
+                                    solo
+                                    clearable
+                                    @click:clear="clearCorrect"
+                                    hide-details
+                                    readonly
+                            ></v-text-field>
+                        </v-card-title>
+                        <div class="text-xs-center">
+                            <v-chip v-for="(word, i) in task.data.words"
+                                    :key="i"
+                                    outline
+                                    :value="wordChips[i]"
+                                    @click="chipClick(i, word)"
+                                    color="success">{{ word }}</v-chip>
+                        </div>
+                    </template>
+
+                    <!--ОТОБРАЖЕНИЕ ТРЕТЬЕГО ТИПА ТАСКА-->
+                    <template v-if="task.task_type === 3"></template>
                 </v-card>
             </v-flex>
             <v-flex xs12 hidden-sm-and-up class="mt-2 mb-2">
@@ -71,9 +104,10 @@
                                     <v-flex xs12>
                                         <p>Choose amount of answers</p>
                                         <v-radio-group v-model="amountOfAnswers" row>
-                                            <v-radio label="2" value=2></v-radio>
-                                            <v-radio label="3" value=3></v-radio>
-                                            <v-radio label="4" value=4></v-radio>
+                                            <v-radio v-for="n in 3"
+                                                     :key="++n"
+                                                     :label="n.toString()"
+                                                     :value="n"></v-radio>
                                         </v-radio-group>
                                     </v-flex>
                                     <template v-for="n in Number.parseInt(amountOfAnswers) | parseIntFilter">
@@ -100,7 +134,17 @@
                                 <template v-if="task.task_type === 2">
                                     <v-flex xs12>
                                         <v-text-field
-                                                label="Type B"/>
+                                                label="Enter sentence for translation"
+                                                v-model="taskTextT2"
+                                                :rules="notEmptyRules"
+                                        />
+                                    </v-flex>
+                                    <v-flex xs12>
+                                        <v-text-field
+                                                label="Enter the translation of the sentence"
+                                                v-model="editCorrectT2"
+                                                :rules="notEmptyRules"
+                                        />
                                     </v-flex>
                                 </template>
                                 <!--ТАСК ТРЕТЬЕГО ТИПА-->
@@ -173,35 +217,72 @@
 		  3: null,
 		  4: null,
 		},
-		correctT1: null
+		correctT1: null,
+
+		taskTextT2: null,
+		correctT2: '',
+		editCorrectT2: '',
+		wordChips: {},
 	  }
 	},
 	methods: {
+	  clearCorrect() {
+		this.correctT2 = '';
+		for (let key in this.wordChips) {
+		  this.wordChips[key] = true;
+		}
+	  },
+
+	  chipClick(wordChipId, word) {
+		this.wordChips[wordChipId] = false;
+		this.correctT2 += word + ' ';
+	  },
 	  onSubmitEditTask() {
 		if (this.$refs.form.validate()) {
 		  console.log('onSubmitEditTask');
 		  const editedTask = {
 			id: this.task.id,
 			unit_id: this.task.unit_id,
+			task_type: this.task.task_type,
 			dataT1: null,
 			dataT2: null,
 			dataT3: null
 		  }
 
-		  /**
-		   * По негласному соглашению Костяна правильный ответ не должен присутствовать в вариантах ответов!(
-		   * Поэтому убираем его от туда.
-		   */
-		  const ans = this.enteredAnswers.filter(answer => answer !== this.correctT1)
-
-		  //todo добавить еще 2 типа
 		  switch (this.task.task_type) {
 			case 1:
+			  /**
+			   * По негласному соглашению Костяна правильный ответ не должен присутствовать в вариантах ответов!(
+			   * Поэтому убираем его от туда.
+			   */
+			  const ans = this.enteredAnswers.filter(answer => answer !== this.correctT1)
 			  editedTask.dataT1 = {
 				text: this.taskTextT1,
 				answers: ans,
 				correct: this.correctT1
 			  }
+			  break;
+			case 2:
+			  // убираем безумие, введенное пользователем
+			  this.taskTextT2 = this.taskTextT2
+				  .replace(/[.,\/#!$%\^&\*;?:{}=\-_`~()]/g, "")
+				  .replace(/\s{2,}/g, " ")
+				  .replace(/^\s*/, '')
+				  .replace(/\s*$/, '');
+			  this.editCorrectT2 = this.editCorrectT2.replace(/[.,\/#!$%\^&\*;?:{}=\-_`~()]/g, "")
+				  .replace(/\s{2,}/g, " ")
+				  .replace(/^\s*/, '')
+				  .replace(/\s*$/, '')
+				  .toLowerCase();
+
+			  const words = this.editCorrectT2.split(' ').filter(e => e !== '');
+			  words.sort((a, b) => Math.random() - 0.5); // перемешиваем слова в массиве
+			  editedTask.dataT2 = {
+				text: this.taskTextT2,
+				words: words,
+				correct: this.editCorrectT2,
+			  }
+			  break;
 		  }
 		  console.log('editedTask ', editedTask);
 		  this.$store.dispatch('editTask', editedTask)
@@ -251,7 +332,26 @@
 	  parseIntFilter(num) {
 		return num ? num : 1;
 	  }
-	}
+	},
+    mounted() {
+	  const task = this.task;
+	  if (task.task_type === 1) {
+		this.taskTextT1 = task.data.text;
+		this.amountOfAnswers = task.data.answers.length + 1;
+		for (let i = 0; i < task.data.answers.length; ++i) {
+		  this.answersT1[i + 1] = task.data.answers[i];
+		}
+		this.answersT1[this.amountOfAnswers] = task.data.correct;
+		this.correctT1 = task.data.correct;
+	  }
+	  if (task.task_type === 2) {
+		for (let i = 0; i < task.data.words.length; ++i) {
+		  this.wordChips[i.toString()] = true;
+		}
+		this.taskTextT2 = task.data.text;
+		this.editCorrectT2 = task.data.correct;
+	  }
+    }
   }
 </script>
 
