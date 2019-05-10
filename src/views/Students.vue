@@ -120,9 +120,8 @@
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
-                      label="Course"
+                      label="Group"
                       item-value="id"
-                      :rules="groupRules"
                       v-model="studentCreateGroupId"
                   ></v-overflow-btn>
                 </v-flex>
@@ -276,7 +275,7 @@
 
 	  emailRules: [
 		v => !!v || "E-mail is required",
-		v => /.+@.+/.test(v) || "E-mail must be valid"
+	  v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
 	  ],
 	  textRules: [
 		v => !!v || "This field is required"

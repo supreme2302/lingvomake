@@ -87,28 +87,30 @@
 
 <script>
   export default {
-    data: () => ({
-      email: "",
-      schoolName: "",
-      password: "",
-      confirm: "",
-      valid: false,
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v => (v && v.length >= 8) || "Too short password"
-      ],
-	    schoolRules: [
-		    v => !!v || "Schoolname is required",
-      ],
-      confirmRules: [
-        v => !!v || "Confirmation is required",
-        // v => !!v === this.password || "Passwords did not match"
-      ],
-    }),
+    data() {
+      return {
+        email: "",
+        schoolName: "",
+        password: "",
+        confirm: "",
+        valid: false,
+        emailRules: [
+          v => !!v || "E-mail is required",
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
+        passwordRules: [
+          v => !!v || "Password is required",
+          v => (v && v.length >= 8) || "Too short password"
+        ],
+        schoolRules: [
+          v => !!v || "Schoolname is required",
+        ],
+        confirmRules: [
+          v => !!v || "Confirmation is required",
+          v => v === this.password || "Passwords did not match"
+        ],
+      }
+    },
     methods: {
       onSubmit() {
         if (this.$refs.form.validate()) {
