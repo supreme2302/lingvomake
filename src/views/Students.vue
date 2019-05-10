@@ -61,7 +61,6 @@
               <td>{{ item.name }}</td>
               <td>{{ item.group_id }}</td>
               <td>{{ item.email }}</td>
-              <td>{{ item.phone }}</td>
               <td>
                 <v-btn icon round color="teal">
                   <v-icon @click="studentToEdit = item; editStudentModal = true">edit</v-icon>
@@ -144,7 +143,7 @@
           <v-form
               @keypress.enter="createStudent"
               v-model="studentCreateValid"
-              ref="form"
+              ref="studentCreateForm"
               validation>
 
             <v-container py-0>
@@ -154,6 +153,7 @@
                   <v-text-field
                       label="Email"
                       type="email"
+                      :rules="emailRules"
                       v-model="studentCreateEmail"
                   ></v-text-field>
                 </v-flex>
@@ -161,6 +161,7 @@
                 <v-flex xs12>
                   <v-text-field
                       label="Name"
+                      :rules="textRules"
                       v-model="studentCreateName"
                   ></v-text-field>
                 </v-flex>
@@ -168,14 +169,8 @@
                 <v-flex xs12>
                   <v-text-field
                       label="Surname"
+                      :rules="textRules"
                       v-model="studentCreateSurname"
-                  ></v-text-field>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="Phone"
-                      v-model="studentCreatePhone"
                   ></v-text-field>
                 </v-flex>
 
@@ -184,6 +179,7 @@
                       :items="groupsForDropdown"
                       label="Course"
                       item-value="id"
+                      :rules="groupRules"
                       v-model="studentCreateGroupId"
                   ></v-overflow-btn>
                 </v-flex>
@@ -192,6 +188,7 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
+                      :disabled="!studentCreateValid"
                       @click="createStudent">
                     Create
                   </v-btn>
@@ -231,8 +228,8 @@
 
           <v-form
               @keypress.enter="createStudent"
-              v-model="studentCreateValid"
-              ref="form"
+              v-model="studentEditValid"
+              ref="studentEditForm"
               validation>
 
             <v-container py-0>
@@ -243,6 +240,7 @@
                       label="Email"
                       type="email"
                       v-model="studentToEdit.email"
+                      :rules="emailRules"
                   ></v-text-field>
                 </v-flex>
 
@@ -250,6 +248,7 @@
                   <v-text-field
                       label="Name"
                       v-model="studentToEdit.name"
+                      :rules="textRules"
                   ></v-text-field>
                 </v-flex>
 
@@ -257,20 +256,14 @@
                   <v-text-field
                       label="Surname"
                       v-model="studentToEdit.surname"
-                  ></v-text-field>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="Phone"
-                      v-model="studentToEdit.phone"
+                      :rules="textRules"
                   ></v-text-field>
                 </v-flex>
 
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
-                      label="Course"
+                      label="Group"
                       item-value="id"
                       v-model="studentToEdit.group_id[0]"
                   ></v-overflow-btn>
@@ -284,6 +277,7 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
+                      :disabled="!studentEditValid"
                       @click="editStudent">
                     Save
                   </v-btn>
@@ -327,11 +321,6 @@
 		},
 		{
 		  sortable: false,
-		  text: 'Phone Number',
-		  value: 'phone'
-		},
-		{
-		  sortable: false,
 		  text: 'Edit',
 		  value: null
 		},
@@ -340,6 +329,17 @@
 		  text: 'Delete',
 		  value: null
 		},
+	  ],
+
+	  emailRules: [
+		v => !!v || "E-mail is required",
+		v => /.+@.+/.test(v) || "E-mail must be valid"
+	  ],
+	  textRules: [
+		v => !!v || "This field is required"
+	  ],
+	  groupRules: [
+		v => !!v || "Group is required"
 	  ],
 
 	  groupModal: false,
@@ -355,27 +355,26 @@
 	  studentCreateName: null,
 	  studentCreateSurname: null,
 	  studentCreateGroupId: null,
-	  studentCreatePhone: null,
 
 	  deleteStudentModal: false,
 	  studentToDelete: null,
 
+	  studentEditValid: false,
 	  editStudentModal: false,
 	  studentToEdit: {
 		email: null,
 		name: null,
 		surname: null,
 		group_id: [],
-		phone: null
 	  },
 
 	}),
 	computed: {
 	  students() {
-		  return this.$store.getters.students;
+		return this.$store.getters.students;
 	  },
 	  groups() {
-		  return this.$store.getters.groups;
+		return this.$store.getters.groups;
 	  },
 	  groupsForDropdown() {
 		return this.$store.getters.groups.map(curr => {
@@ -408,16 +407,18 @@
 		this.$store.dispatch('loadStudentsByGroupId', id)
 	  },
 	  createStudent() {
-		const student = {
-		  email: this.studentCreateEmail,
-		  name: this.studentCreateName,
-		  surname: this.studentCreateSurname,
-		  group_id: [this.studentCreateGroupId],
-		  phone: this.studentCreatePhone
-		};
-		this.$store.dispatch('createStudent', student)
-			.then(() => this.$store.dispatch('loadStudents'))
-			.finally(() => this.studentCreateModal = false)
+		if (this.$refs.studentCreateForm.validate()) {
+		  const student = {
+			  email: this.studentCreateEmail,
+			  name: this.studentCreateName,
+			  surname: this.studentCreateSurname,
+			  group_id: [this.studentCreateGroupId],
+		  };
+		  this.$store.dispatch('createStudent', student)
+			  .then(() => this.$store.dispatch('loadStudents'))
+			  .finally(() => this.studentCreateModal = false)
+		}
+
 	  },
 	  deleteStudent() {
 		if (this.studentToDelete !== null) {
@@ -428,16 +429,17 @@
 		}
 	  },
 	  editStudent() {
-		this.$store.dispatch('editStudent', this.studentToEdit)
-			.then(() => this.$store.dispatch('loadStudents'))
-			.finally(() => this.editStudentModal = false);
-		this.studentToEdit = {
-		  email: null,
-		  name: null,
-		  surname: null,
-		  group_id: [],
-		  phone: null
-		}
+	    if (this.$refs.studentEditForm.validate()) {
+        this.$store.dispatch('editStudent', this.studentToEdit)
+          .then(() => this.$store.dispatch('loadStudents'))
+          .finally(() => this.editStudentModal = false);
+        this.studentToEdit = {
+          email: null,
+          name: null,
+          surname: null,
+          group_id: [],
+        }
+      }
 	  }
 	}
   }
