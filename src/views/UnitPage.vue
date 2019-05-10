@@ -7,11 +7,18 @@
           md6
           sm6>
         <material-card>
-          <v-card-text class="text-xs-center">
-            <h2 class="card-title font-weight-light">{{ unit.unit_name }}</h2>
-            <p class="card-description font-weight-light">{{ unit.description }}</p>
-            <v-btn color="main" class="font-weight-light" @click="openEditUnitDialog">EDIT</v-btn>
-          </v-card-text>
+            <v-card-text class="text-xs-center">
+                <h2 class="card-title font-weight-light">{{ unit.unit_name }}</h2>
+                <p class="card-description font-weight-light">{{ unit.description }}</p>
+                <div class="text-xs-center">
+                    <v-chip v-for="(tag, i) in unit.tags"
+                            :key="i"
+                            outline
+                            color="success">{{ tag }}
+                    </v-chip>
+                </div>
+                <v-btn color="main" class="font-weight-light" @click="openEditUnitDialog">EDIT</v-btn>
+            </v-card-text>
             <v-btn
                     flat
                     icon style="position: absolute; top:2%; right:2%"
@@ -46,9 +53,8 @@
         <v-flex
                 xs12
                 sm4
-                md3
                 class="ma-3">
-            <v-btn fab icon round color="primary" @click="openCreateTaskDialog"><v-icon>add</v-icon></v-btn>
+            <v-btn fab icon round color="blue" @click="openCreateTaskDialog"><v-icon>add</v-icon></v-btn>
         </v-flex>
     </v-layout>
 
@@ -75,29 +81,32 @@
               v-model="editUnitDialog"
               max-width="490">
           <material-card
-                  color="red"
+                  color="blue"
                   title="Unit Form"
                   text="Provide unit attributes">
               <v-form
                       @keyup.enter="onSubmitEditUnit"
-                      v-model="valid"
-                      ref="form"
+                      v-model="editUnitValid"
+                      ref="editForm"
                       validation>
                   <v-container py-0>
                       <v-layout wrap>
                           <v-flex xs12>
                               <v-text-field
                                       v-model="newUnitName"
+                                      :rules="unitNameRules"
                                       label="Unit Name"/>
                           </v-flex>
                           <v-flex xs12>
                               <v-text-field
                                       v-model="newUnitDescription"
+                                      :rules="unitDescriptionRules"
                                       label="Unit Description"/>
                           </v-flex>
                           <v-flex>
                               <v-combobox
                                       v-model="chipModel"
+                                      :rules="chipRules"
                                       :filter="filter"
                                       :hide-no-data="!chipSearch"
                                       :items="chipItems"
@@ -173,9 +182,10 @@
                           <v-flex xs12 text-xs-right>
                               <v-btn
                                       class="mx-0 font-weight-light"
-                                      color="red"
+                                      color="blue"
+                                      :disabled="!editUnitValid"
                                       @click="onSubmitEditUnit">
-                                  Create
+                                  Edit
                               </v-btn>
                           </v-flex>
                           <v-flex xs12 text-xs-right>
@@ -309,16 +319,60 @@
   export default {
 	data() {
 	  return {
+		chipRules: [
+		  chips => {
+			for (let i = 0; i < chips.length; ++i) {
+			  if (chips[i].text.length >= 5) {
+				return 'Tag name must be less than 5 symbols';
+			  }
+			}
+			return true;
+		  },
+		  chips => chips.length <= 3 || 'You can specify no more than 3 tags.',
+		  v => {
+			if (v.length === 0) {
+			  return 'The field must not be empty';
+			}
+			return true;
+		  }
+		],
+		unitNameRules: [
+		  v => {
+			const words = v.split(' ');
+			for (let i = 0; i < words.length; ++i) {
+			  if (words[i].length >= 12) {
+				return 'This field does not allow words longer than 12 characters.';
+			  }
+			}
+			return true;
+		  },
+		  v => !!v || 'The field must not be empty',
+		  v => v.length <= 24 || 'Name is too long'
+		],
+		unitDescriptionRules: [
+		  v => {
+			const words = v.split(' ');
+			for (let i = 0; i < words.length; ++i) {
+			  if (words[i].length >= 12) {
+				return 'This field does not allow words longer than 12 characters.';
+			  }
+			}
+			return true;
+		  },
+		  v => !!v || 'The field must not be empty',
+		  v => v.length <= 40 || 'Desctiption is too long'
+		],
 		notEmptyRules: [
 		  v => !!v || "The field must not be empty",
 		],
+		editUnitValid: false,
 		valid: false,
 		deleteUnitDialog: false,
 		loadingToDelete: false,
 		editUnitDialog: false,
 		createTaskDialog: false,
-		newUnitName: null,
-		newUnitDescription: null,
+		newUnitName: '',
+		newUnitDescription: '',
 		chipModel: [],
 		chipSearch: null,
 		chipItems: [
@@ -409,7 +463,7 @@
 			.then(() => {
 			  this.deleteUnitDialog = false;
 			  this.loadingToDelete = false;
-			  this.$router.push('/course/' + this.course.id);
+			  this.$router.push('/course/' + this.unit.course_id);
 			})
 			.catch((e) => {
 			  console.error('error during deleting unit: ', e);
@@ -477,13 +531,13 @@
 
 	  onSubmitEditUnit() {
 		console.log('onSubmitEditUnit');
-		if (this.$refs.form.validate()) {
+		if (this.$refs.editForm.validate()) {
 		  console.log('onSubmitEditUnitvaled');
 		  const editedUnit = {
 			id: this.unit.id,
 			unit_name: this.newUnitName,
 			description: this.newUnitDescription,
-			course_id: this.course.id,
+			course_id: this.unit.course_id,
 			tags: this.chipModel.map(el => el.text)
 		  };
 		  console.log('editedUnit ', editedUnit);
@@ -539,6 +593,12 @@
 	  parseIntFilter(num) {
 		return num ? num : 1;
 	  }
+	},
+
+	created() {
+	  this.newUnitName = this.unit.unit_name;
+	  this.newUnitDescription = this.unit.description;
+	  this.chipModel = this.unit.tags;
 	}
   }
 </script>
