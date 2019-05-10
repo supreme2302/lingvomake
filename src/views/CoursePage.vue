@@ -70,9 +70,8 @@
             v-for="unit in units">
           <v-flex
               xs12
-              md3
-              sm3
-              lg3
+              sm6
+              md4
               class="ma-3">
             <v-card :to="'/unit/' + unit.id">
                   <v-card-title primary-title>
@@ -81,21 +80,20 @@
                       <h6>{{unit.description}}</h6>
                     </div>
                   </v-card-title>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <template v-for="tag in unit.tags">
-                    <v-chip color="red" small dark>{{ tag }}</v-chip>
-                  </template>
-                </v-card-actions>
+                  <div class="text-xs-center">
+                    <v-chip v-for="(tag, i) in unit.tags"
+                            :key="i"
+                            outline
+                            color="success">{{ tag }}</v-chip>
+                  </div>
             </v-card>
           </v-flex>
         </template>
         <v-flex
                 xs12
-                md4
                 sm4
                 class="ma-3">
-          <v-btn fab icon round color="primary" @click="openCreateUnitDialog"><v-icon>add</v-icon></v-btn>
+          <v-btn fab icon round color="blue" @click="openCreateUnitDialog"><v-icon>add</v-icon></v-btn>
         </v-flex>
       </v-layout>
     </v-layout>
@@ -104,28 +102,31 @@
             v-model="createUnitDialog"
             max-width="490">
       <material-card
-              color="red"
+              color="blue"
               title="Unit Form"
               text="Provide unit attributes">
         <v-form
                 @keyup.enter="onSubmitCreateUnit"
-                v-model="valid"
-                ref="form"
+                v-model="createUnitValid"
+                ref="createUnitfFrm"
                 validation>
           <v-container py-0>
             <v-layout wrap>
               <v-flex xs12>
                 <v-text-field
                         v-model="newUnitName"
+                        :rules="courseOrUnitNameRules"
                         label="Unit Name"/>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
                         v-model="newUnitDescription"
+                        :rules="courseOrUnitDescriptionRules"
                         label="Unit Description"/>
               </v-flex>
               <v-flex>
                 <v-combobox
+                        :rules="chipRules"
                         v-model="chipModel"
                         :filter="filter"
                         :hide-no-data="!chipSearch"
@@ -202,7 +203,8 @@
               <v-flex xs12 text-xs-right>
                 <v-btn
                         class="mx-0 font-weight-light"
-                        color="red"
+                        color="blue"
+                        :disabled="!createUnitValid"
                         @click="onSubmitCreateUnit">
                   Create
                 </v-btn>
@@ -252,17 +254,20 @@
               <v-flex xs12>
                 <v-text-field
                         v-model="newCourseName"
+                        :rules="courseOrUnitNameRules"
                         label="Course Name"/>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
                         v-model="newCourseDescription"
+                        :rules="courseOrUnitDescriptionRules"
                         label="Course Description"/>
               </v-flex>
               <v-flex xs12 text-xs-right>
                 <v-btn
                         class="mx-0 font-weight-light"
                         color="blue"
+                        :disabled="!valid"
                         @click="onSubmitEditCourse">
                   Save
                 </v-btn>
@@ -284,14 +289,59 @@
   export default {
 	data() {
 	  return {
+		chipRules: [
+		  chips => {
+			for (let i = 0; i < chips.length; ++i) {
+			  if (chips[i].text.length >= 5) {
+				return 'Tag name must be less than 5 symbols';
+			  }
+			}
+			return true;
+		  },
+		  chips => chips.length <= 3 || 'You can specify no more than 3 tags',
+		  v => {
+			if (v.length === 0) {
+			  return 'The field must not be empty';
+			}
+			return true;
+		  }
+		],
+		courseOrUnitNameRules: [
+		  v => {
+			const words = v.split(' ');
+			for (let i = 0; i < words.length; ++i) {
+			  if (words[i].length >= 12) {
+				return 'This field does not allow words longer than 12 characters.';
+			  }
+			}
+			return true;
+		  },
+		  v => !!v || 'The field must not be empty',
+		  v => v.length <= 24 || 'Name is too long'
+		],
+		courseOrUnitDescriptionRules: [
+		  v => {
+			const words = v.split(' ');
+			for (let i = 0; i < words.length; ++i) {
+			  if (words[i].length >= 12) {
+				return 'This field does not allow words longer than 12 characters.';
+			  }
+			}
+			return true;
+		  },
+		  v => !!v || 'The field must not be empty',
+		  v => v.length <= 40 || 'Desctiption is too long'
+		],
+		createUnitValid: false,
+		valid: false,
 		editCourseDialog: false,
 		createUnitDialog: false,
 		deleteCourseDialog: false,
-		newUnitName: null,
-		newUnitDescription: null,
+		newUnitName: '',
+		newUnitDescription: '',
 		loadingToDelete: false,
-		newCourseName: null,
-		newCourseDescription: null,
+		newCourseName: '',
+		newCourseDescription: '',
 		imgSrc: API.baseUrl + API.method.courseImage + this.$store.getters.course.courseImage,
 		chipModel: [],
 		chipSearch: null,
@@ -327,15 +377,13 @@
 		this.deleteCourseDialog = false;
 	  },
 	  openEditCourseDialog() {
-		this.newCourseName = null;
-		this.newCourseDescription = null;
 		this.editCourseDialog = true;
 	  },
 	  closeEditCourseDialog() {
 		this.editCourseDialog = false;
 	  },
 	  onSubmitCreateUnit() {
-		if (this.$refs.form.validate()) {
+		if (this.$refs.createUnitfFrm.validate()) {
 		  const unit = {
 			unit_name: this.newUnitName,
 			description: this.newUnitDescription,
@@ -422,6 +470,10 @@
 		})
 	  }
 	},
+	created() {
+	  this.newCourseName = this.course.name;
+	  this.newCourseDescription = this.course.description;
+	}
   }
 </script>
 <style scoped>
