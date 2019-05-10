@@ -1,8 +1,6 @@
 <!--suppress ALL -->
 
 <template>
-
-
     <v-container>
         <v-container
                 fill-height
@@ -13,12 +11,10 @@
                     md6
                     sm6
                     lg6>
-
                 <material-card
                         color="green"
                         title="Login Form"
                         text="Provide your credentials">
-
                     <v-form
                             @keypress.enter="onSubmit"
                             v-model="valid"
@@ -56,7 +52,6 @@
                 </material-card>
             </v-flex>
         </v-container>
-
         <v-container
                 fill-height
                 fluid
@@ -72,10 +67,7 @@
                 </router-link>
             </v-flex>
         </v-container>
-
     </v-container>
-
-
 </template>
 
 <script>
@@ -86,7 +78,7 @@
 	  valid: false,
 	  emailRules: [
 		v => !!v || "E-mail is required",
-	  v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+		v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
 	  ],
 	  passwordRules: [
 		v => !!v || "Password is required",
@@ -110,10 +102,10 @@
 		}
 	  }
 	},
-    computed: {
-	  loading () {
+	computed: {
+	  loading() {
 		return this.$store.getters.loading;
 	  }
-    }
+	}
   }
 </script>

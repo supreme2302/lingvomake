@@ -87,52 +87,52 @@
 
 <script>
   export default {
-    data() {
-      return {
-        email: "",
-        schoolName: "",
-        password: "",
-        confirm: "",
-        valid: false,
-        emailRules: [
-          v => !!v || "E-mail is required",
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
-        passwordRules: [
-          v => !!v || "Password is required",
-          v => (v && v.length >= 8) || "Too short password"
-        ],
-        schoolRules: [
-          v => !!v || "Schoolname is required",
-        ],
-        confirmRules: [
-          v => !!v || "Confirmation is required",
-          v => v === this.password || "Passwords did not match"
-        ],
-      }
-    },
-    methods: {
-      onSubmit() {
-        if (this.$refs.form.validate()) {
+	data() {
+	  return {
+		email: "",
+		schoolName: "",
+		password: "",
+		confirm: "",
+		valid: false,
+		emailRules: [
+		  v => !!v || "E-mail is required",
+		  v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+		],
+		passwordRules: [
+		  v => !!v || "Password is required",
+		  v => (v && v.length >= 8) || "Too short password"
+		],
+		schoolRules: [
+		  v => !!v || "Schoolname is required",
+		],
+		confirmRules: [
+		  v => !!v || "Confirmation is required",
+		  v => v === this.password || "Passwords did not match"
+		],
+	  }
+	},
+	methods: {
+	  onSubmit() {
+		if (this.$refs.form.validate()) {
 
-          if (this.password !== this.confirm) {
-            this.$store.dispatch('setError', 'Passwords did not match!')
-            this.password = ''
-            this.confirm = ''
-            return;
-          }
+		  if (this.password !== this.confirm) {
+			this.$store.dispatch('setError', 'Passwords did not match!')
+			this.password = ''
+			this.confirm = ''
+			return;
+		  }
 
-          const user = {
-            email: this.email,
-            password: this.password,
-          };
-          this.$store.dispatch("registerUser", {user, schoolName: this.schoolName})
-              .then(() => {
-                this.$router.push("/");
-              })
-              .catch(err => console.log(err));
-        }
-      }
-    }
+		  const user = {
+			email: this.email,
+			password: this.password,
+		  };
+		  this.$store.dispatch("registerUser", {user, schoolName: this.schoolName})
+			  .then(() => {
+				this.$router.push("/");
+			  })
+			  .catch(err => console.log(err));
+		}
+	  }
+	}
   }
 </script>

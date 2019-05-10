@@ -1,15 +1,14 @@
+<!--suppress ALL -->
 <template>
   <v-container
       fill-height
       fluid
       grid-list-xl
   >
-
     <v-layout
         wrap
         justify-center
     >
-
       <v-flex md12>
         <h4>Groups</h4>
       </v-flex>
@@ -26,10 +25,7 @@
           <!--<v-divider vertical></v-divider>-->
           <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
         </v-card>
-
-
       </v-flex>
-
       <v-flex
           md12
       >
@@ -82,16 +78,13 @@
             title="Student Form"
             text="Provide new student info"
         >
-
           <v-form
               @keypress.enter="createStudent"
               v-model="studentCreateValid"
               ref="studentCreateForm"
               validation>
-
             <v-container py-0>
               <v-layout wrap>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Email"
@@ -100,7 +93,6 @@
                       v-model="studentCreateEmail"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Name"
@@ -108,7 +100,6 @@
                       v-model="studentCreateName"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Surname"
@@ -116,7 +107,6 @@
                       v-model="studentCreateSurname"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
@@ -125,7 +115,6 @@
                       v-model="studentCreateGroupId"
                   ></v-overflow-btn>
                 </v-flex>
-
                 <v-flex xs12 text-xs-right>
                   <v-btn
                       class="mx-0 font-weight-light"
@@ -135,13 +124,9 @@
                     Create
                   </v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
-
-
           </v-form>
-
         </material-card>
       </v-dialog>
 
@@ -167,7 +152,6 @@
             title="Student Form"
             text="Edit student data"
         >
-
           <v-form
               @keypress.enter="createStudent"
               v-model="studentEditValid"
@@ -176,7 +160,6 @@
 
             <v-container py-0>
               <v-layout wrap>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Email"
@@ -185,7 +168,6 @@
                       :rules="emailRules"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Name"
@@ -193,7 +175,6 @@
                       :rules="textRules"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Surname"
@@ -201,7 +182,6 @@
                       :rules="textRules"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
@@ -210,11 +190,9 @@
                       v-model="studentToEdit.group_id[0]"
                   ></v-overflow-btn>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-btn block color="red" dark>Restore password</v-btn>
                 </v-flex>
-
                 <v-flex xs12 text-xs-right>
                   <v-btn
                       class="mx-0 font-weight-light"
@@ -224,15 +202,11 @@
                     Save
                   </v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
-
           </v-form>
-
         </material-card>
       </v-dialog>
-
     </v-layout>
   </v-container>
 </template>
@@ -275,7 +249,7 @@
 
 	  emailRules: [
 		v => !!v || "E-mail is required",
-	  v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+		v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
 	  ],
 	  textRules: [
 		v => !!v || "This field is required"
@@ -333,10 +307,10 @@
 	  createStudent() {
 		if (this.$refs.studentCreateForm.validate()) {
 		  const student = {
-			  email: this.studentCreateEmail,
-			  name: this.studentCreateName,
-			  surname: this.studentCreateSurname,
-			  group_id: [this.studentCreateGroupId],
+			email: this.studentCreateEmail,
+			name: this.studentCreateName,
+			surname: this.studentCreateSurname,
+			group_id: [this.studentCreateGroupId],
 		  };
 		  this.$store.dispatch('createStudent', student)
 			  .then(() => this.$store.dispatch('loadStudents'))
@@ -353,17 +327,17 @@
 		}
 	  },
 	  editStudent() {
-	    if (this.$refs.studentEditForm.validate()) {
-        this.$store.dispatch('editStudent', this.studentToEdit)
-          .then(() => this.$store.dispatch('loadStudents'))
-          .finally(() => this.editStudentModal = false);
-        this.studentToEdit = {
-          email: null,
-          name: null,
-          surname: null,
-          group_id: [],
-        }
-      }
+		if (this.$refs.studentEditForm.validate()) {
+		  this.$store.dispatch('editStudent', this.studentToEdit)
+			  .then(() => this.$store.dispatch('loadStudents'))
+			  .finally(() => this.editStudentModal = false);
+		  this.studentToEdit = {
+			email: null,
+			name: null,
+			surname: null,
+			group_id: [],
+		  }
+		}
 	  }
 	}
   }
