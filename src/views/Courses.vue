@@ -130,7 +130,7 @@
 		  return true;
 		},
 		v => !!v || 'The field must not be empty',
-		v => v.length <= 48 || 'Desctiption is too long'
+		v => v.length <= 40 || 'Desctiption is too long'
 	  ],
 	  dialog: false,
 	  newCourseName: '',
