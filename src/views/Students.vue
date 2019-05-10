@@ -17,13 +17,13 @@
       <v-flex md12>
         <v-card
         >
-          <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
-          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All</v-btn>
+          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All groups</v-btn>
+          <v-divider vertical></v-divider>
           <template v-for="group in groups">
             <v-btn class="toolbar-items" color="tertiary" @click="loadStudentsByGroup(group.id)">{{group.name}}</v-btn>
           </template>
           <v-spacer></v-spacer>
-          <v-divider vertical></v-divider>
+          <!--<v-divider vertical></v-divider>-->
           <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
         </v-card>
 
@@ -75,63 +75,6 @@
           </v-data-table>
         </material-card>
       </v-flex>
-
-
-      <v-dialog v-model="groupModal" max-width="390">
-        <material-card
-            color="blue"
-            title="Group Form"
-            text="Provide new Group info"
-            dark>
-
-          <v-form
-              @keypress.enter="onSubmit"
-              v-model="groupValid"
-              ref="form"
-              validation>
-            <v-container py-0>
-              <v-layout wrap>
-
-                <v-flex xs12>
-                  <v-text-field
-                      v-model="groupName"
-                      label="Group Name"/>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-overflow-btn
-                      :items="courses"
-                      label="Course"
-                      item-value="id"
-                      v-model="groupCourse"
-                  ></v-overflow-btn>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field label="Description" counter="40" v-model="groupDescription"></v-text-field>
-                </v-flex>
-
-                <v-flex xs12>
-                  <div style="color: black;">
-                    <v-date-picker v-model="groupStartDate" color="red lighten-1" header-color="blue"></v-date-picker>
-                  </div>
-                </v-flex>
-
-                <v-flex xs12 text-xs-right>
-                  <v-btn
-                      class="mx-0 font-weight-light"
-                      color="blue"
-                      @click="createGroup">
-                    Create
-                  </v-btn>
-                </v-flex>
-
-              </v-layout>
-            </v-container>
-          </v-form>
-        </material-card>
-      </v-dialog>
-
 
       <v-dialog max-width="390" v-model="studentCreateModal">
         <material-card
@@ -342,12 +285,6 @@
 		v => !!v || "Group is required"
 	  ],
 
-	  groupModal: false,
-	  groupValid: false,
-	  groupName: null,
-	  groupCourse: null,
-	  groupStartDate: new Date().toISOString().substr(0, 10),
-	  groupDescription: null,
 
 	  studentCreateModal: false,
 	  studentCreateValid: false,
@@ -388,18 +325,6 @@
 	  }
 	},
 	methods: {
-	  createGroup() {
-		const newGroup = {
-		  name: this.groupName,
-		  course_id: this.groupCourse,
-		  start_date: this.groupStartDate,
-		  description: this.groupDescription
-		};
-
-		this.$store.dispatch('createGroup', newGroup)
-			.then(() => this.$store.dispatch('loadGroups'));
-		this.groupModal = false;
-	  },
 	  loadAllStudents() {
 		this.$store.dispatch('loadStudents')
 	  },
