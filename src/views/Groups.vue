@@ -9,11 +9,11 @@
         wrap
         justify-center
     >
-      <v-flex md12>
+      <v-flex xs12>
           <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
       </v-flex>
       <v-flex
-          md12
+          xs12
       >
         <material-card
             color="green"

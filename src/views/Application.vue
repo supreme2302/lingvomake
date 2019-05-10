@@ -66,21 +66,20 @@
                 </v-layout>
                 <v-flex xs6 text-xs-left>
                   <v-btn
-                          class="mx-0 font-weight-light"
-                          color="success"
-                          :disabled="!valid || loading"
-                          :loading="loading"
-                          @click="generateApplication">
+                      class="mx-0 font-weight-light"
+                      color="success"
+                      :disabled="!valid || loading || blocked"
+                      :loading="loading"
+                      @click="generateApplication">
                     Generate
                   </v-btn>
                 </v-flex>
                 <v-flex xs6 text-xs-right>
                   <v-btn
-                          class="mx-0 font-weight-light"
-                          color="success"
-                          :disabled="!valid || loading"
-                          :loading="loading"
-                          @click="saveApplication">
+                      class="mx-0 font-weight-light"
+                      color="success"
+                      :disabled="!valid || loading"
+                      @click="saveApplication">
                     Save Changes
                   </v-btn>
                 </v-flex>
@@ -110,6 +109,7 @@
 		primaryColor: null,
 		secondaryColor: null,
 		applicationLanguage: null,
+		blocked: false,
       }
 	},
 	computed: {
@@ -168,7 +168,13 @@
 				}));
 	  },
 	  generateApplication() {
-		//TODO прописать, как на беке все решат
+		  this.$store.dispatch('generateApplication')
+          .then(() => {
+            this.$store.dispatch('setError', 'Check you email for direct app link')
+            this.blocked = true;
+            //Блокируем кнопку генерации на 10 секунд
+            setTimeout(() => {this.blocked = false}, 10000)
+          })
 	  }
 	},
 	created() {

@@ -125,13 +125,13 @@
 		},
 		{
 		  icon: 'filter_2',
-		  header: "Step#2: ",
+		  header: "Step#2: fgsdfg ",
 		  text: 'Click GROUPS then «NEW GROUP» button',
 		  imgSrc: 'https://lingvomake.ml/static/tip5.jpg'
 		},
 		{
 		  icon: 'filter_3',
-		  header: "Step#2: ",
+		  header: "Step#2: sdfgs ",
 		  text: 'Click GROUPS then «NEW GROUP» button',
 		  imgSrc: 'https://lingvomake.ml/static/tip6.jpg'
 		}

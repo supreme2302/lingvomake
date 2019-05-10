@@ -21,6 +21,7 @@ const method = {
   createStudent: 'student/create',
   deleteStudent: 'student/delete',
   editStudent: 'student/change',
+  restorePassword: 'student/reset',
 
   loadGroups: 'group/',
   createGroup: 'group/create',
@@ -31,6 +32,7 @@ const method = {
   saveSchool: 'school/change',
   schoolImage: 'school/image/',
   changeSchoolImage: 'school/changeAvatar',
+  generate: 'school/makeapp',
 
   courseUnitsById: 'unit/',
   createUnit: 'unit/create',

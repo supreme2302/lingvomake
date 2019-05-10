@@ -11,14 +11,14 @@
       <v-snackbar
         :timeout="5000"
         :multi-line="true"
-        :color="red"
+        :color="info"
         :value="true"
         @input="closeError"
       >
         {{ errorMessage }}
         <v-btn
           flat
-          color="red"
+          color="error"
           @click.native="closeError"> Close</v-btn>
       </v-snackbar>
     </template>

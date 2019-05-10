@@ -7,7 +7,7 @@
       prominent
       style="background: #eee;"
   >
-    <div class="v-toolbar-title">
+    <div class="v-toolbar-title" v-if="isUserLoggedIn">
       <v-toolbar-title
           class="tertiary--text font-weight-light">
         <v-btn
@@ -28,75 +28,24 @@
           align-center
           layout
           py-2>
-        <!--<v-text-field-->
-        <!--v-if="responsiveInput"-->
-        <!--class="mr-4 mt-2 purple-input"-->
-        <!--label="Search..."-->
-        <!--hide-details-->
-        <!--color="purple"/>-->
-        <!--<router-link-->
-        <!--v-for="link in links"-->
-        <!--:key="link.title"-->
-        <!--v-ripple-->
-        <!--class="toolbar-items"-->
-        <!--:to="link.url"-->
-        <!--@click="link.onClick">-->
-        <!--<v-icon color="tertiary">{{ link.icon }}</v-icon>-->
-        <!--</router-link>-->
 
         <template
             v-for="link in links"
             class="toolbar-items">
-          <v-btn
-              icon
-              :key="link.title"
-              :to="link.url"
-              @click="link.onClick"
-          >
-            <v-icon color="tertiary">{{ link.icon }}</v-icon>
-          </v-btn>
+
+
+              <v-btn
+                  icon
+                  :key="link.title"
+                  :to="link.url"
+                  @click="link.onClick"
+                  v-on="on"
+              >
+                <v-icon color="tertiary">{{ link.icon }}</v-icon>
+              </v-btn>
+
         </template>
 
-        <!--<v-menu-->
-        <!--bottom-->
-        <!--left-->
-        <!--content-class="dropdown-menu"-->
-        <!--offset-y-->
-        <!--transition="slide-y-transition">-->
-        <!--<router-link-->
-        <!--v-ripple-->
-        <!--slot="activator"-->
-        <!--class="toolbar-items"-->
-        <!--to="/notifications">-->
-        <!--<v-badge-->
-        <!--color="error"-->
-        <!--overlap>-->
-        <!--<template slot="badge">-->
-        <!--{{ notifications.length }}-->
-        <!--</template>-->
-        <!--<v-icon color="tertiary">mdi-bell</v-icon>-->
-        <!--</v-badge>-->
-        <!--</router-link>-->
-        <!--<v-card>-->
-        <!--<v-list dense>-->
-        <!--<v-list-tile-->
-        <!--v-for="notification in notifications"-->
-        <!--:key="notification"-->
-        <!--@click="onClick"-->
-        <!--&gt;-->
-        <!--<v-list-tile-title-->
-        <!--v-text="notification"-->
-        <!--/>-->
-        <!--</v-list-tile>-->
-        <!--</v-list>-->
-        <!--</v-card>-->
-        <!--</v-menu>-->
-        <!--<router-link-->
-        <!--v-ripple-->
-        <!--class="toolbar-items"-->
-        <!--to="/login">-->
-        <!--<v-icon color="tertiary">mdi-account-remove</v-icon>-->
-        <!--</router-link>-->
       </v-flex>
     </v-toolbar-items>
   </v-toolbar>
@@ -128,14 +77,14 @@
 			{
 			  title: "logout", icon: "mdi-account-off", url: "/", onClick: () => {
 				this.$store.dispatch('logout')
-			  }
+			  }, tip: 'Log Out'
 			}
 		  ];
 		} else {
 		  return [
 			{
 			  title: "login", icon: "mdi-account", url: "/login", onClick: () => {
-			  }
+			  }, tip: 'Log In'
 			}
 		  ];
 		}
