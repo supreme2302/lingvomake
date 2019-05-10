@@ -32,7 +32,9 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                      type="text"
                       v-model="schoolName"
+                      :rules="schoolRules"
                       label="School Name"/>
                 </v-flex>
                 <v-flex xs12>
@@ -47,6 +49,7 @@
                   <v-text-field
                       type="password"
                       :counter="8"
+                      :rules="confirmRules"
                       v-model="confirm"
                       label="Confirm password"/>
                 </v-flex>
@@ -54,6 +57,7 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="success"
+                      :disabled="!valid || loading"
                       @click="onSubmit">
                     Sign up
                   </v-btn>
@@ -97,19 +101,25 @@
         v => !!v || "Password is required",
         v => (v && v.length >= 8) || "Too short password"
       ],
+	    schoolRules: [
+		    v => !!v || "Schoolname is required",
+      ],
       confirmRules: [
         v => !!v || "Confirmation is required",
-        v => !!v === this.password || "Passwords did not match"
+        // v => !!v === this.password || "Passwords did not match"
       ],
-      passwordConfirmRules: [
-        v => !!v || "Password confirmation is required",
-        v => v === this.password || "Passwords didn't match"
-      ]
-
     }),
     methods: {
       onSubmit() {
         if (this.$refs.form.validate()) {
+
+          if (this.password !== this.confirm) {
+            this.$store.dispatch('setError', 'Passwords did not match!')
+            this.password = ''
+            this.confirm = ''
+            return;
+          }
+
           const user = {
             email: this.email,
             password: this.password,
