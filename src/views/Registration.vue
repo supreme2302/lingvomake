@@ -32,7 +32,9 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                      type="text"
                       v-model="schoolName"
+                      :rules="schoolRules"
                       label="School Name"/>
                 </v-flex>
                 <v-flex xs12>
@@ -47,6 +49,7 @@
                   <v-text-field
                       type="password"
                       :counter="8"
+                      :rules="confirmRules"
                       v-model="confirm"
                       label="Confirm password"/>
                 </v-flex>
@@ -54,6 +57,7 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="success"
+                      :disabled="!valid || loading"
                       @click="onSubmit">
                     Sign up
                   </v-btn>
@@ -83,44 +87,52 @@
 
 <script>
   export default {
-    data: () => ({
-      email: "",
-      schoolName: "",
-      password: "",
-      confirm: "",
-      valid: false,
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v => (v && v.length >= 8) || "Too short password"
-      ],
-      confirmRules: [
-        v => !!v || "Confirmation is required",
-        v => !!v === this.password || "Passwords did not match"
-      ],
-      passwordConfirmRules: [
-        v => !!v || "Password confirmation is required",
-        v => v === this.password || "Passwords didn't match"
-      ]
+	data() {
+	  return {
+		email: "",
+		schoolName: "",
+		password: "",
+		confirm: "",
+		valid: false,
+		emailRules: [
+		  v => !!v || "E-mail is required",
+		  v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+		],
+		passwordRules: [
+		  v => !!v || "Password is required",
+		  v => (v && v.length >= 8) || "Too short password"
+		],
+		schoolRules: [
+		  v => !!v || "Schoolname is required",
+		],
+		confirmRules: [
+		  v => !!v || "Confirmation is required",
+		  v => v === this.password || "Passwords did not match"
+		],
+	  }
+	},
+	methods: {
+	  onSubmit() {
+		if (this.$refs.form.validate()) {
 
-    }),
-    methods: {
-      onSubmit() {
-        if (this.$refs.form.validate()) {
-          const user = {
-            email: this.email,
-            password: this.password,
-          };
-          this.$store.dispatch("registerUser", {user, schoolName: this.schoolName})
-              .then(() => {
-                this.$router.push("/");
-              })
-              .catch(err => console.log(err));
-        }
-      }
-    }
+		  if (this.password !== this.confirm) {
+			this.$store.dispatch('setError', 'Passwords did not match!')
+			this.password = ''
+			this.confirm = ''
+			return;
+		  }
+
+		  const user = {
+			email: this.email,
+			password: this.password,
+		  };
+		  this.$store.dispatch("registerUser", {user, schoolName: this.schoolName})
+			  .then(() => {
+				this.$router.push("/");
+			  })
+			  .catch(err => console.log(err));
+		}
+	  }
+	}
   }
 </script>

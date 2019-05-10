@@ -1,15 +1,14 @@
+<!--suppress ALL -->
 <template>
   <v-container
       fill-height
       fluid
       grid-list-xl
   >
-
     <v-layout
         wrap
         justify-center
     >
-
       <v-flex md12>
         <h4>Groups</h4>
       </v-flex>
@@ -17,19 +16,16 @@
       <v-flex md12>
         <v-card
         >
-          <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
-          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All</v-btn>
+          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All groups</v-btn>
+          <v-divider vertical></v-divider>
           <template v-for="group in groups">
             <v-btn class="toolbar-items" color="tertiary" @click="loadStudentsByGroup(group.id)">{{group.name}}</v-btn>
           </template>
           <v-spacer></v-spacer>
-          <v-divider vertical></v-divider>
+          <!--<v-divider vertical></v-divider>-->
           <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
         </v-card>
-
-
       </v-flex>
-
       <v-flex
           md12
       >
@@ -61,7 +57,6 @@
               <td>{{ item.name }}</td>
               <td>{{ item.group_id }}</td>
               <td>{{ item.email }}</td>
-              <td>{{ item.phone }}</td>
               <td>
                 <v-btn icon round color="teal">
                   <v-icon @click="studentToEdit = item; editStudentModal = true">edit</v-icon>
@@ -77,132 +72,61 @@
         </material-card>
       </v-flex>
 
-
-      <v-dialog v-model="groupModal" max-width="390">
-        <material-card
-            color="blue"
-            title="Group Form"
-            text="Provide new Group info"
-            dark>
-
-          <v-form
-              @keypress.enter="onSubmit"
-              v-model="groupValid"
-              ref="form"
-              validation>
-            <v-container py-0>
-              <v-layout wrap>
-
-                <v-flex xs12>
-                  <v-text-field
-                      v-model="groupName"
-                      label="Group Name"/>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-overflow-btn
-                      :items="courses"
-                      label="Course"
-                      item-value="id"
-                      v-model="groupCourse"
-                  ></v-overflow-btn>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field label="Description" counter="40" v-model="groupDescription"></v-text-field>
-                </v-flex>
-
-                <v-flex xs12>
-                  <div style="color: black;">
-                    <v-date-picker v-model="groupStartDate" color="red lighten-1" header-color="blue"></v-date-picker>
-                  </div>
-                </v-flex>
-
-                <v-flex xs12 text-xs-right>
-                  <v-btn
-                      class="mx-0 font-weight-light"
-                      color="blue"
-                      @click="createGroup">
-                    Create
-                  </v-btn>
-                </v-flex>
-
-              </v-layout>
-            </v-container>
-          </v-form>
-        </material-card>
-      </v-dialog>
-
-
       <v-dialog max-width="390" v-model="studentCreateModal">
         <material-card
             color="blue"
             title="Student Form"
             text="Provide new student info"
         >
-
           <v-form
               @keypress.enter="createStudent"
               v-model="studentCreateValid"
-              ref="form"
+              ref="studentCreateForm"
               validation>
-
             <v-container py-0>
               <v-layout wrap>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Email"
                       type="email"
+                      :rules="emailRules"
                       v-model="studentCreateEmail"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Name"
+                      :rules="textRules"
                       v-model="studentCreateName"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Surname"
+                      :rules="textRules"
                       v-model="studentCreateSurname"
                   ></v-text-field>
                 </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="Phone"
-                      v-model="studentCreatePhone"
-                  ></v-text-field>
-                </v-flex>
-
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
-                      label="Course"
+                      label="Group"
                       item-value="id"
                       v-model="studentCreateGroupId"
                   ></v-overflow-btn>
                 </v-flex>
-
                 <v-flex xs12 text-xs-right>
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
+                      :disabled="!studentCreateValid"
                       @click="createStudent">
                     Create
                   </v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
-
-
           </v-form>
-
         </material-card>
       </v-dialog>
 
@@ -228,75 +152,61 @@
             title="Student Form"
             text="Edit student data"
         >
-
           <v-form
               @keypress.enter="createStudent"
-              v-model="studentCreateValid"
-              ref="form"
+              v-model="studentEditValid"
+              ref="studentEditForm"
               validation>
 
             <v-container py-0>
               <v-layout wrap>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Email"
                       type="email"
                       v-model="studentToEdit.email"
+                      :rules="emailRules"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Name"
                       v-model="studentToEdit.name"
+                      :rules="textRules"
                   ></v-text-field>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-text-field
                       label="Surname"
                       v-model="studentToEdit.surname"
+                      :rules="textRules"
                   ></v-text-field>
                 </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="Phone"
-                      v-model="studentToEdit.phone"
-                  ></v-text-field>
-                </v-flex>
-
                 <v-flex xs12>
                   <v-overflow-btn
                       :items="groupsForDropdown"
-                      label="Course"
+                      label="Group"
                       item-value="id"
                       v-model="studentToEdit.group_id[0]"
                   ></v-overflow-btn>
                 </v-flex>
-
                 <v-flex xs12>
                   <v-btn block color="red" dark>Restore password</v-btn>
                 </v-flex>
-
                 <v-flex xs12 text-xs-right>
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
+                      :disabled="!studentEditValid"
                       @click="editStudent">
                     Save
                   </v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
-
           </v-form>
-
         </material-card>
       </v-dialog>
-
     </v-layout>
   </v-container>
 </template>
@@ -327,11 +237,6 @@
 		},
 		{
 		  sortable: false,
-		  text: 'Phone Number',
-		  value: 'phone'
-		},
-		{
-		  sortable: false,
 		  text: 'Edit',
 		  value: null
 		},
@@ -342,12 +247,17 @@
 		},
 	  ],
 
-	  groupModal: false,
-	  groupValid: false,
-	  groupName: null,
-	  groupCourse: null,
-	  groupStartDate: new Date().toISOString().substr(0, 10),
-	  groupDescription: null,
+	  emailRules: [
+		v => !!v || "E-mail is required",
+		v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+	  ],
+	  textRules: [
+		v => !!v || "This field is required"
+	  ],
+	  groupRules: [
+		v => !!v || "Group is required"
+	  ],
+
 
 	  studentCreateModal: false,
 	  studentCreateValid: false,
@@ -355,27 +265,26 @@
 	  studentCreateName: null,
 	  studentCreateSurname: null,
 	  studentCreateGroupId: null,
-	  studentCreatePhone: null,
 
 	  deleteStudentModal: false,
 	  studentToDelete: null,
 
+	  studentEditValid: false,
 	  editStudentModal: false,
 	  studentToEdit: {
 		email: null,
 		name: null,
 		surname: null,
 		group_id: [],
-		phone: null
 	  },
 
 	}),
 	computed: {
 	  students() {
-		  return this.$store.getters.students;
+		return this.$store.getters.students;
 	  },
 	  groups() {
-		  return this.$store.getters.groups;
+		return this.$store.getters.groups;
 	  },
 	  groupsForDropdown() {
 		return this.$store.getters.groups.map(curr => {
@@ -389,18 +298,6 @@
 	  }
 	},
 	methods: {
-	  createGroup() {
-		const newGroup = {
-		  name: this.groupName,
-		  course_id: this.groupCourse,
-		  start_date: this.groupStartDate,
-		  description: this.groupDescription
-		};
-
-		this.$store.dispatch('createGroup', newGroup)
-			.then(() => this.$store.dispatch('loadGroups'));
-		this.groupModal = false;
-	  },
 	  loadAllStudents() {
 		this.$store.dispatch('loadStudents')
 	  },
@@ -408,16 +305,18 @@
 		this.$store.dispatch('loadStudentsByGroupId', id)
 	  },
 	  createStudent() {
-		const student = {
-		  email: this.studentCreateEmail,
-		  name: this.studentCreateName,
-		  surname: this.studentCreateSurname,
-		  group_id: [this.studentCreateGroupId],
-		  phone: this.studentCreatePhone
-		};
-		this.$store.dispatch('createStudent', student)
-			.then(() => this.$store.dispatch('loadStudents'))
-			.finally(() => this.studentCreateModal = false)
+		if (this.$refs.studentCreateForm.validate()) {
+		  const student = {
+			email: this.studentCreateEmail,
+			name: this.studentCreateName,
+			surname: this.studentCreateSurname,
+			group_id: [this.studentCreateGroupId],
+		  };
+		  this.$store.dispatch('createStudent', student)
+			  .then(() => this.$store.dispatch('loadStudents'))
+			  .finally(() => this.studentCreateModal = false)
+		}
+
 	  },
 	  deleteStudent() {
 		if (this.studentToDelete !== null) {
@@ -428,15 +327,16 @@
 		}
 	  },
 	  editStudent() {
-		this.$store.dispatch('editStudent', this.studentToEdit)
-			.then(() => this.$store.dispatch('loadStudents'))
-			.finally(() => this.editStudentModal = false);
-		this.studentToEdit = {
-		  email: null,
-		  name: null,
-		  surname: null,
-		  group_id: [],
-		  phone: null
+		if (this.$refs.studentEditForm.validate()) {
+		  this.$store.dispatch('editStudent', this.studentToEdit)
+			  .then(() => this.$store.dispatch('loadStudents'))
+			  .finally(() => this.editStudentModal = false);
+		  this.studentToEdit = {
+			email: null,
+			name: null,
+			surname: null,
+			group_id: [],
+		  }
 		}
 	  }
 	}

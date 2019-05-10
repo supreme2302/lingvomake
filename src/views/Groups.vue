@@ -1,15 +1,17 @@
+<!--suppress ALL -->
 <template>
   <v-container
       fill-height
       fluid
       grid-list-xl
   >
-
     <v-layout
         wrap
         justify-center
     >
-
+      <v-flex md12>
+          <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
+      </v-flex>
       <v-flex
           md12
       >
@@ -23,7 +25,6 @@
               :items="tableGroups"
               hide-actions
           >
-
             <template
                 slot="headerCell"
                 slot-scope="{ header }"
@@ -43,7 +44,7 @@
               <td>{{ item.course }}</td>
               <!--<td>{{ item.start_date }}</td>-->
               <td>{{ item.description }}</td>
-              <td>{{ item.unit }}</td>
+              <td>{{ item.curr_unit }}</td>
               <td>
                 <v-btn icon round color="teal">
                   <v-icon @click="openEditGroupModal(item.id)">edit</v-icon>
@@ -55,12 +56,9 @@
                 </v-btn>
               </td>
             </template>
-
           </v-data-table>
-
         </material-card>
       </v-flex>
-
 
       <v-dialog lazy max-width="390" v-model="editGroupModal">
         <material-card
@@ -68,18 +66,17 @@
             title="Group Form"
             text="Edit group data"
         >
-
           <v-form
               @keypress.enter="createStudent"
               v-model="editGroupValid"
-              ref="form"
+              ref="editGroupForm"
               validation>
-
             <v-container py-0>
               <v-layout wrap>
-
                 <v-flex xs12>
                   <v-text-field
+                      :rules="textRules"
+                      counter="20"
                       label="Name"
                       type="text"
                       v-model="groupToEdit.name"
@@ -90,6 +87,7 @@
                   <p>Course</p>
                   <v-overflow-btn
                       :items="dropDownCourses"
+                      :rules="courseRules"
                       label="Editable Btn"
                       editable
                       item-value="text"
@@ -101,6 +99,7 @@
                   <p>Unit</p>
                   <v-overflow-btn
                       :items="dropDownUnits"
+                      :rules="unitRules"
                       label="Editable Btn"
                       editable
                       item-value="text"
@@ -110,47 +109,78 @@
 
                 <v-flex xs12>
                   <v-text-field
+                      :rules="descriptionRules"
                       label="Description"
+                      counter="40"
                       v-model="groupToEdit.description"
                   ></v-text-field>
                 </v-flex>
 
                 <v-flex xs12 text-xs-right>
                   <v-btn
+                      :disabled="!editGroupValid"
                       class="mx-0 font-weight-light"
                       color="orange"
                       @click="editGroup">
                     Save
                   </v-btn>
                 </v-flex>
-
               </v-layout>
             </v-container>
-
           </v-form>
-
         </material-card>
       </v-dialog>
 
-      <!--<v-dialog max-width="390" v-model="deleteGroupModal">-->
-        <!--<v-flex-->
-            <!--md12-->
-        <!--&gt;-->
-          <!--<material-card-->
-              <!--color="red"-->
-              <!--title="Deleting the group"-->
-              <!--text="This process is irreversible!"-->
-          <!--&gt;-->
-
-            <!--<v-card-actions>-->
-              <!--<v-btn color="blue" @click="deleteGroupModal = false">Cancel</v-btn>-->
-              <!--<v-spacer></v-spacer>-->
-              <!--<v-btn color="red" @click="deleteGroup">Delete</v-btn>-->
-            <!--</v-card-actions>-->
-
-          <!--</material-card>-->
-        <!--</v-flex>-->
-      <!--</v-dialog>-->
+      <v-dialog v-model="groupModal" max-width="390">
+        <material-card
+            color="blue"
+            title="Group Form"
+            text="Provide new Group info">
+          <v-form
+              @keypress.enter="onSubmit"
+              v-model="groupValid"
+              ref="createGroupForm"
+              validation>
+            <v-container py-0>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                      v-model="groupName"
+                      type="text"
+                      :rules="textRules"
+                      counter="20"
+                      label="Group Name"/>
+                </v-flex>
+                <v-flex xs12>
+                  <v-overflow-btn
+                      :items="dropDownCourses"
+                      :rules="courseRules"
+                      label="Course"
+                      item-value="id"
+                      v-model="groupCourse"
+                  ></v-overflow-btn>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                      :rules="descriptionRules"
+                      label="Description"
+                      counter="40"
+                      v-model="groupDescription"></v-text-field>
+                </v-flex>
+                <v-flex xs12 text-xs-right>
+                  <v-btn
+                      :disabled="!groupValid"
+                      class="mx-0 font-weight-light"
+                      color="blue"
+                      @click="createGroup">
+                    Create
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </material-card>
+      </v-dialog>
 
       <v-dialog v-model="deleteGroupModal" persistent max-width="440">
         <v-card>
@@ -171,7 +201,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </v-layout>
   </v-container>
 </template>
@@ -179,180 +208,214 @@
 <script>
   export default {
 
-    //TODO сделать список курсов и юнитов выпадающими списками!!! 🙀
+	//TODO сделать список курсов и юнитов выпадающими списками!!! 🙀
 
-    data: () => ({
-      headers: [
-        {
-          sortable: true,
-          text: 'Name',
-          value: 'name'
-        },
-        {
-          sortable: false,
-          text: 'Course',
-          value: 'course_id',
-        },
-        // {
-        //   sortable: true,
-        //   text: 'Start date',
-        //   value: 'start_date'
-        // },
-        {
-          sortable: false,
-          text: 'Description',
-          value: 'description'
-        },
-        {
-          sortable: false,
-          text: 'Current unit',
-          value: 'curr_unit'
-        },
-        {
-          sortable: false,
-          text: 'Edit',
-          value: null
-        },
-        {
-          sortable: false,
-          text: 'Delete',
-          value: null
-        },
-      ],
+	data: () => ({
+	  headers: [
+		{
+		  sortable: true,
+		  text: 'Name',
+		  value: 'name'
+		},
+		{
+		  sortable: false,
+		  text: 'Course',
+		  value: 'course_id',
+		},
+		// {
+		//   sortable: true,
+		//   text: 'Start date',
+		//   value: 'start_date'
+		// },
+		{
+		  sortable: false,
+		  text: 'Description',
+		  value: 'description'
+		},
+		{
+		  sortable: false,
+		  text: 'Current unit',
+		  value: 'curr_unit'
+		},
+		{
+		  sortable: false,
+		  text: 'Edit',
+		  value: null
+		},
+		{
+		  sortable: false,
+		  text: 'Delete',
+		  value: null
+		},
+	  ],
 
-      deleteGroupModal: false,
-      groupToDelete: null,
+	  textRules: [
+		v => !!v || "This field is required",
+		v => !!v && v.length <= 20 || "too long"
+	  ],
+	  courseRules: [
+		v => !!v || "You should specify a course for this group"
+	  ],
+	  unitRules: [
+		v => !!v || "You should specify some unit for this group"
+	  ],
+	  descriptionRules: [
+		v => !!v || "This field is required",
+		v => !!v && v.length <= 40 || "too long"
+	  ],
 
-	    editGroupModal: false,
-	    editGroupValid: false,
-      groupToEdit: {
-        name: null,
-        course: null,
-        description: null,
-        // start_date: null, //TODO вернуть как Костян реализует на беке
-        unit: null
-      }
+	  groupModal: false,
+	  groupValid: false,
+	  groupName: '',
+	  groupCourse: '',
+	  groupDescription: '',
 
-    }),
-    computed: {
-      tableGroups() {
+	  deleteGroupModal: false,
+	  groupToDelete: null,
 
-        let tGroups = [];
+	  editGroupModal: false,
+	  editGroupValid: false,
+	  groupToEdit: {
+		name: null,
+		course: null,
+		description: null,
+		// start_date: null, //TODO вернуть как Костян реализует на беке
+		unit: null
+	  }
 
-        this.groups.forEach((currGroup) => {
+	}),
+	computed: {
+	  tableGroups() {
 
-          let courseName = null;
-          this.courses.forEach((currCourse) => {
-            if (currCourse.id == currGroup.course_id) {
-              courseName = currCourse.name;
-            }
-          });
+		let tGroups = [];
 
-          let unitName = null;
-          this.units.forEach((currUnit) => {
-            if (currUnit.id == currGroup.curr_unit) {
-              unitName = currUnit.name;
-            }
-          });
+		this.groups.forEach((currGroup) => {
 
-          tGroups.push({
-            id: currGroup.id,
-            name: currGroup.name,
-            course: courseName,
-            description: currGroup.description,
-            unit: unitName
-          })
+		  let courseName = null;
+		  this.courses.forEach((currCourse) => {
+			if (currCourse.id == currGroup.course_id) {
+			  courseName = currCourse.name;
+			}
+		  });
 
-        });
+		  let unitName = null;
+		  this.units.forEach((currUnit) => {
+			if (currUnit.id == currGroup.curr_unit) {
+			  unitName = currUnit.unit_name;
+			}
+		  });
 
-        return tGroups;
+		  tGroups.push({
+			id: currGroup.id,
+			name: currGroup.name,
+			course: courseName,
+			description: currGroup.description,
+			curr_unit: unitName
+		  })
 
-      },
-      groups() {
-        return this.$store.getters.groups
-      },
-      courses() {
-        return this.$store.getters.courses
-      },
-      dropDownCourses() {
-        return this.$store.getters.courses.map((curr) => {
-          return {
-            id: curr.id,
-            text: curr.name
-          }
-        });
-      },
-      units() {
-        return this.$store.getters.units
-      },
-      dropDownUnits() {
+		});
 
-        let course = null;
-        let dUnits = [];
+		return tGroups;
 
-        for (let i = 0; i < this.courses.length; i++) {
-          if (this.courses[i].name == this.groupToEdit.course) {
-            course = this.courses[i];
-          }
-        }
+	  },
+	  groups() {
+		return this.$store.getters.groups
+	  },
+	  courses() {
+		return this.$store.getters.courses
+	  },
+	  dropDownCourses() {
+		return this.$store.getters.courses.map((curr) => {
+		  return {
+			id: curr.id,
+			text: curr.name
+		  }
+		});
+	  },
+	  units() {
+		return this.$store.getters.units
+	  },
+	  dropDownUnits() {
 
-        if (course !== null) {
-		      for (let i = 0; i < this.units.length; i++) {
-			      if (this.units[i].course_id == course.id) {
-			        dUnits.push({id: this.units[i].id, text: this.units[i].unit_name});
-            }
-		      }
-        }
+		let course = null;
+		let dUnits = [];
 
-        return dUnits;
-      },
+		for (let i = 0; i < this.courses.length; i++) {
+		  if (this.courses[i].name == this.groupToEdit.course) {
+			course = this.courses[i];
+		  }
+		}
 
-    },
-    methods: {
-      deleteGroup() {
-        this.$store.dispatch('deleteGroup', this.groupToDelete)
-            .then(() => {
-              this.groupToDelete = null;
-              this.$store.dispatch('loadGroups')
-            });
-        this.deleteGroupModal = false;
-      },
-      openEditGroupModal(id) {
-        for (let i = 0; i < this.groups.length; i++) {
-          if (this.tableGroups[i].id == id) {
-            this.groupToEdit = this.tableGroups[i];
-            break;
-          }
-        }
-        this.editGroupModal = true;
-      },
-	    editGroup() {
-		    
-        // найти id курса по его имени
-        let cId = null;
-        for (let i = 0; i < this.courses.length; i++) {
-          if (this.courses[i].name === this.groupToEdit.course) {
-            cId = this.courses[i].id;
-          }
-        }
-        // TODO найти id юнита по его имени среди dropdown
-        let uId = null;
-        for (let i = 0; i < this.dropDownUnits.length; i++) {
-          if (this.dropDownUnits[i].text === this.groupToEdit.unit) {
-            uId = this.dropDownUnits[i].id;
-          }
-        }
-        // TODO собрать данные и отправить
-        this.groupToEdit.course_id = cId;
-		    this.groupToEdit.course = undefined;
-		    this.groupToEdit.unit_name = this.groupToEdit.unit;
-		    this.groupToEdit.unit = undefined;
+		if (course !== null) {
+		  for (let i = 0; i < this.units.length; i++) {
+			if (this.units[i].course_id == course.id) {
+			  dUnits.push({id: this.units[i].id, text: this.units[i].unit_name});
+			}
+		  }
+		}
 
-		    this.$store.dispatch('changeGroup', this.groupToEdit)
-            // .then(() => this.$store.dispatch('loadGroups')) //TODO вернуть как будет на беке
+		return dUnits;
+	  },
 
-		    this.editGroupModal = false;
-      }
-    }
+	},
+	methods: {
+	  createGroup() {
+		if (this.$refs.createGroupForm.validate()) {
+		  const newGroup = {
+			name: this.groupName,
+			course_id: this.groupCourse,
+			description: this.groupDescription
+		  };
+		  this.$store.dispatch('createGroup', newGroup)
+			  .then(() => this.$store.dispatch('loadGroups'));
+		  this.groupModal = false;
+		}
+	  },
+	  deleteGroup() {
+		this.$store.dispatch('deleteGroup', this.groupToDelete)
+			.then(() => {
+			  this.groupToDelete = null;
+			  this.$store.dispatch('loadGroups')
+			});
+		this.deleteGroupModal = false;
+	  },
+	  openEditGroupModal(id) {
+		for (let i = 0; i < this.groups.length; i++) {
+		  if (this.tableGroups[i].id == id) {
+			this.groupToEdit = this.tableGroups[i];
+			break;
+		  }
+		}
+		this.editGroupModal = true;
+	  },
+	  editGroup() {
+		if (this.$refs.editGroupForm.validate()) {
+		  // найти id курса по его имени
+		  let cId = null;
+		  for (let i = 0; i < this.courses.length; i++) {
+			if (this.courses[i].name === this.groupToEdit.course) {
+			  cId = this.courses[i].id;
+			}
+		  }
+		  // TODO найти id юнита по его имени среди dropdown
+		  let uId = null;
+		  for (let i = 0; i < this.dropDownUnits.length; i++) {
+			if (this.dropDownUnits[i].text === this.groupToEdit.unit) {
+			  uId = this.dropDownUnits[i].id;
+			}
+		  }
+		  // TODO собрать данные и отправить
+		  this.groupToEdit.course_id = cId;
+		  this.groupToEdit.course = undefined;
+		  this.groupToEdit.curr_unit = uId;
+		  this.groupToEdit.unit = undefined;
+
+		  this.$store.dispatch('changeGroup', this.groupToEdit)
+			  .then(() => this.$store.dispatch('loadGroups')) //TODO вернуть как будет на беке
+
+		  this.editGroupModal = false;
+		}
+	  }
+	}
   }
 </script>
