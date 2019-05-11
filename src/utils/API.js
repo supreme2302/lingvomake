@@ -14,13 +14,13 @@ const method = {
   deleteCourse: 'course/delete',
   courseImage: 'course/image/',
   changeCourseImage: 'course/changeAvatar',
-  changeCourse: '/course/change',
+  changeCourse: 'course/change',
 
   loadAllStudents: 'student/',
-  loadStudentsByGroup: '/student/group/',
-  createStudent: '/student/create',
-  deleteStudent: '/student/delete',
-  editStudent: '/student/change',
+  loadStudentsByGroup: 'student/group/',
+  createStudent: 'student/create',
+  deleteStudent: 'student/delete',
+  editStudent: 'student/change',
 
   loadGroups: 'group/',
   createGroup: 'group/create',
@@ -29,19 +29,21 @@ const method = {
 
   loadSchool: 'school/',
   saveSchool: 'school/change',
+  schoolImage: 'school/image/',
+  changeSchoolImage: 'school/changeAvatar',
 
   courseUnitsById: 'unit/',
   createUnit: 'unit/create',
-  unitById: '/unit/find/',
-  deleteUnit: '/unit/delete',
-  changeUnit: '/unit/change',
+  unitById: 'unit/find/',
+  deleteUnit: 'unit/delete',
+  changeUnit: 'unit/change',
   allUnits: 'unit/all',
 
-  tasksByUnitId: '/task/',
-  taskById: '/task/find/',
-  createTask: '/task/create',
-  editTask: '/task/change',
-  deleteTask: '/task/delete'
+  tasksByUnitId: 'task/',
+  taskById: 'task/find/',
+  createTask: 'task/create',
+  editTask: 'task/change',
+  deleteTask: 'task/delete'
 };
 
 export default {baseUrl, method};
