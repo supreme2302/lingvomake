@@ -1,5 +1,6 @@
 
-const baseUrl = 'http://localhost:8090/';
+// const baseUrl = 'http://localhost:8090/';
+const baseUrl = 'https://lingvomake.ml/back/';
 
 const method = {
   signin: 'admin/auth',
