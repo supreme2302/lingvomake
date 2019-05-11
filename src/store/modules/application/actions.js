@@ -32,4 +32,23 @@ export default {
 	  commit('setLoading', false);
 	}
   },
+
+  async changeSchoolImage ({commit}, {img, id}) {
+	console.log('changeAva');
+	commit('clearError');
+	commit('setLoading', true);
+	const formData = new FormData();
+	formData.append('image', img);
+	formData.append('id', id);
+	try {
+	  const response = await HTTP.post(API.method.changeSchoolImage, formData);
+	  console.log(response.data);
+	  commit("setLoading", false);
+	} catch (e) {
+	  commit("setLoading", false);
+	  console.log(e);
+	  commit("setError", e.response.data);
+	  throw e;
+	}
+  },
 }

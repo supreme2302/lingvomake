@@ -16,7 +16,8 @@
           >
             <v-hover>
             <v-img slot-scope="{ hover }"
-                   :src="imgSrc">
+                   :src="imgSrc"
+            >
               <v-expand-transition>
                 <div
                         v-if="hover"

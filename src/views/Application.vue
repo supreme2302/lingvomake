@@ -3,36 +3,58 @@
   <v-container>
     <v-layout row justify-center>
       <v-flex
-          xs12
-          md6
-          sm6
-          lg6>
+              xs12
+              sm8
+              md6
+      >
         <material-card
-            color="green"
-            title="Application Form"
-            text="Provide your android application settings">
+                color="green"
+                title="Application Form"
+                text="Provide your android application settings">
           <v-form
-              @keypress.enter="onSubmit"
-              v-model="valid"
-              ref="form"
-              validation>
+                  @keypress.enter="onSubmit"
+                  v-model="valid"
+                  ref="form"
+                  validation>
             <v-container py-0>
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                      v-model="schoolName"
-                      label="School Name"/>
+                          v-model="schoolName"
+                          label="School Name"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                      v-model="applicationTitle"
-                      label="Application Title"/>
+                          v-model="applicationTitle"
+                          label="Application Title"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                      v-model="applicationLanguage"
-                      label="Application Language"
+                          v-model="applicationLanguage"
+                          label="Application Language"
                   />
+                </v-flex>
+                <v-flex xs12>
+                  <v-btn
+                          class="mx-0 font-weight-light"
+                          color="success"
+                          dark
+                          @click="triggerUpload"
+                  >
+                    Upload
+                    <v-icon right dark>cloud_upload</v-icon>
+                  </v-btn>
+                  <input
+                          id="inputId"
+                          ref="fileInput"
+                          type="file"
+                          style="display: none"
+                          accept="image/*"
+                          @change="onFileChange"
+                  />
+                </v-flex>
+                <v-flex xs12>
+                  <img :src="imageSrc" height="100" v-if="imageSrc"/>
                 </v-flex>
                 <v-layout row>
                   <color-picker :change="updateColor1" :initial="primaryColor"></color-picker>
@@ -44,21 +66,21 @@
                 </v-layout>
                 <v-flex xs6 text-xs-left>
                   <v-btn
-                      class="mx-0 font-weight-light"
-                      color="success"
-                      :disabled="!valid || loading"
-                      :loading="loading"
-                      @click="generateApplication">
+                          class="mx-0 font-weight-light"
+                          color="success"
+                          :disabled="!valid || loading"
+                          :loading="loading"
+                          @click="generateApplication">
                     Generate
                   </v-btn>
                 </v-flex>
                 <v-flex xs6 text-xs-right>
                   <v-btn
-                      class="mx-0 font-weight-light"
-                      color="success"
-                      :disabled="!valid || loading"
-                      :loading="loading"
-                      @click="saveApplication">
+                          class="mx-0 font-weight-light"
+                          color="success"
+                          :disabled="!valid || loading"
+                          :loading="loading"
+                          @click="saveApplication">
                     Save Changes
                   </v-btn>
                 </v-flex>
@@ -70,23 +92,26 @@
     </v-layout>
   </v-container>
 </template>
-
 <script>
 
+  import API from '../utils/API.js';
   import ColorPicker from '../components/helper/Color';
 
   export default {
 	components: {
 	  "color-picker": ColorPicker
 	},
-	data: () => ({
-	  valid: true,
-	  schoolName: null,
-	  applicationTitle: null,
-	  primaryColor: null,
-	  secondaryColor: null,
-	  applicationLanguage: null,
-	}),
+	data() {
+	  return {
+		imageSrc: API.baseUrl + API.method.schoolImage + this.$store.getters.school.imageLink,
+		valid: true,
+		schoolName: null,
+		applicationTitle: null,
+		primaryColor: null,
+		secondaryColor: null,
+		applicationLanguage: null,
+      }
+	},
 	computed: {
 	  school() {
 		return this.$store.getters.school;
@@ -96,6 +121,27 @@
 	  }
 	},
 	methods: {
+	  onFileChange(event) {
+	    console.log('onFileChange');
+		event.preventDefault();
+		const file = event.target.files[0];
+		const reader = new FileReader();
+		reader.onload = event => {
+		  this.imageSrc = reader.result;
+		};
+		reader.readAsDataURL(file);
+		const input = document.getElementById('inputId');
+		this.image = input.files[0];
+		const img = this.image;
+		const id = this.school.id;
+		this.$store.dispatch('changeSchoolImage', {img, id})
+			.then(() => {
+			  this.$store.dispatch('loadSchool');
+			});
+	  },
+	  triggerUpload () {
+		this.$refs.fileInput.click();
+	  },
 	  updateColor1: function (event) {
 		this.color1 = event.color;
 	  },
