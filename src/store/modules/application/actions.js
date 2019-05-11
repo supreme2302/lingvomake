@@ -51,4 +51,18 @@ export default {
 	  throw e;
 	}
   },
+
+  async generateApplication({commit}) {
+	console.log('generating application');
+	try {
+	  commit('setLoading', true);
+	  const response = await HTTP.post(API.method.generate)
+	  commit("setLoading", false);
+	} catch (e) {
+	  commit("setLoading", false);
+	  console.log(e);
+	  commit("setError", e.response.data);
+	  throw e;
+	}
+  }
 }

@@ -9,23 +9,26 @@
         wrap
         justify-center
     >
-      <v-flex md12>
+
+      <v-flex xs12>
         <h4>Groups</h4>
       </v-flex>
 
-      <v-flex md12>
-        <v-card
-        >
-          <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All groups</v-btn>
-          <v-divider vertical></v-divider>
-          <template v-for="group in groups">
-            <v-btn class="toolbar-items" color="tertiary" @click="loadStudentsByGroup(group.id)">{{group.name}}</v-btn>
-          </template>
-          <v-spacer></v-spacer>
-          <!--<v-divider vertical></v-divider>-->
-          <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
-        </v-card>
-      </v-flex>
+      <v-flex xs12>
+          <v-card
+          >
+            <v-btn class="toolbar-items" color="tertiary" @click="loadAllStudents">All groups</v-btn>
+            <v-divider vertical></v-divider>
+            <template v-for="group in groups">
+              <v-btn class="toolbar-items" color="tertiary" @click="loadStudentsByGroup(group.id)">{{group.name}}</v-btn>
+            </template>
+            <v-spacer></v-spacer>
+            <!--<v-divider vertical></v-divider>-->
+            <v-btn class="toolbar-items" color="success" @click="studentCreateModal = true">New Student</v-btn>
+          </v-card>
+        </v-flex>
+
+
       <v-flex
           md12
       >
@@ -36,7 +39,7 @@
         >
           <v-data-table
               :headers="headers"
-              :items="students"
+              :items="tableStudents"
               hide-actions
           >
             <template
@@ -55,7 +58,7 @@
             >
               <td>{{ item.surname }}</td>
               <td>{{ item.name }}</td>
-              <td>{{ item.group_id }}</td>
+              <td>{{ item.group }}</td>
               <td>{{ item.email }}</td>
               <td>
                 <v-btn icon round color="teal">
@@ -119,7 +122,8 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
-                      :disabled="!studentCreateValid"
+                      :loading="loading"
+                      :disabled="!studentCreateValid || loading"
                       @click="createStudent">
                     Create
                   </v-btn>
@@ -191,13 +195,23 @@
                   ></v-overflow-btn>
                 </v-flex>
                 <v-flex xs12>
-                  <v-btn block color="red" dark>Restore password</v-btn>
+                  <v-btn
+                      :disabled="!studentEditValid || loading"
+                      :loading="loading"
+                      block
+                      color="red"
+                      dark
+                      @click="restorePassword"
+                  >
+                    Restore password
+                  </v-btn>
                 </v-flex>
                 <v-flex xs12 text-xs-right>
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
-                      :disabled="!studentEditValid"
+                      :disabled="!studentEditValid || loading"
+                      :loading="loading"
                       @click="editStudent">
                     Save
                   </v-btn>
@@ -283,6 +297,20 @@
 	  students() {
 		return this.$store.getters.students;
 	  },
+    tableStudents() {
+	    let studs = this.$store.getters.students
+      let grs = this.$store.getters.groups
+      for (let i = 0; i < studs.length; i++) {
+        for (let j = 0; j < grs.length; j++) {
+          if (studs[i].group_id[0] == grs[j].id) {
+			      studs[i].group = grs[j].name
+            grs.splice(j, 1)
+            j = 0;
+          }
+        }
+      }
+      return studs;
+    },
 	  groups() {
 		return this.$store.getters.groups;
 	  },
@@ -295,7 +323,10 @@
 		return this.$store.getters.courses.map(curr => {
 		  return {text: curr.name, id: curr.id}
 		})
-	  }
+	  },
+    loading() {
+	    return this.$store.getters.loading;
+    }
 	},
 	methods: {
 	  loadAllStudents() {
@@ -313,8 +344,10 @@
 			group_id: [this.studentCreateGroupId],
 		  };
 		  this.$store.dispatch('createStudent', student)
-			  .then(() => this.$store.dispatch('loadStudents'))
-			  .finally(() => this.studentCreateModal = false)
+			  .then(() => {
+		      this.$store.dispatch('loadStudents')
+		      this.studentCreateModal = false
+        })
 		}
 
 	  },
@@ -338,7 +371,14 @@
 			group_id: [],
 		  }
 		}
-	  }
+	  },
+    restorePassword() {
+	    this.$store.dispatch('restorePassword', this.studentToEdit)
+          .then(() => {
+            this.$store.dispatch('loadStudents')
+                .then(() => this.$store.dispatch('setError', 'Check your new password on your email'))
+          })
+    }
 	}
   }
 </script>

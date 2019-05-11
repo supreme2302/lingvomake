@@ -10,11 +10,13 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.get(API.method.loadGroups);
+	  commit('setLoading', false);
 	  console.log('groups:', response.data);
 	  commit('setGroups', response.data)
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -24,9 +26,11 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.post(API.method.createGroup, group);
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -36,9 +40,11 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.post(API.method.deleteGroup, {id: id});
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -48,9 +54,11 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.post(API.method.changeGroup, group);
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -61,10 +69,12 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.get(API.method.loadAllStudents);
+	  commit('setLoading', false);
 	  console.log('students:', response.data);
 	  commit('setStudents', response.data)
 	} catch (e) {
 	  console.log(e);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -74,11 +84,13 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.get(API.method.loadStudentsByGroup + id.toString());
+	  commit('setLoading', false);
 	  console.log('students:', response.data);
 	  commit('setStudents', response.data)
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -88,9 +100,11 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.post(API.method.createStudent, student);
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -100,9 +114,11 @@ export default {
 	commit('setLoading', true);
 	try {
 	  const response = await HTTP.post(API.method.deleteStudent, {id: id});
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   },
@@ -111,10 +127,26 @@ export default {
 	commit('clearError');
 	commit('setLoading', true);
 	try {
-	  const response = await HTTP.post(API.method.editStudent, student);
+	  await HTTP.post(API.method.editStudent, student);
+	  commit('setLoading', false);
 	} catch (e) {
 	  console.log(e);
 	  commit("setError", e.response.data);
+	  commit('setLoading', false);
+	  throw e;
+	}
+  },
+  async restorePassword({commit}, student) {
+	console.log('restoring password');
+	commit('clearError');
+	commit('setLoading', true);
+	try {
+	  await HTTP.post(API.method.restorePassword, student);
+	  commit('setLoading', false);
+	} catch (e) {
+	  console.log(e);
+	  commit("setError", e.response.data);
+	  commit('setLoading', false);
 	  throw e;
 	}
   }

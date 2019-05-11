@@ -18,25 +18,12 @@
         class="fill-height"
         tag="v-list"
         column>
-        <v-list-tile avatar>
-          <!--<v-list-tile-avatar-->
-            <!--color="white">-->
-            <!--<v-img-->
-              <!--:src="logo"-->
-              <!--height="34"-->
-              <!--contain/>-->
-          <!--</v-list-tile-avatar>-->
+        <v-list-tile class="v-list-item">
           <v-list-tile-title class="title ml-3">
-            email@ex.ru
+            {{user.email}}
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile v-if="responsive">
-          <v-text-field
-            class="purple-input search-input"
-            label="Search..."
-            color="purple"/>
-        </v-list-tile>
         <v-list-tile
           v-for="(link, i) in links"
           :key="i"
@@ -49,6 +36,15 @@
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-title v-text="link.text"/>
+        </v-list-tile>
+        <v-spacer/>
+
+        <v-divider/>
+        <v-list-tile to="/help" :active-class="color" avatar class="v-list-item">
+          <v-list-tile-action>
+            <v-icon>help_outline</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title v-text="'Help'"/>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -66,7 +62,7 @@ export default {
   data: () => ({
     links: [
       // {
-      //   to: '/dashboard',
+      //   to: '/',
       //   icon: 'mdi-component-dashboard',
       //   text: 'Dashboard'
       // },
@@ -125,6 +121,9 @@ export default {
   }),
   computed: {
 	...mapState('app', ['image', 'color']),
+    user() {
+	    return this.$store.getters.user;
+    },
 	inputValue: {
 	  get () {
 		return this.$store.state.app.drawer

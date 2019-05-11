@@ -20,6 +20,7 @@ import Application from '../views/Application';
 import Groups from '../views/Groups';
 import Teachers from '../views/Teachers';
 import TaskPage from '../views/TaskPage.vue';
+import Help from '../views/Help';
 // guards
 import CoursesGuard from './guards/coursesGuard';
 import AlreadyAuthGuard from './guards/alreadyAuthGuard.js';
@@ -39,11 +40,10 @@ const router = new Router({
   routes: [
 	{
 	  path: '*',
-	  redirect: '/dashboard'
+	  redirect: '/'
 	},
 	{
-	  path: '/dashboard',
-	  // Relative to /src/views
+	  path: '/',
 	  component: Dashboard
 	},
 	{
@@ -139,6 +139,11 @@ const router = new Router({
 	  name: 'Task Page',
 	  component: TaskPage,
 	  beforeEnter: SingleTaskGuard
+	},
+	{
+	  path: '/help',
+	  name: 'Help',
+	  component: Help
 	}
   ]
 });
