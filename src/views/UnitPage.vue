@@ -21,15 +21,17 @@
             </v-card-text>
             <v-btn
                     flat
+                    icon style="position: absolute; top:2%; left:2%"
+                    :to="'/course/' + unit.course_id"
+            >
+                <v-icon color="black">mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-btn
+                    flat
                     icon style="position: absolute; top:2%; right:2%"
                     @click="openDeleteUnitDialog"
             >
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="red" dark v-on="on">delete</v-icon>
-                    </template>
-                    <span>Delete</span>
-                </v-tooltip>
+                <v-icon color="red" dark>delete</v-icon>
             </v-btn>
         </material-card>
       </v-flex>
@@ -51,7 +53,6 @@
                       v-for="type in taskTypes"
                       :key="type"
               >
-                  <!--<v-icon>favorite</v-icon>-->
                   {{ type }}
               </v-tab>
           </v-tabs>
@@ -132,82 +133,30 @@
                                       :rules="unitDescriptionRules"
                                       label="Unit Description"/>
                           </v-flex>
-                          <!--<v-flex>-->
-                              <!--<v-combobox-->
-                                      <!--v-model="chipModel"-->
-                                      <!--:rules="chipRules"-->
-                                      <!--:filter="filter"-->
-                                      <!--:hide-no-data="!chipSearch"-->
-                                      <!--:items="chipItems"-->
-                                      <!--:search-input.sync="chipSearch"-->
-                                      <!--hide-selected-->
-                                      <!--label="Unit tags"-->
-                                      <!--multiple-->
-                                      <!--small-chips-->
-                                      <!--solo>-->
-
-                                  <!--<template v-slot:no-data>-->
-                                      <!--<v-list-tile>-->
-                                          <!--<span class="subheading">Create</span>-->
-                                          <!--<v-chip-->
-                                                  <!--:color="`${chipColors[chipNonce - 1]} lighten-3`"-->
-                                                  <!--label-->
-                                                  <!--small>-->
-                                              <!--{{ chipSearch }}-->
-                                          <!--</v-chip>-->
-                                      <!--</v-list-tile>-->
-                                  <!--</template>-->
-
-                                  <!--<template v-slot:selection="{ item, parent, selected }">-->
-                                      <!--<v-chip-->
-                                              <!--v-if="item === Object(item)"-->
-                                              <!--:color="`${item.color} lighten-3`"-->
-                                              <!--:selected="selected"-->
-                                              <!--label-->
-                                              <!--small>-->
-                              <!--<span class="pr-2">-->
-                                <!--{{ item.text }}-->
-                              <!--</span>-->
-                                          <!--<v-icon-->
-                                                  <!--small-->
-                                                  <!--@click="parent.selectItem(item)">close-->
-                                          <!--</v-icon>-->
-                                      <!--</v-chip>-->
-                                  <!--</template>-->
-
-                                  <!--<template v-slot:item="{ index, item }">-->
-                                      <!--<v-list-tile-content>-->
-                                          <!--<v-text-field-->
-                                                  <!--v-if="editing === item"-->
-                                                  <!--v-model="editing.text"-->
-                                                  <!--autofocus-->
-                                                  <!--flat-->
-                                                  <!--background-color="transparent"-->
-                                                  <!--hide-details-->
-                                                  <!--solo-->
-                                                  <!--@keyup.enter="edit(index, item)">-->
-                                          <!--</v-text-field>-->
-                                          <!--<v-chip-->
-                                                  <!--v-else-->
-                                                  <!--:color="`${item.color} lighten-3`"-->
-                                                  <!--dark-->
-                                                  <!--label-->
-                                                  <!--small>-->
-                                              <!--{{ item.text }}-->
-                                          <!--</v-chip>-->
-                                      <!--</v-list-tile-content>-->
-                                      <!--<v-spacer></v-spacer>-->
-                                      <!--<v-list-tile-action @click.stop>-->
-                                          <!--<v-btn-->
-                                                  <!--icon-->
-                                                  <!--@click.stop.prevent="edit(index, item)">-->
-                                              <!--<v-icon>{{ editing !== item ? 'edit' : 'check' }}</v-icon>-->
-                                          <!--</v-btn>-->
-                                      <!--</v-list-tile-action>-->
-                                  <!--</template>-->
-
-                              <!--</v-combobox>-->
-                          <!--</v-flex>-->
+                          <v-flex>
+                              <v-combobox
+                                      v-model="chipModel"
+                                      :items="chipItems"
+                                      :search-input.sync="chipSearch"
+                                      :rules="chipRules"
+                                      hide-selected
+                                      hint="Maximum of 3 tags"
+                                      label="Add some tags"
+                                      multiple
+                                      persistent-hint
+                                      small-chips
+                              >
+                                  <template v-slot:no-data>
+                                      <v-list-tile>
+                                          <v-list-tile-content>
+                                              <v-list-tile-title>
+                                                  Press <kbd>enter</kbd> to create tag "<strong>{{ chipSearch }}</strong>"
+                                              </v-list-tile-title>
+                                          </v-list-tile-content>
+                                      </v-list-tile>
+                                  </template>
+                              </v-combobox>
+                          </v-flex>
                           <v-flex xs12 text-xs-right>
                               <v-btn
                                       class="mx-0 font-weight-light"
@@ -348,51 +297,55 @@
   export default {
 	data() {
 	  return {
-	    // свойство для переключения табов
+		// свойство для переключения табов
 		tab: null,
 
 		chipRules: [
 		  chips => {
-			for (let i = 0; i < chips.length; ++i) {
-			  if (chips[i].text.length >= 5) {
-				return 'Tag name must be less than 5 symbols';
+			if (chips !== null) {
+			  for (let i = 0; i < chips.length; ++i) {
+				if (chips[i].length >= 5) {
+				  return 'Tag name must be less than 5 symbols';
+				}
 			  }
+			  return true;
 			}
-			return true;
+			return 'The field must not be empty';
 		  },
-		  chips => chips.length <= 3 || 'You can specify no more than 3 tags.',
-		  v => {
-			if (v.length === 0) {
-			  return 'The field must not be empty';
-			}
-			return true;
-		  }
+		  chips => chips !== null ? (chips.length <= 3 || 'You can specify no more than 3 tags.') : 'The field must not be empty',
+		  chips => chips !== null ? (chips.length !== 0 || 'The field must not be empty') : 'The field must not be empty',
 		],
 		unitNameRules: [
 		  v => {
-			const words = v.split(' ');
-			for (let i = 0; i < words.length; ++i) {
-			  if (words[i].length >= 12) {
-				return 'This field does not allow words longer than 12 characters.';
+			if (v !== null) {
+			  const words = v.split(' ');
+			  for (let i = 0; i < words.length; ++i) {
+				if (words[i].length >= 12) {
+				  return 'This field does not allow words longer than 12 characters.';
+				}
 			  }
+			  return true;
 			}
-			return true;
+			return 'The field must not be empty';
 		  },
 		  v => !!v || 'The field must not be empty',
-		  v => v.length <= 24 || 'Name is too long'
+		  v => v !== null ? (v.length <= 24 || 'Name is too long') : 'The field must not be empty'
 		],
 		unitDescriptionRules: [
 		  v => {
-			const words = v.split(' ');
-			for (let i = 0; i < words.length; ++i) {
-			  if (words[i].length >= 12) {
-				return 'This field does not allow words longer than 12 characters.';
+			if (v !== null) {
+			  const words = v.split(' ');
+			  for (let i = 0; i < words.length; ++i) {
+				if (words[i].length >= 12) {
+				  return 'This field does not allow words longer than 12 characters.';
+				}
 			  }
+			  return true;
 			}
-			return true;
+			return 'The field must not be empty';
 		  },
 		  v => !!v || 'The field must not be empty',
-		  v => v.length <= 40 || 'Desctiption is too long'
+		  v => v !== null ? (v.length <= 40 || 'Desctiption is too long') : 'The field must not be empty'
 		],
 		notEmptyRules: [
 		  v => !!v || "The field must not be empty",
@@ -407,11 +360,7 @@
 		newUnitDescription: '',
 		chipModel: [],
 		chipSearch: null,
-		chipItems: [
-		  {header: 'Tags'},
-		],
-		chipColors: ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'],
-		chipNonce: 1,
+		chipItems: [],
 
 		/**
 		 * Типы тасков. Насколько я понимаю могут быть 1,2 или 3.
@@ -561,7 +510,6 @@
 	  },
 
 	  onSubmitEditUnit() {
-		console.log('onSubmitEditUnit');
 		if (this.$refs.editForm.validate()) {
 		  console.log('onSubmitEditUnitvaled');
 		  const editedUnit = {
@@ -569,7 +517,7 @@
 			unit_name: this.newUnitName,
 			description: this.newUnitDescription,
 			course_id: this.unit.course_id,
-			tags: this.chipModel.map(el => el.text)
+			tags: this.chipModel
 		  };
 		  console.log('editedUnit ', editedUnit);
 		  this.$store.dispatch('changeUnit', editedUnit)
@@ -593,19 +541,12 @@
 	},
 
 	watch: {
-	  chipModel(val, prev) {
-		if (val.length === prev.length) return;
-		this.chipModel = val.map(v => {
-		  if (typeof v === 'string') {
-			v = {
-			  text: v,
-			  color: this.chipColors[this.chipNonce - 1]
-			};
-			this.chipItems.push(v);
-			this.chipNonce++
+	  chipModel(val) {
+		if (val !== null) {
+		  if (val.length > 3) {
+			this.$nextTick(() => this.chipModel.pop())
 		  }
-		  return v;
-		})
+		}
 	  }
 	},
 	filters: {

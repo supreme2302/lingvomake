@@ -14,12 +14,7 @@
                                 icon style="position: absolute; top:2%; right:2%"
                                 @click="openDeleteTaskDialog"
                         >
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <v-icon color="red" dark v-on="on">delete</v-icon>
-                                </template>
-                                <span>Delete</span>
-                            </v-tooltip>
+                            <v-icon color="red" dark>delete</v-icon>
                         </v-btn>
                     </v-card-title>
 
@@ -223,6 +218,7 @@
 		correctT2: '',
 		editCorrectT2: '',
 		wordChips: {},
+		loadingToDelete: false,
 	  }
 	},
 	methods: {
@@ -324,7 +320,6 @@
 			ans.push(this.answersT1[i.toString()]);
 		  }
 		}
-		this.correctT1 = '';
 		return ans;
 	  }
 	},
@@ -334,7 +329,15 @@
 		return num ? num : 1;
 	  }
 	},
-    mounted() {
+
+	watch: {
+	  amountOfAnswers() {
+		console.log('watching... amountOfAnswers');
+		this.correctT1 = '';
+	  },
+	},
+
+	mounted() {
 	  const task = this.task;
 	  if (task.task_type === 1) {
 		this.taskTextT1 = task.data.text;
@@ -352,7 +355,7 @@
 		this.taskTextT2 = task.data.text;
 		this.editCorrectT2 = task.data.correct;
 	  }
-    }
+	}
   }
 </script>
 

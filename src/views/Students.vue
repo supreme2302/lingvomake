@@ -302,7 +302,6 @@
 	    this.$store.getters.groups.forEach(curr => grs.push(curr))
       for (let i = 0; i < studs.length; i++) {
         for (let j = 0; j < grs.length; j++) {
-          console.log('kaka')
           if (studs[i].group_id[0] == grs[j].id) {
 			      studs[i].group = grs[j].name
           }
