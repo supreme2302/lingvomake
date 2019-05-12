@@ -8,13 +8,14 @@ before_install:
 
 script:
 - ssh-keyscan -H lingvomake.ml >> ~/.ssh/known_hosts
-- npm run build
+#- npm run build
 
 after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 $TRAVIS_BUILD_DIR/deploy_rsa
 - ssh-add $TRAVIS_BUILD_DIR/deploy_rsa
-- scp -o "StrictHostKeyChecking=no" -i ./deploy_rsa -r ./dist root@lingvomake.ml:/home/Projects/deploy
+- scp -o "StrictHostKeyChecking=no" -i ./deploy_rsa -r ../lingvomake root@lingvomake.ml:/home/Projects/deploy
+- ssh -o "StrictHostKeyChecking=no" -i ./deploy_rsa root@lingvomake.ml 'cd /home/Projects/deploy/lingvomake/; npm run build'
 
 branches:
   only:
