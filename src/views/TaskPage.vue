@@ -366,7 +366,7 @@
         font-family: 'Roboto', sans-serif;
     }
     .font-success {
-        font-size: 16px;
+        font-size: 16px!important;
     }
     .ma-t12 {
         margin-top: 12px;
