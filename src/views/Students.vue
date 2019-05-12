@@ -28,7 +28,6 @@
           </v-card>
         </v-flex>
 
-
       <v-flex
           md12
       >
@@ -190,7 +189,6 @@
                   <v-overflow-btn
                       :items="groupsForDropdown"
                       label="Group"
-                      item-value="id"
                       v-model="studentToEdit.group_id[0]"
                   ></v-overflow-btn>
                 </v-flex>
@@ -286,10 +284,10 @@
 	  studentEditValid: false,
 	  editStudentModal: false,
 	  studentToEdit: {
-		email: null,
-		name: null,
-		surname: null,
-		group_id: [],
+      email: null,
+      name: null,
+      surname: null,
+      group_id: [],
 	  },
 
 	}),
@@ -298,14 +296,15 @@
 		return this.$store.getters.students;
 	  },
     tableStudents() {
-	    let studs = this.$store.getters.students
-      let grs = this.$store.getters.groups
+      let studs = []
+      let grs = []
+	    this.$store.getters.students.forEach(curr => studs.push(curr))
+	    this.$store.getters.groups.forEach(curr => grs.push(curr))
       for (let i = 0; i < studs.length; i++) {
         for (let j = 0; j < grs.length; j++) {
+          console.log('kaka')
           if (studs[i].group_id[0] == grs[j].id) {
 			      studs[i].group = grs[j].name
-            grs.splice(j, 1)
-            j = 0;
           }
         }
       }
@@ -315,9 +314,14 @@
 		return this.$store.getters.groups;
 	  },
 	  groupsForDropdown() {
-		return this.$store.getters.groups.map(curr => {
-		  return {text: curr.name, id: curr.id}
-		})
+      // return this.$store.getters.groups.map(curr => {
+      //   return {text: curr.name, id: curr.id}
+      // })
+      let grs = []
+	    this.$store.getters.groups.forEach((item) => {
+	      grs.push({text: item.name, id: item.id})
+      })
+      return grs;
 	  },
 	  courses() {
 		return this.$store.getters.courses.map(curr => {
@@ -361,15 +365,17 @@
 	  },
 	  editStudent() {
 		if (this.$refs.studentEditForm.validate()) {
+		  const gName = this.studentToEdit.group_id[0];
+		  let gId = null;
+		  for (let i = 0; i < this.groups.length; i++) {
+		    if (this.groups[i].name === gName) {
+		      gId = this.groups[i].id;
+        }
+      }
+	    this.studentToEdit.group_id[0] = gId;
 		  this.$store.dispatch('editStudent', this.studentToEdit)
 			  .then(() => this.$store.dispatch('loadStudents'))
 			  .finally(() => this.editStudentModal = false);
-		  this.studentToEdit = {
-			email: null,
-			name: null,
-			surname: null,
-			group_id: [],
-		  }
 		}
 	  },
     restorePassword() {
