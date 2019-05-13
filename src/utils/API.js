@@ -9,6 +9,8 @@ const method = {
   adminInfo: 'admin/info',
   loadTeachers: 'admin/all',
   addTeacher: 'admin/add',
+  deleteTeacher: 'admin/delete',
+  editTeacher: 'admin/changeTeacher',
 
   createCourse: 'course/create',
   schoolCourses: 'course/',
