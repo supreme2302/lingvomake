@@ -39,7 +39,7 @@
                   :key="link.title"
                   :to="link.url"
                   @click="link.onClick"
-                  v-on="on"
+
               >
                 <v-icon color="tertiary">{{ link.icon }}</v-icon>
               </v-btn>
