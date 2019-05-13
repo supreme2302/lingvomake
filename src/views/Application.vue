@@ -20,16 +20,21 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
+                          :rules="textRules"
+                          counter="20"
                           v-model="schoolName"
                           label="School Name"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                          :rules="textRules"
+                          counter="20"
                           v-model="applicationTitle"
                           label="Application Title"/>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                          :rules="textRules"
                           v-model="applicationLanguage"
                           label="Application Language"
                   />
@@ -102,6 +107,12 @@
 	},
 	data() {
 	  return {
+
+	  textRules: [
+		  v => !!v || "This field is required",
+      v => v.length <= 20 || "Too long text"
+	  ],
+
 		imageSrc: API.baseUrl + API.method.schoolImage + this.$store.getters.school.imageLink,
 		valid: true,
 		schoolName: null,
@@ -149,23 +160,26 @@
 		this.color2 = event.color;
 	  },
 	  saveApplication() {
-		let newData = this.school;
-		newData.name = this.schoolName;
-		newData.language = this.applicationLanguage;
-		newData.main_color = parseHSL(this.color1);
-		newData.secondary_color = parseHSL(this.color2);
-		this.$store.dispatch('saveApplication', newData)
-			.then(() => this.$store.dispatch('loadSchool')
-				.then(() => {
-				  this.schoolName = this.school.name;
-				  this.applicationTitle = this.school.name;
-				  this.applicationLanguage = this.school.language;
+	    if (this.$refs.form.validate()) {
+        let newData = this.school;
+        newData.name = this.schoolName;
+        newData.language = this.applicationLanguage;
+        newData.main_color = parseHSL(this.color1);
+        newData.secondary_color = parseHSL(this.color2);
+        this.$store.dispatch('saveApplication', newData)
+          .then(() => this.$store.dispatch('loadSchool')
+            .then(() => {
+              this.schoolName = this.school.name;
+              this.applicationTitle = this.school.name;
+              this.applicationLanguage = this.school.language;
 
-				  const hsl1 = parseRGB(this.school.main_color);
-				  const hsl2 = parseRGB(this.school.secondary_color);
-				  this.primaryColor = hsl1;
-				  this.secondaryColor = hsl2;
-				}));
+              const hsl1 = parseRGB(this.school.main_color);
+              const hsl2 = parseRGB(this.school.secondary_color);
+              this.primaryColor = hsl1;
+              this.secondaryColor = hsl2;
+            }));
+      }
+
 	  },
 	  generateApplication() {
 		  this.$store.dispatch('generateApplication')
