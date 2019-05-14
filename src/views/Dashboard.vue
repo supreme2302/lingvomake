@@ -1,92 +1,114 @@
 <template>
   <v-container fluid>
-    <v-layout row class="hidden-lg-and-down">
+    <v-layout row>
       <v-flex xs12>
 
-        <template>
-          <hr>
-
-          <v-layout row justify-center>
-            <h1 class="headline font-weight-bold">Course Management</h1>
+        <v-parallax
+            dark
+            src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
+        >
+          <v-layout
+              align-center
+              column
+              justify-center
+          >
+            <h1 class="display-1 font-weight-thin mb-3">Course Management</h1>
           </v-layout>
+        </v-parallax>
 
-          <v-timeline align-top >
-            <v-timeline-item
-                v-for="item in items"
-                :key="item.header"
-                :icon="item.icon"
-                color="orange"
-                fill-dot>
-              <v-card
-                  dark>
-                <v-card-title class="title">{{item.header}}</v-card-title>
-                <v-card-text class="white text--primary">
-                  <p class="black--text headline">{{item.text}}</p>
-                </v-card-text>
-                <v-img
-                    :src="item.imgSrc"
-                    aspect-ratio="2.75"
-                ></v-img>
-              </v-card>
-            </v-timeline-item>
-          </v-timeline>
+        <v-timeline align-top>
+          <v-timeline-item
+              v-for="item in items"
+              :key="item.header"
+              :icon="item.icon"
+              color="orange"
+              fill-dot>
+            <v-card
+                dark>
+              <v-card-title class="title">{{item.header}}</v-card-title>
+              <v-card-text class="white text--primary">
+                <p class="black--text headline">{{item.text}}</p>
+              </v-card-text>
+              <v-img
+                  :src="item.imgSrc"
+                  aspect-ratio="2.75"
+              ></v-img>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
 
-          <hr>
-
-          <v-layout row justify-center>
-            <h1 class="headline font-weight-bold">Group Management</h1>
+        <v-parallax
+            dark
+            src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
+        >
+          <v-layout
+              align-center
+              column
+              justify-center
+          >
+            <h1 class="display-1 font-weight-thin mb-3">Group Management</h1>
           </v-layout>
+        </v-parallax>
 
-          <v-timeline align-top >
-            <v-timeline-item
-                v-for="item in items2"
-                :key="item.header"
-                :icon="item.icon"
-                color="orange"
-                fill-dot>
-              <v-card
-                  dark>
-                <v-card-title class="title">{{item.header}}</v-card-title>
-                <v-card-text class="white text--primary">
-                  <p class="black--text headline">{{item.text}}</p>
-                </v-card-text>
-                <v-img
-                    :src="item.imgSrc"
-                    aspect-ratio="2.75"
-                ></v-img>
-              </v-card>
-            </v-timeline-item>
-          </v-timeline>
+        <v-timeline align-top>
+          <v-timeline-item
+              v-for="item in items2"
+              :key="item.header"
+              :icon="item.icon"
+              color="orange"
+              fill-dot>
+            <v-card
+                dark>
+              <v-card-title class="title">{{item.header}}</v-card-title>
+              <v-card-text class="white text--primary">
+                <p class="black--text headline">{{item.text}}</p>
+              </v-card-text>
+              <v-img
+                  :src="item.imgSrc"
+                  aspect-ratio="2.75"
+              ></v-img>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
 
-          <hr>
-
-          <v-layout row justify-center>
-            <h1 class="headline font-weight-bold">Application Management</h1>
+        <v-parallax
+            dark
+            src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
+        >
+          <v-layout
+              align-center
+              column
+              justify-center
+          >
+            <h1 class="display-1 font-weight-thin mb-3">Application Managemen</h1>
           </v-layout>
+        </v-parallax>
 
-          <v-timeline align-top >
-            <v-timeline-item
-                v-for="item in items3"
-                :key="item.header"
-                :icon="item.icon"
-                color="orange"
-                fill-dot>
-              <v-card
-                  dark>
-                <v-card-title class="title">{{item.header}}</v-card-title>
-                <v-card-text class="white text--primary">
-                  <p class="black--text headline">{{item.text}}</p>
-                </v-card-text>
-                <v-img
-                    :src="item.imgSrc"
-                    aspect-ratio="2.75"
-                ></v-img>
-              </v-card>
-            </v-timeline-item>
-          </v-timeline>
-        </template>
+        <v-timeline align-top>
+          <v-timeline-item
+              v-for="item in items3"
+              :key="item.header"
+              :icon="item.icon"
+              color="orange"
+              fill-dot>
+            <v-card
+                dark>
+              <v-card-title class="title">{{item.header}}</v-card-title>
+              <v-card-text class="white text--primary">
+                <p class="black--text headline">{{item.text}}</p>
+              </v-card-text>
+              <v-img
+                  :src="item.imgSrc"
+                  aspect-ratio="2.75"
+              ></v-img>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
 
-
+        <hr>
 
       </v-flex>
     </v-layout>
@@ -125,13 +147,13 @@
 		},
 		{
 		  icon: 'filter_2',
-		  header: "Step#2: ",
+		  header: "Step#2: fgsdfg ",
 		  text: 'Click GROUPS then «NEW GROUP» button',
 		  imgSrc: 'https://lingvomake.ml/static/tip5.jpg'
 		},
 		{
 		  icon: 'filter_3',
-		  header: "Step#2: ",
+		  header: "Step#2: sdfgs ",
 		  text: 'Click GROUPS then «NEW GROUP» button',
 		  imgSrc: 'https://lingvomake.ml/static/tip6.jpg'
 		}

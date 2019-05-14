@@ -39,7 +39,7 @@
                   :key="link.title"
                   :to="link.url"
                   @click="link.onClick"
-                  v-on="on"
+
               >
                 <v-icon color="tertiary">{{ link.icon }}</v-icon>
               </v-btn>
@@ -75,9 +75,13 @@
 		if (this.isUserLoggedIn) {
 		  return [
 			{
-			  title: "logout", icon: "mdi-account-off", url: "/", onClick: () => {
-				this.$store.dispatch('logout')
-			  }, tip: 'Log Out'
+			  title: "logout",
+              icon: "mdi-account-off",
+              url: "/",
+              onClick: () => {
+				this.$store.dispatch('logout').then(() => this.$router.push('/'))
+			  },
+              tip: 'Log Out'
 			}
 		  ];
 		} else {

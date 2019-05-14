@@ -102,13 +102,13 @@
 		  v => !!v || "Password is required",
 		  v => (v && v.length >= 8) || "Too short password"
 		],
-		schoolRules: [
-		  v => !!v || "Schoolname is required",
-		],
 		confirmRules: [
 		  v => !!v || "Confirmation is required",
 		  v => v === this.password || "Passwords did not match"
 		],
+	  schoolRules: [
+		  v => !!v || "Schoolname is required",
+	  ],
 	  }
 	},
 	methods: {

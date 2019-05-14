@@ -1,6 +1,6 @@
 
-// const baseUrl = 'http://localhost:8090/';
-const baseUrl = 'https://lingvomake.ml/back/';
+const baseUrl = 'http://localhost:8090/';
+// const baseUrl = 'https://lingvomake.ml/back/';
 
 const method = {
   signin: 'admin/auth',
@@ -9,6 +9,8 @@ const method = {
   adminInfo: 'admin/info',
   loadTeachers: 'admin/all',
   addTeacher: 'admin/add',
+  deleteTeacher: 'admin/delete',
+  editTeacher: 'admin/changeTeacher',
 
   createCourse: 'course/create',
   schoolCourses: 'course/',

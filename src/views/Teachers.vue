@@ -60,7 +60,7 @@
           <v-form
               @keypress.enter="createTeacher"
               v-model="teacherCreateValid"
-              ref="form"
+              ref="createTeacherForm"
               validation>
 
             <v-container py-0>
@@ -68,25 +68,28 @@
 
                 <v-flex xs12>
                   <v-text-field
-                    label="Email"
-                    type="email"
-                    v-model="createTeacherEmail"
+                      :rules="emailRules"
+                      label="Email"
+                      type="email"
+                      v-model="createTeacherEmail"
                   />
                 </v-flex>
 
                 <v-flex xs12>
                   <v-text-field
-                    label="Password"
-                    type="password"
-                    v-model="createTeacherPassword"
+                      :rules="passwordRules"
+                      label="Password"
+                      type="password"
+                      v-model="createTeacherPassword"
                   />
                 </v-flex>
 
                 <v-flex xs12>
                   <v-text-field
-                    label="Confirm password"
-                    type="password"
-                    v-model="createTeacherPasswordConfirm"
+                      :rules="confirmRules"
+                      label="Confirm password"
+                      type="password"
+                      v-model="createTeacherPasswordConfirm"
                   />
                 </v-flex>
 
@@ -94,6 +97,7 @@
                   <v-btn
                       class="mx-0 font-weight-light"
                       color="blue"
+                      :disabled="!teacherCreateValid || loading"
                       @click="createTeacher">
                     Save
                   </v-btn>
@@ -110,55 +114,46 @@
       <v-dialog v-model="editTeacherModal" max-width="390">
         <material-card
             color="orange"
-            title="Teacher Form"
-            text="Edit teacher info">
+            title="Editing a teacher"
+            text="Provide new password">
+
 
           <v-form
               @keypress.enter="createTeacher"
               v-model="teacherEditValid"
-              ref="form"
+              ref="editTeacherForm"
               validation>
-
             <v-container py-0>
-              <v-layout wrap>
+                <v-layout wrap>
+                  <v-flex xs12>
+                    <v-text-field
+                        :rules="passwordRules"
+                        counter="8"
+                        label="Password"
+                        type="password"
+                        v-model="teacherToEdit.newPassword"
+                    />
+                  </v-flex>
 
-                <v-flex xs12>
-                  <v-text-field
-                      label="Email"
-                      type="email"
-                      v-model="teacherToEdit.email"
-                  />
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="New password"
-                      type="password"
-                      v-model="teacherToEdit.password"
-                  />
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-text-field
-                      label="Confirm password"
-                      type="password"
-                      v-model="editTeacherConfirm"
-                  />
-                </v-flex>
-
-                <v-flex xs12 text-xs-right>
-                  <v-btn
-                      class="mx-0 font-weight-light"
-                      color="orange"
-                      @click="editTeacher">
-                    Save changes
-                  </v-btn>
-                </v-flex>
-
-              </v-layout>
-            </v-container>
-
+                  <v-flex xs12>
+                    <v-text-field
+                        :rules="confirmEditRules"
+                        counter="8"
+                        label="Confirm password"
+                        type="password"
+                        v-model="confirm"
+                    />
+                  </v-flex>
+                </v-layout>
+              </v-container>
           </v-form>
+
+
+          <v-card-actions>
+            <v-btn color="success" @click="editTeacherModal = false">Cancel</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="blue" @click="editTeacher" :disabled="!teacherEditValid || loading">Edit</v-btn>
+          </v-card-actions>
 
         </material-card>
       </v-dialog>
@@ -186,71 +181,102 @@
 
 <script>
   export default {
-    data: () => ({
-      headers: [
-        {
-          sortable: true,
-          text: 'Email',
-          value: 'email'
+    data () {
+      return {
+		    headers: [
+		  {
+			sortable: true,
+			text: 'Email',
+			value: 'email'
+		  },
+		  {
+			sortable: false,
+			text: 'Edit',
+			value: null
+		  },
+		  {
+			sortable: false,
+			text: 'Delete',
+			value: null
+		  }
+		],
+        editTeacherModal: false,
+        teacherEditValid: false,
+        teacherToEdit: {
+          email: '',
+          newPassword: ''
         },
-        {
-          sortable: false,
-          text: 'Edit',
-          value: null
-        },
-        {
-          sortable: false,
-          text: 'Delete',
-          value: null
-        }
-      ],
+        confirm: '',
 
-	    editTeacherModal: false,
-	    teacherEditValid: false,
-	    teacherToEdit: {
-        email: null,
-        password: null
-      },
-      editTeacherConfirm: null,
+        deleteTeacherModal: false,
+        teacherToDelete: null,
 
-	    deleteTeacherModal: false,
-	    teacherToDelete: null,
+        createTeacherModal: false,
+        teacherCreateValid: false,
+        createTeacherEmail: null,
+        createTeacherPassword: null,
+        createTeacherPasswordConfirm: null,
 
-      createTeacherModal: false,
-	    teacherCreateValid: false,
-	    createTeacherEmail: null,
-	    createTeacherPassword: null,
-	    createTeacherPasswordConfirm: null,
+        emailRules: [
+          v => !!v || "E-mail is required",
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
+        passwordRules: [
+          v => !!v || "Password is required",
+          v => (v && v.length >= 8) || "Too short password"
+        ],
+        confirmRules: [
+          v => !!v || "Confirmation is required",
+          v => v === this.createTeacherPassword || "Passwords did not match"
+        ],
+		    confirmEditRules: [
+		      v => !!v || "Confirmation is required",
+		      v => v === this.teacherToEdit.newPassword || "Passwords did not match"
+		],
+      }
 
-    }),
+
+
+    },
     computed: {
       teachers() {
         return this.$store.getters.teachers;
+      },
+      loading() {
+		    return this.$store.getters.loading;
       }
     },
     methods: {
 	    createTeacher() {
-        const teacher = {
-          email: this.createTeacherEmail,
-          password: this.createTeacherPassword,
-        };
-        this.$store.dispatch('addTeacher', teacher)
+	      if (this.$refs.createTeacherForm.validate()) {
+          const teacher = {
+            email: this.createTeacherEmail,
+            password: this.createTeacherPassword,
+          };
+          this.$store.dispatch('addTeacher', teacher)
             .then(() => {
-              this.$store.dispatch('loadTeachers')
+              this.$store.dispatch('loadTeachers');
+              this.createTeacherModal = false;
             })
             .finally(() => {
-				      this.createTeacherEmail = null;
-				      this.createTeacherPassword = null;
-				      this.createTeacherPasswordConfirm = null;
-				      this.createTeacherModal = false;
+              this.createTeacherEmail = null;
+              this.createTeacherPassword = null;
+              this.createTeacherPasswordConfirm = null;
             })
+        }
       },
       editTeacher() {
-	      //TODO прописать редактирование учителя
+	      if (this.$refs.editTeacherForm.validate()) {
+		      this.$store.dispatch('editTeacher', this.teacherToEdit)
+			      .then(() => {this.editTeacherModal = false})
+        }
       },
       deleteTeacher() {
-	      //TODO прописать удаление учителя
-        this.deleteTeacherModal = false;
+        this.$store.dispatch('deleteTeacher', {id: this.teacherToDelete})
+            .then(() => {
+              this.$store.dispatch('loadTeachers');
+              this.deleteTeacherModal = false;
+            })
       }
     }
   }
