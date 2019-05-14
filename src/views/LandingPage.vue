@@ -42,8 +42,8 @@
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5">
                             <div>
-                                <div class="headline">{{ card1.head }}</div>
-                                <div>{{ card1.body }}</div>
+                                <div class="display-2">{{ card1.head }}</div>
+                                <div class="headline">{{ card1.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
@@ -58,8 +58,8 @@
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5" style="float: right">
                             <div>
-                                <div class="headline">{{ card2.head }}</div>
-                                <div>{{ card2.body }}</div>
+                                <div class="display-2">{{ card2.head }}</div>
+                                <div class="headline">{{ card2.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
