@@ -19,7 +19,8 @@
                         </v-flex>
                         <v-flex xs12 text-xs-center>
                             <v-btn dark flat outline to="/registration" style="font-size: 18px">Sign Up</v-btn>
-                            <v-btn dark flat outline style="font-size: 18px" @click="scrollToPoint">Learn More</v-btn>
+                            <v-btn class="hidden-sm-and-down" dark flat outline style="font-size: 18px" @click="scrollToPoint">Learn More</v-btn>
+                            <v-btn class="hidden-md-and-up" dark flat outline style="font-size: 18px" @click="scrollToPoint2">Learn More</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -161,7 +162,7 @@
 
                 <br>
 
-                <v-layout row id="point">
+                <v-layout row id="point2">
                     <v-card
                         style="width: 100%"
                         class="colorBackground"
@@ -330,9 +331,13 @@
 	},
     methods: {
 	  scrollToPoint() {
-		const el = document.getElementById('point');
-		el.scrollIntoView({block: "start", behavior: "smooth"});
-      }
+      const el = document.getElementById('point');
+      el.scrollIntoView({block: "start", behavior: "smooth"});
+    },
+	  scrollToPoint2() {
+		    const el = document.getElementById('point2');
+		    el.scrollIntoView({block: "start", behavior: "smooth"});
+	  }
     },
 
     computed: {
