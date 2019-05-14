@@ -1,9 +1,9 @@
 <!--suppress ALL -->
 <template>
     <v-app>
-        <core-toolbar/>
 
         <template v-if="isUserLoggedIn">
+            <core-toolbar/>
             <core-drawer/>
         </template>
 

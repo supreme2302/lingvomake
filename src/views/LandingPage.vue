@@ -5,7 +5,7 @@
                 :gradient="gradient"
                 dark
                 src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-                height="720px"
+                class="fullheight"
         >
             <v-container>
                 <v-layout align-center wrap class="margin-top">
@@ -151,4 +151,7 @@
 </script>
 
 <style scoped>
+    .fullheight {
+        height: 100vh !important;
+    }
 </style>
