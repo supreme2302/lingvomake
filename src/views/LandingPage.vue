@@ -9,8 +9,11 @@
         >
             <v-container>
                 <v-layout align-center wrap class="margin-top">
-                    <v-flex xs12 text-xs-center>
-                        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium amet, autem corporis dicta ducimus esse inventore iste libero pariatur quae repellat totam veniam vitae voluptates! Adipisci consectetur doloribus, ducimus enim expedita explicabo illum in ipsam magni maxime natus neque obcaecati pariatur quam qui temporibus ut. Eum illum modi quibusdam.</span>
+                    <v-flex xs12 text-xs-center class="display-3">
+                        <span>Welcome to Lingvomake</span>
+                    </v-flex>
+                    <v-flex xs12 text-xs-center class="headline">
+                        <span>a powerful course management system and app constructor</span>
                     </v-flex>
                     <v-flex xs12 text-xs-center>
                         <v-btn dark flat to="/registration" style="font-size: 18px">Sign Up</v-btn>
