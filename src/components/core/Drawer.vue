@@ -86,11 +86,11 @@ export default {
       //   icon: 'mdi-bell',
       //   text: 'Notifications'
       // },
-      {
-        to: '/icons',
-        icon: 'mdi-chart-bubble',
-        text: 'Icons'
-      },
+      // {
+      //   to: '/icons',
+      //   icon: 'mdi-chart-bubble',
+      //   text: 'Icons'
+      // },
       {
         to: '/courses',
         icon: 'mdi-alpha',

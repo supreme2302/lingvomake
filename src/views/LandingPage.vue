@@ -31,15 +31,16 @@
                             <v-img
                                     class="white--text"
                                     height="200px"
-                                    :src="card.imgSrc">
+                                    contain
+                                    :src="card1.imgSrc">
                             </v-img>
                         </v-card-title>
                     </v-flex>
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5">
                             <div>
-                                <div class="headline">{{ card.head }}</div>
-                                <div>{{ card.body }}</div>
+                                <div class="headline">{{ card1.head }}</div>
+                                <div>{{ card1.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
@@ -54,8 +55,8 @@
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5" style="float: right">
                             <div>
-                                <div class="headline">{{ card.head }}</div>
-                                <div>{{ card.body }}</div>
+                                <div class="headline">{{ card2.head }}</div>
+                                <div>{{ card2.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
@@ -64,7 +65,8 @@
                             <v-img
                                     class="white--text"
                                     height="200px"
-                                    :src="card.imgSrc">
+                                    contain
+                                    :src="card2.imgSrc">
                             </v-img>
                         </v-card-title>
                     </v-flex>
@@ -81,21 +83,23 @@
                             <v-img
                                     class="white--text"
                                     height="200px"
-                                    :src="card.imgSrc">
+                                    contain
+                                    :src="card3.imgSrc">
                             </v-img>
                         </v-card-title>
                     </v-flex>
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5">
                             <div>
-                                <div class="headline">{{ card.head }}</div>
-                                <div>{{ card.body }}</div>
+                                <div class="headline">{{ card3.head }}</div>
+                                <div>{{ card3.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
                 </v-layout>
             </v-card>
         </v-layout>
+
         <v-layout row>
             <v-card
                     style="width: 100%">
@@ -103,8 +107,8 @@
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5" style="float: right">
                             <div>
-                                <div class="headline">{{ card.head }}</div>
-                                <div>{{ card.body }}</div>
+                                <div class="headline">{{ card5.head }}</div>
+                                <div>{{ card5.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
@@ -113,7 +117,8 @@
                             <v-img
                                     class="white--text"
                                     height="200px"
-                                    :src="card.imgSrc">
+                                    contain
+                                    :src="card5.imgSrc">
                             </v-img>
                         </v-card-title>
                     </v-flex>
@@ -128,11 +133,31 @@
 	data() {
 	  return {
 		gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
-        card: {
-		  imgSrc: 'https://www.clipartmax.com/png/middle/146-1464779_iphone-black-and-white-cell-phone-icon-png.png',
-		  head: 'Lingvomake the best',
-		  body: 'Because RHA the best team'
-		},
+      card1: {
+        imgSrc: 'https://lingvomake.ml/static/education.png',
+        head: 'Lingvomake the best',
+        body: 'Because RHA the best team'
+      },
+      card2: {
+        imgSrc: 'https://lingvomake.ml/static/education.png',
+        head: 'Lingvomake the best',
+        body: 'Because RHA the best team'
+      },
+      card3: {
+        imgSrc: 'https://lingvomake.ml/static/education.png',
+        head: 'Lingvomake the best',
+        body: 'Because RHA the best team'
+      },
+      card4: {
+        imgSrc: 'https://lingvomake.ml/static/education.png',
+        head: 'Lingvomake the best',
+        body: 'Because RHA the best team'
+      },
+      card5: {
+        imgSrc: 'https://lingvomake.ml/static/education.png',
+        head: 'Lingvomake the best',
+        body: 'Because RHA the best team'
+      },
 	  }
 	},
     methods: {
