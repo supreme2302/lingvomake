@@ -88,7 +88,7 @@
                   <v-overflow-btn
                       :items="dropDownCourses"
                       :rules="courseRules"
-                      label="Editable Btn"
+                      label="Select course"
                       editable
                       item-value="text"
                       v-model="groupToEdit.course"
@@ -100,7 +100,7 @@
                   <v-overflow-btn
                       :items="dropDownUnits"
                       :rules="unitRules"
-                      label="Editable Btn"
+                      label="Select unit"
                       editable
                       item-value="text"
                       v-model="groupToEdit.unit"
