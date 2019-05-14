@@ -75,9 +75,13 @@
 		if (this.isUserLoggedIn) {
 		  return [
 			{
-			  title: "logout", icon: "mdi-account-off", url: "/", onClick: () => {
-				this.$store.dispatch('logout')
-			  }, tip: 'Log Out'
+			  title: "logout",
+              icon: "mdi-account-off",
+              url: "/",
+              onClick: () => {
+				this.$store.dispatch('logout').then(() => this.$router.push('/'))
+			  },
+              tip: 'Log Out'
 			}
 		  ];
 		} else {

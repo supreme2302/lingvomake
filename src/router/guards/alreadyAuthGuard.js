@@ -4,7 +4,7 @@ import API from '../../utils/API.js';
 export default (to, from, next) => {
   console.log('already-auth-guard');
   if (store.getters.user) {
-    next('/');
+    next('/courses');
   } else {
     store.commit('setRenderPermission', false);
 	HTTP.get(API.method.adminInfo)
@@ -12,7 +12,7 @@ export default (to, from, next) => {
 		  const user = resp.data;
 		  store.commit('setUser', user);
 		  store.commit('setRenderPermission', true);
-		  next('/');
+		  next('/courses');
 		})
 		.catch(e => {
 		  console.log('unauthorized: ', e);
