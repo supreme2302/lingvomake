@@ -4,7 +4,7 @@
         <v-jumbotron v-if="!isUserLoggedIn"
                 :gradient="gradient"
                 dark
-                src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
+                src="https://lingvomake.ml/static/board.jpg"
                 class="fullheight"
         >
             <v-container>
@@ -102,23 +102,23 @@
 
         <v-layout row>
             <v-card
-                    style="width: 100%">
+                style="width: 100%">
                 <v-layout>
                     <v-flex xs8 sm9 md10 lg11>
                         <v-card-title primary-title class="mt-5" style="float: right">
                             <div>
-                                <div class="headline">{{ card5.head }}</div>
-                                <div>{{ card5.body }}</div>
+                                <div class="headline">{{ card4.head }}</div>
+                                <div>{{ card4.body }}</div>
                             </div>
                         </v-card-title>
                     </v-flex>
                     <v-flex xs4 sm3 md2 lg1>
                         <v-card-title>
                             <v-img
-                                    class="white--text"
-                                    height="200px"
-                                    contain
-                                    :src="card5.imgSrc">
+                                class="white--text"
+                                height="200px"
+                                contain
+                                :src="card4.imgSrc">
                             </v-img>
                         </v-card-title>
                     </v-flex>
@@ -135,28 +135,23 @@
 		gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
       card1: {
         imgSrc: 'https://lingvomake.ml/static/education.png',
-        head: 'Lingvomake the best',
-        body: 'Because RHA the best team'
+        head: 'Manage educational courses',
+        body: 'You can create up to 3 different task types: tests, sentense constructors and matchings'
       },
       card2: {
-        imgSrc: 'https://lingvomake.ml/static/education.png',
-        head: 'Lingvomake the best',
-        body: 'Because RHA the best team'
+        imgSrc: 'https://lingvomake.ml/static/group.png',
+        head: 'Manage groups of students',
+        body: 'You can easily create groups and add students there'
       },
       card3: {
-        imgSrc: 'https://lingvomake.ml/static/education.png',
-        head: 'Lingvomake the best',
-        body: 'Because RHA the best team'
+        imgSrc: 'https://lingvomake.ml/static/phone.png',
+        head: 'Manage mobile application',
+        body: 'You can set some parameters of mobile APP and build it with a design appropriate to your business'
       },
       card4: {
-        imgSrc: 'https://lingvomake.ml/static/education.png',
-        head: 'Lingvomake the best',
-        body: 'Because RHA the best team'
-      },
-      card5: {
-        imgSrc: 'https://lingvomake.ml/static/education.png',
-        head: 'Lingvomake the best',
-        body: 'Because RHA the best team'
+        imgSrc: 'https://lingvomake.ml/static/school.png',
+        head: 'Manage all the school',
+        body: 'You can register the teachers and delegate them some work'
       },
 	  }
 	},

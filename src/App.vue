@@ -33,17 +33,17 @@
   export default {
 	computed: {
 	  isUserLoggedIn() {
-		return this.$store.getters.isUserLoggedIn
+		    return this.$store.getters.isUserLoggedIn
 	  },
 	  error() {
 	  },
 	  errorMessage() {
-		return this.$store.getters.error
+		    return this.$store.getters.error
 	  }
 	},
 	methods: {
 	  closeError() {
-		this.$store.commit('clearError')
+		    this.$store.commit('clearError')
 	  }
 	}
   }

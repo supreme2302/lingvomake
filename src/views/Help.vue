@@ -1,25 +1,23 @@
 <template>
-
   <v-container fluid>
-
     <v-layout row>
-      <v-flex xs12 class="hidden-xs-only">
+      <v-flex xs12>
 
         <v-parallax
-            height="100"
+            dark
             src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
         >
           <v-layout
               align-center
               column
               justify-center
           >
-            <h1 class="display-2 font-weight-thin mb-3">Course management</h1>
-            <!--<h4 class="subheading"></h4>-->
+            <h1 class="display-1 font-weight-thin mb-3">Course Management</h1>
           </v-layout>
         </v-parallax>
 
-        <v-timeline align-top small>
+        <v-timeline align-top>
           <v-timeline-item
               v-for="item in items"
               :key="item.header"
@@ -40,18 +38,17 @@
           </v-timeline-item>
         </v-timeline>
 
-
         <v-parallax
-            height="100"
+            dark
             src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
         >
           <v-layout
               align-center
               column
               justify-center
           >
-            <h1 class="display-2 font-weight-thin mb-3">Group management</h1>
-            <!--<h4 class="subheading"></h4>-->
+            <h1 class="display-1 font-weight-thin mb-3">Group Management</h1>
           </v-layout>
         </v-parallax>
 
@@ -77,16 +74,16 @@
         </v-timeline>
 
         <v-parallax
-            height="100"
+            dark
             src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+            height="80"
         >
           <v-layout
               align-center
               column
               justify-center
           >
-            <h1 class="display-2 font-weight-thin mb-3">Application management</h1>
-            <!--<h4 class="subheading"></h4>-->
+            <h1 class="display-1 font-weight-thin mb-3">Application Managemen</h1>
           </v-layout>
         </v-parallax>
 
@@ -112,97 +109,10 @@
         </v-timeline>
 
         <hr>
-
-      </v-flex>
-      <v-flex xs12 class="hidden-sm-and-up">
-
-        <v-layout row justify-center>
-          <h1 class="headline font-weight-bold">Course Management</h1>
-        </v-layout>
-
-        <v-timeline align-top small dense>
-          <v-timeline-item
-              v-for="item in items"
-              :key="item.header"
-              :icon="item.icon"
-              color="orange"
-              right
-              fill-dot>
-            <v-card
-                dark>
-              <v-card-title class="title">{{item.header}}</v-card-title>
-              <v-card-text class="white text--primary">
-                <p class="black--text headline">{{item.text}}</p>
-              </v-card-text>
-              <v-img
-                  :src="item.imgSrc"
-                  aspect-ratio="2.75"
-              ></v-img>
-            </v-card>
-          </v-timeline-item>
-        </v-timeline>
-
-        <hr>
-
-        <v-layout row justify-center>
-          <h1 class="headline font-weight-bold">Group Management</h1>
-        </v-layout>
-
-        <v-timeline align-top small dense>
-          <v-timeline-item
-              v-for="item in items2"
-              :key="item.header"
-              :icon="item.icon"
-              color="orange"
-              right
-              fill-dot>
-            <v-card
-                dark>
-              <v-card-title class="title">{{item.header}}</v-card-title>
-              <v-card-text class="white text--primary">
-                <p class="black--text headline">{{item.text}}</p>
-              </v-card-text>
-              <v-img
-                  :src="item.imgSrc"
-                  aspect-ratio="2.75"
-              ></v-img>
-            </v-card>
-          </v-timeline-item>
-        </v-timeline>
-
-        <hr>
-
-        <v-layout row justify-center>
-          <h1 class="headline font-weight-bold">Application Management</h1>
-        </v-layout>
-
-        <v-timeline align-top small dense>
-          <v-timeline-item
-              v-for="item in items3"
-              :key="item.header"
-              :icon="item.icon"
-              color="orange"
-              right
-              fill-dot>
-            <v-card
-                dark>
-              <v-card-title class="title">{{item.header}}</v-card-title>
-              <v-card-text class="white text--primary">
-                <p class="black--text headline">{{item.text}}</p>
-              </v-card-text>
-              <v-img
-                  :src="item.imgSrc"
-                  aspect-ratio="2.75"
-              ></v-img>
-            </v-card>
-          </v-timeline-item>
-        </v-timeline>
 
       </v-flex>
     </v-layout>
   </v-container>
-
-
 </template>
 
 <script>
