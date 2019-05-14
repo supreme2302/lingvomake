@@ -85,7 +85,7 @@
               column
               justify-center
           >
-            <h1 class="display-1 font-weight-thin mb-3">Application Managemen</h1>
+            <h1 class="display-1 font-weight-thin mb-3">Application Management</h1>
           </v-layout>
         </v-parallax>
 
@@ -197,7 +197,7 @@
               column
               justify-center
           >
-            <h1 class="display-1 font-weight-thin mb-3">Application Managemen</h1>
+            <h1 class="display-1 font-weight-thin mb-3">Application Management</h1>
           </v-layout>
         </v-parallax>
 
