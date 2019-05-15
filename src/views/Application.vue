@@ -16,8 +16,8 @@
                   v-model="valid"
                   ref="form"
                   validation>
-            <v-container py-0>
-              <v-layout wrap>
+            <v-container py-0 grid-list fluid>
+              <v-layout wrap align-center justify-center>
                 <v-flex xs12>
                   <v-text-field
                           :rules="textRules"
@@ -61,14 +61,32 @@
                 <v-flex xs12>
                   <img :src="imageSrc" height="100" v-if="imageSrc"/>
                 </v-flex>
-                <v-layout row>
-                  <color-picker :change="updateColor1" :initial="primaryColor"></color-picker>
-                  <v-chip :color="primaryColor">Primary color</v-chip>
-                </v-layout>
-                <v-layout row>
-                  <color-picker :change="updateColor2" :initial="secondaryColor"></color-picker>
-                  <v-chip :color="secondaryColor">Secondary color</v-chip>
-                </v-layout>
+                <v-flex xs12>
+                  <v-layout col wrap align-center justify-center>
+                    <v-flex sm3 class="hidden-xs-only" align-self-center></v-flex>
+                    <v-flex sm3 xs6 align-self-center>
+                      <!--<v-chip :color="primaryColor" class="centered">Primary color</v-chip>-->
+                      <span :color="primaryColor" class="centered">Primary color</span>
+                    </v-flex>
+                    <v-flex sm3 xs6 align-self-center>
+                      <color-picker :change="updateColor1" :initial="primaryColor" class="centered"></color-picker>
+                    </v-flex>
+                    <v-flex sm3 class="hidden-xs-only" align-self-center></v-flex>
+                  </v-layout>
+
+                  <v-layout col wrap align-center justify-center>
+                    <v-flex sm3 class="hidden-xs-only" align-self-center></v-flex>
+                    <v-flex sm3 xs6>
+                      <!--<v-chip :color="secondaryColor" class="centered">Secondary color</v-chip>-->
+                      <span :color="primaryColor" class="centered">Secondary color</span>
+                    </v-flex>
+                    <v-flex sm3 xs6>
+                      <color-picker :change="updateColor2" :initial="secondaryColor" class="centered"></color-picker>
+                    </v-flex>
+                    <v-flex sm3 class="hidden-xs-only" align-self-center></v-flex>
+                  </v-layout>
+
+                </v-flex>
                 <v-flex xs6 text-xs-left>
                   <v-btn
                       class="mx-0 font-weight-light"
@@ -488,3 +506,9 @@
   }
 
 </script>
+
+<style>
+  .centered {
+    margin: 0 auto !important;
+  }
+</style>
