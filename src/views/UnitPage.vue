@@ -365,7 +365,7 @@
 		/**
 		 * Типы тасков. Насколько я понимаю могут быть 1,2 или 3.
 		 */
-		taskTypes: ['Question with answers', 'Translation of a sentence', 'Третий тип'],
+		taskTypes: ['Question with answers', 'Translation of a sentence', 'Coming soon...'],
 		/**
 		 * Выбранный тип таска
 		 */

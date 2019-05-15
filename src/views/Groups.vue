@@ -99,7 +99,7 @@
                   <p>Unit</p>
                   <v-overflow-btn
                       :items="dropDownUnits"
-                      :rules="unitRules"
+
                       label="Select unit"
                       editable
                       item-value="text"
