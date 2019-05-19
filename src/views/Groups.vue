@@ -12,6 +12,7 @@
       <v-flex xs12>
           <v-btn class="toolbar-items" color="success" @click="groupModal = true">New Group</v-btn>
       </v-flex>
+
       <v-flex
           xs12
       >
@@ -59,6 +60,20 @@
           </v-data-table>
         </material-card>
       </v-flex>
+
+      {{groups}}
+      <v-flex xs12>
+        <hr>
+      </v-flex>
+      {{courses}}
+      <v-flex xs12>
+        <hr>
+      </v-flex>
+      {{groupToEdit}}
+      <v-flex xs12>
+        <hr>
+      </v-flex>
+      {{dropDownUnits}}
 
       <v-dialog lazy max-width="390" v-model="editGroupModal">
         <material-card
@@ -222,11 +237,6 @@
 		  text: 'Course',
 		  value: 'course_id',
 		},
-		// {
-		//   sortable: true,
-		//   text: 'Start date',
-		//   value: 'start_date'
-		// },
 		{
 		  sortable: false,
 		  text: 'Description',
@@ -248,7 +258,6 @@
 		  value: null
 		},
 	  ],
-
 	  textRules: [
 		v => !!v || "This field is required",
 		v => !!v && v.length <= 20 || "too long"
@@ -276,46 +285,43 @@
 	  editGroupModal: false,
 	  editGroupValid: false,
 	  groupToEdit: {
-		name: null,
-		course: null,
-		description: null,
-		// start_date: null, //TODO вернуть как Костян реализует на беке
-		unit: null
+      name: null,
+      course: null,
+      description: null,
+      unit: null
 	  }
 
 	}),
 	computed: {
 	  tableGroups() {
+		  let tGroups = [];
+      this.groups.forEach((currGroup) => {
 
-		let tGroups = [];
+        let courseName = null;
+        this.courses.forEach((currCourse) => {
+          if (currCourse.id == currGroup.course_id) {
+            courseName = currCourse.name;
+          }
+        });
 
-		this.groups.forEach((currGroup) => {
+        let unitName = null;
+        this.units.forEach((currUnit) => {
+          if (currUnit.id == currGroup.curr_unit) {
+            unitName = currUnit.unit_name;
+          }
+        });
 
-		  let courseName = null;
-		  this.courses.forEach((currCourse) => {
-			if (currCourse.id == currGroup.course_id) {
-			  courseName = currCourse.name;
-			}
-		  });
+        tGroups.push({
+        id: currGroup.id,
+        name: currGroup.name,
+        course: courseName,
+        description: currGroup.description,
+        curr_unit: unitName
+        })
 
-		  let unitName = null;
-		  this.units.forEach((currUnit) => {
-			if (currUnit.id == currGroup.curr_unit) {
-			  unitName = currUnit.unit_name;
-			}
-		  });
+      });
 
-		  tGroups.push({
-			id: currGroup.id,
-			name: currGroup.name,
-			course: courseName,
-			description: currGroup.description,
-			curr_unit: unitName
-		  })
-
-		});
-
-		return tGroups;
+		  return tGroups;
 
 	  },
 	  groups() {
@@ -325,36 +331,39 @@
 		return this.$store.getters.courses
 	  },
 	  dropDownCourses() {
-		return this.$store.getters.courses.map((curr) => {
-		  return {
-			id: curr.id,
-			text: curr.name
-		  }
-		});
+      return this.$store.getters.courses.map((curr) => {
+        return {
+        id: curr.id,
+        text: curr.name
+        }
+      });
 	  },
 	  units() {
-		return this.$store.getters.units
+		  return this.$store.getters.units
 	  },
 	  dropDownUnits() {
 
-		let course = null;
-		let dUnits = [];
+      let course = null;
+      let dUnits = [];
 
-		for (let i = 0; i < this.courses.length; i++) {
-		  if (this.courses[i].name == this.groupToEdit.course) {
-			course = this.courses[i];
-		  }
-		}
+      for (let i = 0; i < this.courses.length; i++) {
+        if (this.courses[i].name === this.groupToEdit.course) {
+          course = this.courses[i];
+        }
+      }
 
-		if (course !== null) {
-		  for (let i = 0; i < this.units.length; i++) {
-			if (this.units[i].course_id == course.id) {
-			  dUnits.push({id: this.units[i].id, text: this.units[i].unit_name});
-			}
-		  }
-		}
+      console.log(this.units)
 
-		return dUnits;
+      if (course !== null) {
+        for (let i = 0; i < this.units.length; i++) {
+          // console.log(this.units[i].course_id, course.id)
+          if (this.units[i].course_id === course.id) {
+            dUnits.push({id: this.units[i].id, text: this.units[i].unit_name});
+          }
+        }
+      }
+
+      return dUnits;
 	  },
 
 	},
