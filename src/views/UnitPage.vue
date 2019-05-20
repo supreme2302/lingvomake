@@ -196,13 +196,13 @@
                                       :rules="notEmptyRules"
                               ></v-overflow-btn>
                           </v-flex>
-                          <v-flex xs12>
-                              <v-text-field
-                                      label="Task Name"
-                                      v-model="taskName"
-                                      :rules="notEmptyRules"
-                              />
-                          </v-flex>
+                          <!--<v-flex xs12>-->
+                              <!--<v-text-field-->
+                                      <!--label="Task Name"-->
+                                      <!--v-model="taskName"-->
+                                      <!--:rules="notEmptyRules"-->
+                              <!--/>-->
+                          <!--</v-flex>-->
                           <!--ТАСК ПЕРВОГО ТИПА-->
                           <template v-if="taskType === taskTypes[0]">
                               <v-flex xs12>
@@ -456,7 +456,7 @@
 		if (this.$refs.form.validate()) {
 		  const type = this.taskTypes.indexOf(this.taskType) + 1; // приводим тип таска к виду: 1, 2 или 3
 		  const createdTask = {
-			name: this.taskName,
+			name: "Task_" + (this.tasks.length + 1),
 			task_type: this.taskTypes.indexOf(this.taskType) + 1,
 			unit_id: [this.unit.id], // указываем юнит, к которому таск будет прикреплен
 			dataT1: null,

@@ -33,11 +33,18 @@
                           label="Application Title"/>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field
-                          :rules="textRules"
-                          v-model="applicationLanguage"
-                          label="Application Language"
-                  />
+                  <!--<v-text-field-->
+                          <!--:rules="textRules"-->
+                          <!--v-model="applicationLanguage"-->
+                          <!--label="Application Language"-->
+                  <!--/>-->
+
+                  <v-overflow-btn
+                      :items="dropdown_langs"
+                      label="Application Language"
+                      v-model="applicationLanguage"
+                  ></v-overflow-btn>
+
                 </v-flex>
                 <v-flex xs12>
                   <v-btn
@@ -130,6 +137,11 @@
 		  v => !!v || "This field is required",
       v => v.length <= 20 || "Too long text"
 	  ],
+	  dropdown_langs: [
+	  	'Русский',
+      'English',
+      'Հայերեն',
+    ],
 
 		imageSrc: API.baseUrl + API.method.schoolImage + this.$store.getters.school.imageLink,
 		valid: true,
