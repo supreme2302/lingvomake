@@ -189,7 +189,7 @@
                       <v-layout wrap>
                           <v-flex xs12>
                               <v-overflow-btn
-                                      :items="taskTypes"
+                                      :items="taskTypesForDrobDown"
                                       label="Task Type"
                                       item-value="id"
                                       v-model="taskType"
@@ -204,7 +204,7 @@
                               <!--/>-->
                           <!--</v-flex>-->
                           <!--ТАСК ПЕРВОГО ТИПА-->
-                          <template v-if="taskType === taskTypes[0]">
+                          <template v-if="taskType === taskTypesForDrobDown[0]">
                               <v-flex xs12>
                                   <v-text-field
                                           label="Enter question for the task"
@@ -241,7 +241,7 @@
                           </template>
 
                           <!--ТАСК ВТОРОГО ТИПА-->
-                          <template v-if="taskType === taskTypes[1]">
+                          <template v-if="taskType === taskTypesForDrobDown[1]">
                               <v-flex xs12>
                                   <v-text-field
                                           label="Enter sentence for translation"
@@ -258,13 +258,13 @@
                               </v-flex>
                           </template>
                           <!--ТАСК ТРЕТЬЕГО ТИПА-->
-                          <template v-if="taskType === taskTypes[2]">
-                              <v-flex xs12>
-                                  <v-text-field
-                                          :rules="notEmptyRules"
-                                          label="Type C"/>
-                              </v-flex>
-                          </template>
+                          <!--<template v-if="taskType === taskTypes[2]">-->
+                              <!--<v-flex xs12>-->
+                                  <!--<v-text-field-->
+                                          <!--:rules="notValidRules"-->
+                                          <!--label="Type C"/>-->
+                              <!--</v-flex>-->
+                          <!--</template>-->
 
                           <v-flex xs12 text-xs-right>
                               <v-btn
@@ -389,7 +389,8 @@
 
 
 		taskTextT2: null,
-		correctT2: null
+		correctT2: null,
+		taskTypesForDrobDown: ['Question with answers', 'Translation of a sentence'],
 	  }
 	},
 	computed: {
