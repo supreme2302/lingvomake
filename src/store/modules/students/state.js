@@ -1,4 +1,4 @@
 export default {
-  students: [],
-  groups: [],
+    students: [],
+    groups: [],
 }

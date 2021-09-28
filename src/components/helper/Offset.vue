@@ -1,8 +1,8 @@
 <template>
   <div
-    :style="styles"
-    :class="classes"
-    class="v-offset"
+      :style="styles"
+      :class="classes"
+      class="v-offset"
   >
     <slot />
   </div>
@@ -22,12 +22,12 @@ export default {
   },
 
   computed: {
-    classes () {
+    classes() {
       return {
         'v-offset--full-width': this.fullWidth
       }
     },
-    styles () {
+    styles() {
       return {
         top: `-${this.offset}px`,
         marginBottom: `-${this.offset}px`
@@ -43,6 +43,7 @@ export default {
   max-width: calc(100% - 32px);
   position: relative;
 }
+
 .v-offset--full-width {
   max-width: 100%;
 }

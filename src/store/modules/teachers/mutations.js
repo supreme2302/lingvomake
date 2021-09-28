@@ -1,5 +1,5 @@
 export default {
-  setTeachers(state, teachers) {
-    state.teachers = teachers;
-  }
+    setTeachers(state, teachers) {
+        state.teachers = teachers;
+    }
 }

@@ -8,7 +8,7 @@ class Bus {
     /**
      * @constructor
      */
-    constructor () {
+    constructor() {
         if (Bus.__instance) {
             return Bus.__instance;
         }
@@ -22,7 +22,7 @@ class Bus {
      * @param {function} listener - обработчик события
      * @return {function(this:Bus)} - функция отписки от события
      */
-    on (event, listener) {
+    on(event, listener) {
         this.listeners[event] = this.listeners[event] || [];
         this.listeners[event].push(listener);
         return () => {
@@ -35,7 +35,7 @@ class Bus {
      * @param {string} event - название события
      * @param {function} listener - обработчик события
      */
-    off (event, listener) {
+    off(event, listener) {
         if (Array.isArray(this.listeners[event])) {
             this.listeners[event] = this.listeners[event]
                 .filter((element) => {
@@ -49,7 +49,7 @@ class Bus {
      * @param {string} event - название события
      * @param {*} [payload] - объект с данными
      */
-    emit (event, payload) {
+    emit(event, payload) {
         if (Array.isArray(this.listeners[event])) {
             this.listeners[event].forEach((listener) => {
                 listener({
@@ -60,4 +60,5 @@ class Bus {
         }
     }
 }
+
 export default new Bus();

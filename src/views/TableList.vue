@@ -1,38 +1,38 @@
 <template>
   <v-container
-    fill-height
-    fluid
-    grid-list-xl
+      fill-height
+      fluid
+      grid-list-xl
   >
     <v-layout
-      justify-center
-      wrap
+        justify-center
+        wrap
     >
       <v-flex
-        md12
+          md12
       >
         <material-card
-          color="green"
-          title="Simple Table"
-          text="Here is a subtitle for this table"
+            color="green"
+            title="Simple Table"
+            text="Here is a subtitle for this table"
         >
           <v-data-table
-            :headers="headers"
-            :items="items"
-            hide-actions
+              :headers="headers"
+              :items="items"
+              hide-actions
           >
             <template
-              slot="headerCell"
-              slot-scope="{ header }"
+                slot="headerCell"
+                slot-scope="{ header }"
             >
               <span
-                class="subheading font-weight-light text-success text--darken-3"
-                v-text="header.text"
+                  class="subheading font-weight-light text-success text--darken-3"
+                  v-text="header.text"
               />
             </template>
             <template
-              slot="items"
-              slot-scope="{ item }"
+                slot="items"
+                slot-scope="{ item }"
             >
               <td>{{ item.name }}</td>
               <td>{{ item.country }}</td>
@@ -43,32 +43,32 @@
         </material-card>
       </v-flex>
       <v-flex
-        md12
+          md12
       >
         <material-card
-          color="green"
-          flat
-          full-width
-          title="Table on Plain Background"
-          text="Here is a subtitle for this table"
+            color="green"
+            flat
+            full-width
+            title="Table on Plain Background"
+            text="Here is a subtitle for this table"
         >
           <v-data-table
-            :headers="headers"
-            :items="items.slice(0, 7)"
-            hide-actions
+              :headers="headers"
+              :items="items.slice(0, 7)"
+              hide-actions
           >
             <template
-              slot="headerCell"
-              slot-scope="{ header }"
+                slot="headerCell"
+                slot-scope="{ header }"
             >
               <span
-                class="subheading font-weight-light text--darken-3"
-                v-text="header.text"
+                  class="subheading font-weight-light text--darken-3"
+                  v-text="header.text"
               />
             </template>
             <template
-              slot="items"
-              slot-scope="{ item }"
+                slot="items"
+                slot-scope="{ item }"
             >
               <td>{{ item.name }}</td>
               <td>{{ item.country }}</td>

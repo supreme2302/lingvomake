@@ -124,28 +124,28 @@
               ref="editTeacherForm"
               validation>
             <v-container py-0>
-                <v-layout wrap>
-                  <v-flex xs12>
-                    <v-text-field
-                        :rules="passwordRules"
-                        counter="8"
-                        label="Password"
-                        type="password"
-                        v-model="teacherToEdit.newPassword"
-                    />
-                  </v-flex>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                      :rules="passwordRules"
+                      counter="8"
+                      label="Password"
+                      type="password"
+                      v-model="teacherToEdit.newPassword"
+                  />
+                </v-flex>
 
-                  <v-flex xs12>
-                    <v-text-field
-                        :rules="confirmEditRules"
-                        counter="8"
-                        label="Confirm password"
-                        type="password"
-                        v-model="confirm"
-                    />
-                  </v-flex>
-                </v-layout>
-              </v-container>
+                <v-flex xs12>
+                  <v-text-field
+                      :rules="confirmEditRules"
+                      counter="8"
+                      label="Confirm password"
+                      type="password"
+                      v-model="confirm"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-form>
 
 
@@ -180,80 +180,79 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-		    headers: [
-		  {
-			sortable: true,
-			text: 'Email',
-			value: 'email'
-		  },
-		  {
-			sortable: false,
-			text: 'Edit',
-			value: null
-		  },
-		  {
-			sortable: false,
-			text: 'Delete',
-			value: null
-		  }
-		],
-        editTeacherModal: false,
-        teacherEditValid: false,
-        teacherToEdit: {
-          email: '',
-          newPassword: ''
+export default {
+  data() {
+    return {
+      headers: [
+        {
+          sortable: true,
+          text: 'Email',
+          value: 'email'
         },
-        confirm: '',
-
-        deleteTeacherModal: false,
-        teacherToDelete: null,
-
-        createTeacherModal: false,
-        teacherCreateValid: false,
-        createTeacherEmail: null,
-        createTeacherPassword: null,
-        createTeacherPasswordConfirm: null,
-
-        emailRules: [
-          v => !!v || "E-mail is required",
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-        ],
-        passwordRules: [
-          v => !!v || "Password is required",
-          v => (v && v.length >= 8) || "Too short password"
-        ],
-        confirmRules: [
-          v => !!v || "Confirmation is required",
-          v => v === this.createTeacherPassword || "Passwords did not match"
-        ],
-		    confirmEditRules: [
-		      v => !!v || "Confirmation is required",
-		      v => v === this.teacherToEdit.newPassword || "Passwords did not match"
-		],
-      }
-
-
-
-    },
-    computed: {
-      teachers() {
-        return this.$store.getters.teachers;
+        {
+          sortable: false,
+          text: 'Edit',
+          value: null
+        },
+        {
+          sortable: false,
+          text: 'Delete',
+          value: null
+        }
+      ],
+      editTeacherModal: false,
+      teacherEditValid: false,
+      teacherToEdit: {
+        email: '',
+        newPassword: ''
       },
-      loading() {
-		    return this.$store.getters.loading;
-      }
+      confirm: '',
+
+      deleteTeacherModal: false,
+      teacherToDelete: null,
+
+      createTeacherModal: false,
+      teacherCreateValid: false,
+      createTeacherEmail: null,
+      createTeacherPassword: null,
+      createTeacherPasswordConfirm: null,
+
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
+      passwordRules: [
+        v => !!v || "Password is required",
+        v => (v && v.length >= 8) || "Too short password"
+      ],
+      confirmRules: [
+        v => !!v || "Confirmation is required",
+        v => v === this.createTeacherPassword || "Passwords did not match"
+      ],
+      confirmEditRules: [
+        v => !!v || "Confirmation is required",
+        v => v === this.teacherToEdit.newPassword || "Passwords did not match"
+      ],
+    }
+
+
+  },
+  computed: {
+    teachers() {
+      return this.$store.getters.teachers;
     },
-    methods: {
-	    createTeacher() {
-	      if (this.$refs.createTeacherForm.validate()) {
-          const teacher = {
-            email: this.createTeacherEmail,
-            password: this.createTeacherPassword,
-          };
-          this.$store.dispatch('addTeacher', teacher)
+    loading() {
+      return this.$store.getters.loading;
+    }
+  },
+  methods: {
+    createTeacher() {
+      if (this.$refs.createTeacherForm.validate()) {
+        const teacher = {
+          email: this.createTeacherEmail,
+          password: this.createTeacherPassword,
+        };
+        this.$store.dispatch('addTeacher', teacher)
             .then(() => {
               this.$store.dispatch('loadTeachers');
               this.createTeacherModal = false;
@@ -263,21 +262,23 @@
               this.createTeacherPassword = null;
               this.createTeacherPasswordConfirm = null;
             })
-        }
-      },
-      editTeacher() {
-	      if (this.$refs.editTeacherForm.validate()) {
-		      this.$store.dispatch('editTeacher', this.teacherToEdit)
-			      .then(() => {this.editTeacherModal = false})
-        }
-      },
-      deleteTeacher() {
-        this.$store.dispatch('deleteTeacher', {id: this.teacherToDelete})
+      }
+    },
+    editTeacher() {
+      if (this.$refs.editTeacherForm.validate()) {
+        this.$store.dispatch('editTeacher', this.teacherToEdit)
             .then(() => {
-              this.$store.dispatch('loadTeachers');
-              this.deleteTeacherModal = false;
+              this.editTeacherModal = false
             })
       }
+    },
+    deleteTeacher() {
+      this.$store.dispatch('deleteTeacher', {id: this.teacherToDelete})
+          .then(() => {
+            this.$store.dispatch('loadTeachers');
+            this.deleteTeacherModal = false;
+          })
     }
   }
+}
 </script>

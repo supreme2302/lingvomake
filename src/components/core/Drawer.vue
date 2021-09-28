@@ -2,49 +2,49 @@
 
 <template>
   <v-navigation-drawer
-    id="app-drawer"
-    v-model="inputValue"
-    app
-    dark
-    floating
-    persistent
-    mobile-break-point="991"
-    width="260"
+      id="app-drawer"
+      v-model="inputValue"
+      app
+      dark
+      floating
+      persistent
+      mobile-break-point="991"
+      width="260"
   >
     <v-img
-      :src="image"
-      height="100%">
+        :src="image"
+        height="100%">
       <v-layout
-        class="fill-height"
-        tag="v-list"
-        column>
+          class="fill-height"
+          tag="v-list"
+          column>
         <v-list-tile class="v-list-item">
           <v-list-tile-title class="title ml-3">
-            {{user.email}}
+            {{ user.email }}
           </v-list-tile-title>
         </v-list-tile>
-        <v-divider/>
+        <v-divider />
         <v-list-tile
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.to"
-          :active-class="color"
-          avatar
-          class="v-list-item"
+            v-for="(link, i) in links"
+            :key="i"
+            :to="link.to"
+            :active-class="color"
+            avatar
+            class="v-list-item"
         >
           <v-list-tile-action>
             <v-icon>{{ link.icon }}</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title v-text="link.text"/>
+          <v-list-tile-title v-text="link.text" />
         </v-list-tile>
-        <v-spacer/>
+        <v-spacer />
 
-        <v-divider/>
+        <v-divider />
         <v-list-tile to="/help" :active-class="color" avatar class="v-list-item">
           <v-list-tile-action>
             <v-icon>help_outline</v-icon>
           </v-list-tile-action>
-          <v-list-tile-title v-text="'Help'"/>
+          <v-list-tile-title v-text="'Help'" />
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -120,59 +120,59 @@ export default {
     responsive: false
   }),
   computed: {
-	...mapState('app', ['image', 'color']),
+    ...mapState('app', ['image', 'color']),
     user() {
-	    return this.$store.getters.user;
+      return this.$store.getters.user;
     },
-	inputValue: {
-	  get () {
-		return this.$store.state.app.drawer
-	  },
-	  set (val) {
-		this.setDrawer(val)
-	  }
-	},
+    inputValue: {
+      get() {
+        return this.$store.state.app.drawer
+      },
+      set(val) {
+        this.setDrawer(val)
+      }
+    },
   },
-  mounted () {
+  mounted() {
     this.onResponsiveInverted()
     window.addEventListener('resize', this.onResponsiveInverted)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
   methods: {
-	...mapMutations('app', ['setDrawer', 'toggleDrawer']),
-	onResponsiveInverted () {
-	  if (window.innerWidth < 991) {
-		this.responsive = true
-	  } else {
-		this.responsive = false
-	  }
-	}
+    ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+    onResponsiveInverted() {
+      if (window.innerWidth < 991) {
+        this.responsive = true
+      } else {
+        this.responsive = false
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
-  #app-drawer {
-    .v-list__tile {
-      border-radius: 4px;
+#app-drawer {
+  .v-list__tile {
+    border-radius: 4px;
 
-      &--buy {
-        margin-top: auto;
-        margin-bottom: 17px;
-      }
-    }
-
-    .v-image__image--contain {
-      top: 9px;
-      height: 60%;
-    }
-
-    .search-input {
-      margin-bottom: 30px !important;
-      padding-left: 15px;
-      padding-right: 15px;
+    &--buy {
+      margin-top: auto;
+      margin-bottom: 17px;
     }
   }
+
+  .v-image__image--contain {
+    top: 9px;
+    height: 60%;
+  }
+
+  .search-input {
+    margin-bottom: 30px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
 </style>

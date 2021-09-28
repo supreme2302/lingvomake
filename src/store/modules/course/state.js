@@ -1,4 +1,4 @@
 export default {
-  courses: [],
-  course: null
+    courses: [],
+    course: null
 }

@@ -1,45 +1,45 @@
 <template>
   <material-card
-    v-bind="$attrs"
-    class="v-card--material-stats"
-    v-on="$listeners"
+      v-bind="$attrs"
+      class="v-card--material-stats"
+      v-on="$listeners"
   >
     <v-card
-      slot="offset"
-      :class="`elevation-${elevation}`"
-      :color="color"
-      class="pa-1"
-      dark
+        slot="offset"
+        :class="`elevation-${elevation}`"
+        :color="color"
+        class="pa-1"
+        dark
     >
-        <v-icon
+      <v-icon
           size="40">
-          {{ icon }}
-        </v-icon>
+        {{ icon }}
+      </v-icon>
 
     </v-card>
     <div class="text-xs-right">
       <p
-        class="category grey--text font-weight-light"
-        v-text="title"
+          class="category grey--text font-weight-light"
+          v-text="title"
       />
       <h3
-        class="title display-1 font-weight-light">
+          class="title display-1 font-weight-light">
         {{ value }} <small>{{ smallValue }}</small>
       </h3>
     </div>
 
     <template slot="actions">
       <v-icon
-        :color="subIconColor"
-        size="20"
-        class="mr-2"
+          :color="subIconColor"
+          size="20"
+          class="mr-2"
       >
         {{ subIcon }}
       </v-icon>
       <span
-        :class="subTextColor"
-        class="caption font-weight-light"
-        v-text="subText"
+          :class="subTextColor"
+          class="caption font-weight-light"
+          v-text="subText"
       />
     </template>
   </material-card>

@@ -7,7 +7,7 @@
     <v-layout wrap align-center>
 
       <template
-      v-for="course in courses">
+          v-for="course in courses">
         <v-flex
             xs12
             sm6
@@ -30,7 +30,7 @@
                 <v-flex xs7 class="pb-0 pl-0">
                   <v-card-title primary-title class="pb-0">
                     <div>
-                      <h4>{{course.name}}</h4>
+                      <h4>{{ course.name }}</h4>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -39,7 +39,7 @@
                 <v-flex xs12 class="pt-0">
                   <v-card-title primary-title class="pt-0">
                     <div>
-                      <h6>{{course.description}}</h6>
+                      <h6>{{ course.description }}</h6>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -52,7 +52,9 @@
           xs12
           sm6
           class="ma-3">
-        <v-btn fab icon round color="blue" @click="openDialog"><v-icon>add</v-icon></v-btn>
+        <v-btn fab icon round color="blue" @click="openDialog">
+          <v-icon>add</v-icon>
+        </v-btn>
       </v-flex>
     </v-layout>
 
@@ -74,13 +76,13 @@
                 <v-text-field
                     v-model="newCourseName"
                     :rules="courseNameRules"
-                    label="Course Name"/>
+                    label="Course Name" />
               </v-flex>
               <v-flex xs12>
                 <v-text-field
                     v-model="newCourseDescription"
                     :rules="courseDescriptionRules"
-                    label="Course Description"/>
+                    label="Course Description" />
               </v-flex>
               <v-flex xs12 text-xs-right>
                 <v-btn
@@ -102,75 +104,75 @@
 </template>
 
 <script>
-  import API from '../utils/API.js';
+import API from '../utils/API.js';
 
-  export default {
-	data: () => ({
-	  courseNameRules: [
-		v => {
-		  const words = v.split(' ');
-		  for (let i = 0; i < words.length; ++i) {
-			if (words[i].length >= 12) {
-			  return 'This field does not allow words longer than 12 characters.';
-			}
-		  }
-		  return true;
-		},
-		v => !!v || 'The field must not be empty',
-		v => v.length <= 24 || 'Name is too long'
-	  ],
-	  courseDescriptionRules: [
-		v => {
-		  const words = v.split(' ');
-		  for (let i = 0; i < words.length; ++i) {
-			if (words[i].length >= 12) {
-			  return 'This field does not allow words longer than 12 characters.';
-			}
-		  }
-		  return true;
-		},
-		v => !!v || 'The field must not be empty',
-		v => v.length <= 40 || 'Desctiption is too long'
-	  ],
-	  dialog: false,
-	  newCourseName: '',
-	  newCourseDescription: '',
-	  valid: false
-	}),
-	computed: {
-	  courses() {
-		return this.$store.getters.courses;
-	  },
-	  imgSrc() {
-		return API.baseUrl + API.method.courseImage;
-	  }
-	},
-	methods: {
-	  openDialog() {
-		this.dialog = true;
-	  },
-	  closeDialog() {
-		this.dialog = false;
-	  },
-	  onSubmitCreateCourse() {
-		if (this.$refs.form.validate()) {
-		  const course = {
-			name: this.newCourseName,
-			description: this.newCourseDescription
-		  };
-		  this.$store.dispatch('createCourse', course)
-			  .then(() => this.$store.dispatch('loadCourses'))
-			  .finally(() => this.dialog = false)
-		}
-	  }
-	}
+export default {
+  data: () => ({
+    courseNameRules: [
+      v => {
+        const words = v.split(' ');
+        for (let i = 0; i < words.length; ++i) {
+          if (words[i].length >= 12) {
+            return 'This field does not allow words longer than 12 characters.';
+          }
+        }
+        return true;
+      },
+      v => !!v || 'The field must not be empty',
+      v => v.length <= 24 || 'Name is too long'
+    ],
+    courseDescriptionRules: [
+      v => {
+        const words = v.split(' ');
+        for (let i = 0; i < words.length; ++i) {
+          if (words[i].length >= 12) {
+            return 'This field does not allow words longer than 12 characters.';
+          }
+        }
+        return true;
+      },
+      v => !!v || 'The field must not be empty',
+      v => v.length <= 40 || 'Desctiption is too long'
+    ],
+    dialog: false,
+    newCourseName: '',
+    newCourseDescription: '',
+    valid: false
+  }),
+  computed: {
+    courses() {
+      return this.$store.getters.courses;
+    },
+    imgSrc() {
+      return API.baseUrl + API.method.courseImage;
+    }
+  },
+  methods: {
+    openDialog() {
+      this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
+    },
+    onSubmitCreateCourse() {
+      if (this.$refs.form.validate()) {
+        const course = {
+          name: this.newCourseName,
+          description: this.newCourseDescription
+        };
+        this.$store.dispatch('createCourse', course)
+            .then(() => this.$store.dispatch('loadCourses'))
+            .finally(() => this.dialog = false)
+      }
+    }
   }
+}
 </script>
 <style scoped>
-  .clip {
-    white-space: nowrap; /* Запрещаем перенос строк */
-    overflow: hidden; /* Обрезаем все, что не помещается в область */
-    text-overflow: ellipsis; /* Добавляем многоточие */
-    padding: 5px;
-  }
+.clip {
+  white-space: nowrap; /* Запрещаем перенос строк */
+  overflow: hidden; /* Обрезаем все, что не помещается в область */
+  text-overflow: ellipsis; /* Добавляем многоточие */
+  padding: 5px;
+}
 </style>

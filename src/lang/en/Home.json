@@ -1,6 +1,8 @@
 {
   "title": "Vuetify Alpha",
   "footer": "2018 Vuetify LLC",
-  "drawerItems": ["Inspire"],
+  "drawerItems": [
+    "Inspire"
+  ],
   "needHelp": "Need help?"
 }

@@ -1,44 +1,44 @@
 <template>
   <v-container
-    fill-height
-    fluid
+      fill-height
+      fluid
   >
     <v-layout
-      justify-center
-      align-center
+        justify-center
+        align-center
     >
       <v-flex xs12>
         <material-card
-          color="green"
-          title="Material Dashboard Heading"
-          text="Created using Roboto Font Family"
+            color="green"
+            title="Material Dashboard Heading"
+            text="Created using Roboto Font Family"
         >
           <v-card-text>
             <h2 class="font-weight-light mb-4">Typography</h2>
 
             <v-container
-              class="pa-0"
-              grid-list-xl
-              fluid
+                class="pa-0"
+                grid-list-xl
+                fluid
             >
               <v-layout
-                v-for="(t, i) in typography"
-                :key="i"
-                align-end
-                wrap
+                  v-for="(t, i) in typography"
+                  :key="i"
+                  align-end
+                  wrap
               >
                 <v-flex
-                  xs1
-                  md3>
+                    xs1
+                    md3>
                   <span
-                    class="tim-note"
-                    v-text="t[0]"
+                      class="tim-note"
+                      v-text="t[0]"
                   />
                 </v-flex>
                 <v-flex xs8>
                   <component
-                    :is="t[2]"
-                    :class="i"
+                      :is="t[2]"
+                      :class="i"
                   >
                     <template v-if="i !== 'quote'">
                       {{ t[1] }}
@@ -92,15 +92,15 @@ export default {
 </script>
 
 <style lang="scss">
-  .tim-note {
-    bottom: 10px;
-    color: #c0c1c2;
-    display: block;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 13px;
-    left: 0;
-    margin-left: 20px;
-    width: 260px;
-  }
+.tim-note {
+  bottom: 10px;
+  color: #c0c1c2;
+  display: block;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+  left: 0;
+  margin-left: 20px;
+  width: 260px;
+}
 </style>

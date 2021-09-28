@@ -1,3 +1,3 @@
 export default {
-  school: null
+    school: null
 }

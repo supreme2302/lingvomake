@@ -1,5 +1,5 @@
 export default {
-  school(state) {
-    return state.school;
-  }
+    school(state) {
+        return state.school;
+    }
 }

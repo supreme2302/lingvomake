@@ -1,23 +1,23 @@
 <template>
   <v-container
-    fluid
-    grid-list-xl
-    fill-height>
+      fluid
+      grid-list-xl
+      fill-height>
     <v-layout
-      justify-center
-      align-center
+        justify-center
+        align-center
     >
       <v-flex xs12>
         <material-card
-          color="green">
+            color="green">
           <div
-            slot="header"
+              slot="header"
           >
             <div class="title font-weight-light mb-2">Notifications</div>
             <div class="category">
               Handcrafted by us with
               <v-icon
-                size="17"
+                  size="17"
               >
                 mdi-heart
               </v-icon>
@@ -26,87 +26,89 @@
 
           <v-card-text>
             <v-layout
-              row
-              wrap>
+                row
+                wrap>
               <v-flex
-                md6
-                sm12>
+                  md6
+                  sm12>
                 <h2 class="title font-weight-light mb-3">Notifications Style</h2>
 
                 <material-notification
-                  class="mb-3"
-                  color="info"
+                    class="mb-3"
+                    color="info"
                 >
                   This is a plain notification
                 </material-notification>
                 <material-notification
-                  class="mb-3"
-                  color="info"
-                  dismissible
+                    class="mb-3"
+                    color="info"
+                    dismissible
                 >
                   This is a notification with close button.
                 </material-notification>
                 <material-notification
-                  class="mb-3"
-                  color="info"
-                  dismissible
-                  icon="mdi-bell-plus"
+                    class="mb-3"
+                    color="info"
+                    dismissible
+                    icon="mdi-bell-plus"
                 >
 
                   This is a notification with close button and icon.
                 </material-notification>
                 <material-notification
-                  class="mb-3"
-                  color="info"
-                  dismissible
-                  icon="mdi-bell-plus"
+                    class="mb-3"
+                    color="info"
+                    dismissible
+                    icon="mdi-bell-plus"
                 >
 
-                  This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.
+                  This is a notification with close button and icon and have many lines. You can see that the icon and
+                  the close button are always vertically aligned. This is a beautiful notification. So you don't have to
+                  worry about the style.
                 </material-notification>
               </v-flex>
 
               <v-flex
-                md6
-                sm12>
+                  md6
+                  sm12>
                 <h2 class="title font-weight-light">Notifcation States</h2>
 
                 <material-notification
-                  class="mb-3"
-                  color="info"
-                  dismissible
+                    class="mb-3"
+                    color="info"
+                    dismissible
                 >
                   <strong>INFO</strong> - This is a regular notification made with `color="info"`
                 </material-notification>
 
                 <material-notification
-                  class="mb-3"
-                  color="success"
-                  dismissible
+                    class="mb-3"
+                    color="success"
+                    dismissible
                 >
                   <strong>SUCCESS</strong> - This is a regular notification made with `color="success"`
                 </material-notification>
 
                 <material-notification
-                  class="mb-3"
-                  color="warning"
-                  dismissible
+                    class="mb-3"
+                    color="warning"
+                    dismissible
                 >
                   <strong>WARNING</strong> - This is a regular notification made with `color="warning"`
                 </material-notification>
 
                 <material-notification
-                  class="mb-3"
-                  color="error"
-                  dismissible
+                    class="mb-3"
+                    color="error"
+                    dismissible
                 >
                   <strong>DANGER</strong> - This is a regular notification made with `color="error"`
                 </material-notification>
 
                 <material-notification
-                  class="mb-3"
-                  color="purple"
-                  dismissible
+                    class="mb-3"
+                    color="purple"
+                    dismissible
                 >
                   <strong>PRIMARY</strong> - This is a regular notification made with `color="purple"`
                 </material-notification>
@@ -119,81 +121,81 @@
 
             <v-container grid-list-lg>
               <v-layout
-                justify-center
-                row
-                wrap>
+                  justify-center
+                  row
+                  wrap>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('top', 'left')"
+                      block
+                      color="success"
+                      @click="snack('top', 'left')"
                   >
                     Top Left
                   </v-btn>
                 </v-flex>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('top')"
+                      block
+                      color="success"
+                      @click="snack('top')"
                   >
                     Top Center
                   </v-btn>
                 </v-flex>
               </v-layout>
               <v-layout
-                justify-center
-                row
-                wrap>
+                  justify-center
+                  row
+                  wrap>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('top', 'right')"
+                      block
+                      color="success"
+                      @click="snack('top', 'right')"
                   >
                     Top Right
                   </v-btn>
                 </v-flex>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('bottom', 'left')"
+                      block
+                      color="success"
+                      @click="snack('bottom', 'left')"
                   >
                     Bottom Left
                   </v-btn>
                 </v-flex>
               </v-layout>
               <v-layout
-                justify-center
-                row
-                wrap>
+                  justify-center
+                  row
+                  wrap>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('bottom')"
+                      block
+                      color="success"
+                      @click="snack('bottom')"
                   >
                     Bottom Center
                   </v-btn>
                 </v-flex>
                 <v-flex
-                  xs12
-                  sm4>
+                    xs12
+                    sm4>
                   <v-btn
-                    block
-                    color="success"
-                    @click="snack('bottom', 'right')"
+                      block
+                      color="success"
+                      @click="snack('bottom', 'right')"
                   >
                     Bottom Right
                   </v-btn>
@@ -202,24 +204,24 @@
             </v-container>
 
             <v-snackbar
-              :color="color"
-              :bottom="bottom"
-              :top="top"
-              :left="left"
-              :right="right"
-              v-model="snackbar"
-              dark
+                :color="color"
+                :bottom="bottom"
+                :top="top"
+                :left="left"
+                :right="right"
+                v-model="snackbar"
+                dark
             >
               <v-icon
-                color="white"
-                class="mr-3"
+                  color="white"
+                  class="mr-3"
               >
                 mdi-bell-plus
               </v-icon>
               <div>Welcome to <b>Vue Material Dashboard</b> - a beautiful freebie for every web developer.</div>
               <v-icon
-                size="16"
-                @click="snackbar = false"
+                  size="16"
+                  @click="snackbar = false"
               >
                 mdi-close-circle
               </v-icon>
@@ -250,7 +252,7 @@ export default {
   }),
 
   methods: {
-    snack (...args) {
+    snack(...args) {
       this.top = false
       this.bottom = false
       this.left = false

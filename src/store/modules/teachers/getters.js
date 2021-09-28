@@ -1,5 +1,5 @@
 export default {
-	teachers(state) {
-	  return state.teachers
-	}
+    teachers(state) {
+        return state.teachers
+    }
 }

@@ -1,5 +1,6 @@
-import { HTTP } from "../../../plugins/axios.js";
+import {HTTP} from "../../../plugins/axios.js";
 import API from '../../../utils/API.js';
+
 export default {
     async registerUser({commit}, payload) {
         console.log('in registerUser action');
@@ -20,7 +21,7 @@ export default {
         }
 
     },
-    async authUser({ commit }, payload) {
+    async authUser({commit}, payload) {
         commit("clearError");
         commit("setLoading", true);
         console.log("login user");

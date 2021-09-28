@@ -4,24 +4,24 @@ const requireModule = require.context('.', true, /\.js$/);
 const modules = {};
 
 requireModule.keys().forEach(fileName => {
-  if (fileName === './index.js') return;
+    if (fileName === './index.js') return;
 
-  // Replace ./ and .js
-  const path = fileName.replace(/(\.\/|\.js)/g, '');
-  const [moduleName, imported] = path.split('/');
+    // Replace ./ and .js
+    const path = fileName.replace(/(\.\/|\.js)/g, '');
+    const [moduleName, imported] = path.split('/');
 
-  if (!modules[moduleName]) {
-    if (moduleName === 'app') {
-	  modules[moduleName] = {
-		namespaced: true
-	  }
-    } else {
-	  modules[moduleName] = {}
+    if (!modules[moduleName]) {
+        if (moduleName === 'app') {
+            modules[moduleName] = {
+                namespaced: true
+            }
+        } else {
+            modules[moduleName] = {}
+        }
+
     }
 
-  }
-
-  modules[moduleName][imported] = requireModule(fileName).default
+    modules[moduleName][imported] = requireModule(fileName).default
 });
 
 export default modules

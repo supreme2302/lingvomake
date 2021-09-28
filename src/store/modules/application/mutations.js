@@ -1,5 +1,5 @@
 export default {
-  setSchool(state, school) {
-    state.school = school;
-  }
+    setSchool(state, school) {
+        state.school = school;
+    }
 }
