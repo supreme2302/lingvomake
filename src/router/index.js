@@ -21,6 +21,8 @@ import Teachers from '../views/Teachers';
 import TaskPage from '../views/TaskPage.vue';
 import Help from '../views/Help';
 import LangingPage from '../views/LandingPage.vue';
+import QuizList from "../views/QuizList";
+import QuizEditor from "../views/QuizEditor";
 
 // guards
 import CoursesGuard from './guards/coursesGuard';
@@ -37,116 +39,127 @@ Vue.use(Router);
 
 // Create a new router
 const router = new Router({
-  mode: 'history',
-  routes: [
-	{
-	  path: '*',
-	  redirect: '/courses'
-	},
-	{
-	  path: '/',
-	  component: LangingPage,
-	  beforeEnter: AlreadyAuthGuard
-	},
-	{
-	  path: '/landing',
-	  name: 'Landing',
-	  component: LangingPage,
-	},
-	{
-	  path: '/table-list',
-	  name: 'Table List',
-	  component: TableList,
-	},
-	{
-	  path: '/typography',
-	  component: Typography,
-	},
-	{
-	  path: '/icons',
-	  component: Icons,
-	},
-	{
-	  path: '/maps',
-	  component: Maps,
-	},
-	{
-	  path: '/notifications',
-	  component: Notifications,
-	},
-	{
-	  path: '/upgrade',
-	  name: 'Upgrade to PRO',
-	  component: Upgrade,
-	},
-	{
-	  path: '/login',
-	  name: 'Login',
-	  component: Login,
-	  beforeEnter: AlreadyAuthGuard
-	},
-	{
-	  path: '/registration',
-	  name: 'Registration',
-	  component: Registration,
-	  beforeEnter: AlreadyAuthGuard
-	},
-	{
-	  path: '/courses',
-	  name: 'Courses',
-	  component: Courses,
-	  beforeEnter: CoursesGuard,
-	},
-	{
-	  path: '/course/:id',
-	  props: true,
-	  name: 'Course page',
-	  component: CoursePage,
-	  beforeEnter: SingleCourseGuard
-	},
-	{
-	  path: '/unit/:id',
-	  props: true,
-	  name: 'Unit page',
-	  component: UnitPage,
-	  beforeEnter: SingleUnitGuard
-	},
-	{
-	  path: '/students',
-	  name: 'Students Page',
-	  component: Students,
-	  beforeEnter: StudentsGuard
-	},
-	{
-	  path: '/application',
-	  name: 'Application',
-	  component: Application,
-	  beforeEnter: AppGuard
-	},
-	{
-	  path: '/groups',
-	  name: 'Groups',
-	  component: Groups,
-	  beforeEnter: GroupsGuard
-  },
-  {
-	  path: '/teachers',
-	  name: 'Teachers',
-	  component: Teachers,
-	  beforeEnter: TeachersGuard
-	},
-	{
-	  path: '/task/:id',
-	  props: true,
-	  name: 'Task Page',
-	  component: TaskPage,
-	  beforeEnter: SingleTaskGuard
-	},
-	{
-	  path: '/help',
-	  name: 'Help',
-	  component: Dashboard
-	}
-  ]
+    mode: 'history',
+    routes: [
+        {
+            path: '*',
+            redirect: '/courses'
+        },
+        {
+            path: '/',
+            component: LangingPage,
+            beforeEnter: AlreadyAuthGuard
+        },
+        {
+            path: '/landing',
+            name: 'Landing',
+            component: LangingPage,
+        },
+        {
+            path: '/table-list',
+            name: 'Table List',
+            component: TableList,
+        },
+        {
+            path: '/typography',
+            component: Typography,
+        },
+        {
+            path: '/icons',
+            component: Icons,
+        },
+        {
+            path: '/maps',
+            component: Maps,
+        },
+        {
+            path: '/notifications',
+            component: Notifications,
+        },
+        {
+            path: '/upgrade',
+            name: 'Upgrade to PRO',
+            component: Upgrade,
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login,
+            beforeEnter: AlreadyAuthGuard
+        },
+        {
+            path: '/registration',
+            name: 'Registration',
+            component: Registration,
+            beforeEnter: AlreadyAuthGuard
+        },
+        {
+            path: '/courses',
+            name: 'Courses',
+            component: Courses,
+            beforeEnter: CoursesGuard,
+        },
+        {
+            path: '/course/:id',
+            props: true,
+            name: 'Course page',
+            component: CoursePage,
+            beforeEnter: SingleCourseGuard
+        },
+        {
+            path: '/unit/:id',
+            props: true,
+            name: 'Unit page',
+            component: UnitPage,
+            beforeEnter: SingleUnitGuard
+        },
+        {
+            path: '/students',
+            name: 'Students Page',
+            component: Students,
+            beforeEnter: StudentsGuard
+        },
+        {
+            path: '/application',
+            name: 'Application',
+            component: Application,
+            beforeEnter: AppGuard
+        },
+        {
+            path: '/groups',
+            name: 'Groups',
+            component: Groups,
+            beforeEnter: GroupsGuard
+        },
+        {
+            path: '/teachers',
+            name: 'Teachers',
+            component: Teachers,
+            beforeEnter: TeachersGuard
+        },
+        {
+            path: '/task/:id',
+            props: true,
+            name: 'Task Page',
+            component: TaskPage,
+            beforeEnter: SingleTaskGuard
+        },
+        {
+            path: '/help',
+            name: 'Help',
+            component: Dashboard
+        },
+        {
+            path: '/quizzes', //todo
+            name: 'QuizList',
+            component: QuizList
+        },
+        {
+            path: '/quizzes/:id',
+            props: true,
+            name: 'Quiz editor',
+            component: QuizEditor
+        }
+    ]
 });
 export default router
