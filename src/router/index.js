@@ -3,8 +3,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Dashboard from '../views/Dashboard.vue';
-import CoursePage from '../views/CoursePage.vue';
-import Courses from '../views/Courses.vue';
 import Icons from '../views/Icons.vue';
 import Login from '../views/Login.vue';
 import Maps from '../views/Maps.vue';
@@ -12,17 +10,11 @@ import Notifications from '../views/Notifications.vue';
 import Registration from '../views/Registration.vue';
 import TableList from '../views/TableList.vue';
 import Typography from '../views/Typography.vue';
-import UnitPage from '../views/UnitPage.vue';
 import Upgrade from '../views/Upgrade.vue';
 import Students from '../views/Students';
-import Application from '../views/Application';
-import Groups from '../views/Groups';
-import Teachers from '../views/Teachers';
-import TaskPage from '../views/TaskPage.vue';
-import Help from '../views/Help';
-import LangingPage from '../views/LandingPage.vue';
 import QuizList from "../views/QuizList";
 import QuizEditor from "../views/QuizEditor";
+import Quiz from "../views/Quiz";
 
 // guards
 import CoursesGuard from './guards/coursesGuard';
@@ -34,6 +26,7 @@ import GroupsGuard from './guards/groupsGuard';
 import TeachersGuard from './guards/teachersGuard';
 import SingleUnitGuard from './guards/singleUnitGuard.js';
 import SingleTaskGuard from './guards/singleTaskGuard.js';
+import QuizGuard from './guards/quizGuard.js';
 
 Vue.use(Router);
 
@@ -43,17 +36,11 @@ const router = new Router({
     routes: [
         {
             path: '*',
-            redirect: '/courses'
+            redirect: '/admin/quizzes'
         },
         {
             path: '/',
-            component: LangingPage,
-            beforeEnter: AlreadyAuthGuard
-        },
-        {
-            path: '/landing',
-            name: 'Landing',
-            component: LangingPage,
+            component: Typography,
         },
         {
             path: '/table-list',
@@ -94,55 +81,10 @@ const router = new Router({
             beforeEnter: AlreadyAuthGuard
         },
         {
-            path: '/courses',
-            name: 'Courses',
-            component: Courses,
-            beforeEnter: CoursesGuard,
-        },
-        {
-            path: '/course/:id',
-            props: true,
-            name: 'Course page',
-            component: CoursePage,
-            beforeEnter: SingleCourseGuard
-        },
-        {
-            path: '/unit/:id',
-            props: true,
-            name: 'Unit page',
-            component: UnitPage,
-            beforeEnter: SingleUnitGuard
-        },
-        {
             path: '/students',
             name: 'Students Page',
             component: Students,
             beforeEnter: StudentsGuard
-        },
-        {
-            path: '/application',
-            name: 'Application',
-            component: Application,
-            beforeEnter: AppGuard
-        },
-        {
-            path: '/groups',
-            name: 'Groups',
-            component: Groups,
-            beforeEnter: GroupsGuard
-        },
-        {
-            path: '/teachers',
-            name: 'Teachers',
-            component: Teachers,
-            beforeEnter: TeachersGuard
-        },
-        {
-            path: '/task/:id',
-            props: true,
-            name: 'Task Page',
-            component: TaskPage,
-            beforeEnter: SingleTaskGuard
         },
         {
             path: '/help',
@@ -150,15 +92,23 @@ const router = new Router({
             component: Dashboard
         },
         {
-            path: '/quizzes', //todo
+            path: '/admin/quizzes',
             name: 'QuizList',
             component: QuizList
         },
         {
-            path: '/quizzes/:id',
+            path: '/admin/quizzes/:id',
             props: true,
             name: 'Quiz editor',
-            component: QuizEditor
+            component: QuizEditor,
+            beforeEnter: QuizGuard
+        },
+        {
+            path: '/quizzes/:id',
+            props: true,
+            name: 'Quiz',
+            component: Quiz,
+            beforeEnter: QuizGuard
         }
     ]
 });

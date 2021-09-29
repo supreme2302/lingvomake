@@ -100,7 +100,7 @@
                       :items="enteredAnswers"
                       label="Choose a correct answer"
                       item-value="id"
-                      v-model="correctAnwserId"
+                      v-model="correctAnwser"
                       :rules="notEmptyRules"
                   ></v-overflow-btn>
                 </v-flex>
@@ -191,7 +191,7 @@ export default {
         3: null,
         4: null,
       },
-      correctAnwserId: null
+      correctAnwser: null
     }
     //todo объединить в один объект
   },
@@ -202,7 +202,7 @@ export default {
   },
   computed: {
     questions() {
-      return this.$store.getters.questions;
+      return this.$store.getters.quiz.questions;
     },
     quiz() {
       return this.$store.getters.quiz;
@@ -225,14 +225,15 @@ export default {
       if (this.$refs.form.validate()) {
         const filteredAnswers = this.enteredAnswers.filter(answer => answer !== null);
         const createdQuestion = {
+          quizId: this.quiz.id,
           question: this.question,
           answers: filteredAnswers,
-          correctAnswerId: this.correctAnwserId
+          correctAnswer: this.correctAnwser
         }
         console.log('createdQuestion: ', createdQuestion);
         this.$store.dispatch('createQuestion', createdQuestion)
             .then(() => {
-              this.$store.dispatch('getQuestionsByQuizId', this.quiz.id)
+              this.$store.dispatch('getQuiz', this.quiz.id)
             })
             .finally(() => this.closeCreateQuestionModal())
       }
@@ -251,6 +252,9 @@ export default {
     editQuestion(item) {
       this.$router.push('/quizzes/' + this.quiz.id + '/questions/' + item.id);
     }
+  },
+  mounted() {
+    this.$store.dispatch('getQuizzes');
   }
 }
 </script>

@@ -164,7 +164,7 @@ export default {
     },
 
     editQuiz(item) {
-      this.$router.push('/quizzes/' + item.id);
+      this.$router.push('/admin/quizzes/' + item.id);
     },
     deleteQuiz() {
       this.$store.dispatch('deleteQuiz', this.quizToDelete)
@@ -174,6 +174,9 @@ export default {
           });
       this.deleteQuizModal = false;
     }
+  },
+  mounted() {
+    this.$store.dispatch('getQuizzes');
   }
 }
 </script>

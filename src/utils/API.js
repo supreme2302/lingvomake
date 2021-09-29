@@ -2,14 +2,12 @@ const baseUrl = 'http://localhost:8090/';
 // const baseUrl = 'https://lingvomake.ml/back/';
 
 const method = {
-    signin: 'admin/auth',
-    signup: 'admin/register',
+    signin: 'admin/login',
+    signup: 'admin/signup',
     logout: 'admin/logout',
     adminInfo: 'admin/info',
-    loadTeachers: 'admin/all',
-    addTeacher: 'admin/add',
-    deleteTeacher: 'admin/delete',
-    editTeacher: 'admin/changeTeacher',
+
+    quizzes: '/quizzes',
 
     createCourse: 'course/create',
     schoolCourses: 'course/',
